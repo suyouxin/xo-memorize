@@ -1,0 +1,5 @@
+bin/
+gen/
+test/bin/
+test/get/
+local.properties
