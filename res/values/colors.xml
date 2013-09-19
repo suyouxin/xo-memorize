@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="light_grey">#ffcccccc</color>
+    <color name="olpc_dark_grey">#ff404040</color>
+    <color name="olpc_text_grey_color">#ff444444</color>
+    <color name="olpc_delicate_grey">#d5d7d9</color>
+    <color name="olpc_green">#6bbd45</color>
+    <color name="disabled">#b0b0b0</color>
+    <color name="partially_allowed">#eb9b2b</color>
+    <color name="enabled">#0ed969</color>
+    <color name="pressed">#3992b5</color>
+
+</resources>
