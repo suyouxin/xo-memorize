@@ -14,6 +14,8 @@ interface MemoryObj {
     public MemoryObj copyMe();
 
     public boolean doesItMatch(MemoryObj obj);
+    public void setPairedObj(MemoryObj obj);
+    public MemoryObj getPairedObj();
     
     public int getMode();
     public void show();
@@ -23,6 +25,9 @@ interface MemoryObj {
     boolean isShown();
     boolean isHiden();
     boolean isMatched();
+    
+    public int getGroupId();
+    public void setGroupId(int id);
     
     public View getView(Context context, View convertView, ViewGroup parent, int size);
     

@@ -7,12 +7,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
 
 public class GameEngine {
-    final static int SHOW_TIME_OUT = 3 * 1000; 
-    
+    final static int SHOW_TIME_OUT = 1 * 1000; 
+
     ArrayList<MemoryObj> mIdle = new ArrayList<MemoryObj>();
     ArrayList<MemoryObj> mPicked = new ArrayList<MemoryObj>();
     ArrayList<MemoryObj> mBody = new ArrayList<MemoryObj>();
@@ -22,58 +23,118 @@ public class GameEngine {
     int mTotal;
     
     static GameEngine gGameEngine = null;
+    static GameCanvas mGc = null;
     
     static Timer mTimer = new Timer();
     
-    boolean mPaired = false;
+    boolean mDivided = false;
     
     MemoryObj firstShownObj = null;
     MemoryObj secondShownObj = null;
-    
     MemoryObjAdapter mAdapter;
+    
+    MediaPlayer mPlayer = new MediaPlayer();
 
-    static GameEngine getInstance() {
+    static public GameEngine getInstance() {
         if (gGameEngine == null) {
             gGameEngine = new GameEngine();
+            gGameEngine.mPlayer = new MediaPlayer();
         }
         return gGameEngine;
     }
-    
-    ArrayList<MemoryObj> restart(ArrayList<MemoryObj> objs, int rows, int cols, boolean paired) {
-        mIdle.addAll(objs);
+
+    public boolean start(GameInfo gameInfo, int rows, int cols, 
+            Context ctx, GameCanvas gc) {
+        mIdle.clear();
+        mIdle.addAll(gameInfo.objs);
+        mTotal = rows * cols;
+        
+        mAdapter = new MemoryObjAdapter(ctx);
+        mGc = gc;
+        mGc.setRows(rows, cols);
+        mGc.setAdapter(mAdapter);
+        mDivided = gameInfo.divided;
+        
         mPicked.clear();
         mBody.clear();
-
+        return restart(ctx);
+    }
+    
+    public boolean restart(int rows, int cols, Context ctx) {
         mTotal = rows * cols;
+        mGc.setRows(rows, cols);
+        return restart(ctx);
+    }
+    
+    public boolean restart(GameInfo gameInfo, Context ctx) {
+        mIdle.clear();
+        mIdle.addAll(gameInfo.objs);
+        mDivided = gameInfo.divided;
+        
+        mPicked.clear();
+        mBody.clear();
+        return restart(ctx);
+    }
+
+    public boolean restart(Context ctx) {
+        stopTimer();
+
+        mIdle.addAll(mPicked);
+        for (MemoryObj obj : mIdle) { 
+            obj.hide();
+            if (obj.getPairedObj() != null)
+                obj.getPairedObj().hide();
+        }
+        mPicked.clear();
+        mBody.clear();
         
         for (int i = 0; i < mTotal / 2; i++) {
             MemoryObj cur = getRandomObj();
-            mIdle.remove(cur);
-            mPicked.add(cur);
+            if (cur != null) {
+                mIdle.remove(cur);
+                cur.setGroupId(1);
+                mPicked.add(cur);
+            }
         }
         
-        mPaired = paired;
-        if (mPaired) {
-            
+        if (mDivided) {
+            for (MemoryObj cur : mPicked) {
+                MemoryObj paired = cur.getPairedObj();
+                paired.setGroupId(2);
+                mBody.add(paired);
+            }
         }
         else {
             for (MemoryObj cur : mPicked) {
                 mBody.add(cur.copyMe());
             }
-            long seed = System.nanoTime();
-            Collections.shuffle(mBody, new Random(seed));
         }
+        long seed = System.nanoTime();
+        Collections.shuffle(mBody, new Random(seed));
 
         ArrayList<MemoryObj> ret = new ArrayList<MemoryObj>(mPicked);
         ret.addAll(mBody);
-        return ret;
+        
+        mAdapter.clear();
+        mAdapter.addAll(ret);
+        mAdapter.notifyDataSetChanged();
+        return true;
     }
 
     public MemoryObj getRandomObj()
     {
-        return mIdle.get(randomGenerator.nextInt(mIdle.size()  - 1));
+        int size = mIdle.size();
+        if (size > 1)
+            return mIdle.get(randomGenerator.nextInt(mIdle.size()  - 1));
+        else if (size == 1)
+            return mIdle.get(0);
+        return null;
     }
     
+    public MediaPlayer getMediaPlayer() {
+        return mPlayer;
+    }
+
     public void onClickObj(MemoryObj obj) {
         if (obj.isMatched())
             return;
@@ -82,9 +143,12 @@ public class GameEngine {
         clearShownObj();
 
         if (obj.isHiden()) {
-            obj.show();
             if (firstShownObj == null) {
-                firstShownObj = obj;
+                if ((this.mDivided && obj.getGroupId() == 1) 
+                        || !this.mDivided) {
+                    firstShownObj = obj;
+                    obj.show();
+                }
             }
             else {
                 if (firstShownObj.doesItMatch(obj)){
@@ -93,8 +157,12 @@ public class GameEngine {
                     firstShownObj = null;
                 }
                 else {
-                    secondShownObj = obj;
-                    startTimer();
+                    if ((this.mDivided && obj.getGroupId() == 2) 
+                            || !this.mDivided) {
+                        obj.show();
+                        secondShownObj = obj;
+                        startTimer();
+                    }
                 }
             }
         }
@@ -110,7 +178,7 @@ public class GameEngine {
             stopTimer();
         }
     }
-    
+
     public void startTimer() {
         if (mTimer == null) {
             mTimer = new Timer();
@@ -122,29 +190,25 @@ public class GameEngine {
         }
         mTimer.schedule(new ClearShownObj(), SHOW_TIME_OUT);
     }
-    
+
     public void stopTimer() {
         if (mTimer != null) {
             mTimer.cancel();
             mTimer.purge();
         }
     }
-    
-    void setAdapter(MemoryObjAdapter adapter) {
-        mAdapter = adapter;
-    }
-    
+
     void refresh() {
         mAdapter.notifyDataSetInvalidated();
     }
-    
+
     private static Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             GameEngine.getInstance().refresh();
         }
     };
-    
+
     class ClearShownObj extends TimerTask {
 
         @Override

@@ -1,20 +1,15 @@
 package com.morphoss.xo.memorize;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-
 class MemoryObjAdapter extends ArrayAdapter<MemoryObj> {
     int mSize;
     
-    public MemoryObjAdapter(Context context, List<MemoryObj> allObj) {
+    public MemoryObjAdapter(Context context) {
         super(context, 0);
-
-        this.addAll(allObj);
     }
     
     public void setSize(int size) {
@@ -24,6 +19,7 @@ class MemoryObjAdapter extends ArrayAdapter<MemoryObj> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         MemoryObj obj = this.getItem(position);
+        // Log.d("MemoryObjAdapter", "mSize: " + mSize);
         
         View v = obj.getView(getContext(), convertView, parent, mSize);
         v.setTag(obj);

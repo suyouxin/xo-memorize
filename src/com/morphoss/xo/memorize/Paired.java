@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 class Paired implements MemoryObj {
+    MemoryObj mPairedObj = null;
 
     int mMode = MemoryObj.MEMORY_OBJ_MODE_HIDEN;
+    int mGroupID = 1;
 
     @Override
     public int getMode() {
@@ -32,6 +34,15 @@ class Paired implements MemoryObj {
     }
 
     @Override
+    public boolean doesItMatch(MemoryObj obj) {
+        if (mPairedObj != null) {
+            if (obj.getUid().equals(this.mPairedObj.getUid()))
+                return true;
+        }
+        return obj.getUid().equals(this.getUid());
+    }
+
+    @Override
     public View getView(Context context, View convertView, ViewGroup parent, int size) {
         if (convertView == null) {
             final LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -50,17 +61,30 @@ class Paired implements MemoryObj {
         // TODO Auto-generated method stub
         return null;
     }
-
+    
     @Override
-    public boolean doesItMatch(MemoryObj obj) {
-        // TODO Auto-generated method stub
-        return false;
+    public int getGroupId() {
+        return mGroupID;
+    }
+    
+    @Override
+    public void setGroupId(int id) {
+        mGroupID = id;
     }
 
     @Override
+    public void setPairedObj(MemoryObj obj) {
+        mPairedObj = obj;
+    }
+    
+    @Override
+    public MemoryObj getPairedObj() {
+        return mPairedObj;
+    }
+    
+    @Override
     public void draw(Canvas canvas) {
-        // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -82,6 +106,5 @@ class Paired implements MemoryObj {
     @Override
     public boolean isMatched() {
         return mMode == MemoryObj.MEMORY_OBJ_MODE_MATCHED;
-    }
-    
+    } 
 }
