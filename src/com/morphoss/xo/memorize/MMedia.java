@@ -50,9 +50,10 @@ class MMedia extends Paired {
     public void draw(Canvas canvas) 
     {
         if (mImgPath != null) {
+            int reduce = ObjView.BORDER_SIZE_DP;
             Bitmap b = BitmapFactory.decodeFile(mImgPath);
-            Rect rc = new Rect(ObjView.BORDER_SIZE_DP, ObjView.BORDER_SIZE_DP, 
-                    canvas.getWidth() - ObjView.BORDER_SIZE_DP, canvas.getHeight() - ObjView.BORDER_SIZE_DP);
+            Rect rc = new Rect(reduce, reduce, 
+                    canvas.getWidth() - reduce, canvas.getHeight() - reduce);
             Paint p = new Paint();
             canvas.drawBitmap(b, null, rc, p);
         }

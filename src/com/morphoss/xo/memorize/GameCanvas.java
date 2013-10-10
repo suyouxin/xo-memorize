@@ -5,17 +5,20 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 public class GameCanvas extends LinearLayout {
-    LinearLayout mLeftMenu;
+    final static String TAG = "GameCanvas"; 
+    
+    RelativeLayout mLeftMenu;
     GridView mGameContent;
     MemoryObjAdapter mAdapter;
     
@@ -23,7 +26,18 @@ public class GameCanvas extends LinearLayout {
 
     Button mRestart;
     Spinner mSizeSpinner;
+    
+    int mHeight;
+    int mWidth;
+    
+    final static MenuAdapter.MenuInfo sizeMenus[] = { 
+        new MenuAdapter.MenuInfo("4 x 5", R.drawable.size4),
+        new MenuAdapter.MenuInfo("5 x 6", R.drawable.size5),
+        new MenuAdapter.MenuInfo("6 x 7", R.drawable.size6),
+        };
+    
     Spinner mGamesSpinner;
+
     int mRows;
 
     float mDpi;
@@ -41,22 +55,17 @@ public class GameCanvas extends LinearLayout {
     {
         super(context, attrs, defStyle);
         this.setOrientation(LinearLayout.HORIZONTAL);
-        
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT);
-        
+
         LayoutParams wrapParams =
                 new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams matchParams =
+                new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
-        mLeftMenu = new LinearLayout(context);
-        mLeftMenu.setOrientation(LinearLayout.VERTICAL);
-        mLeftMenu.setLayoutParams(params);
-        mLeftMenu.setBackgroundColor(context.getResources().getColor(R.color.olpc_dark_grey));
+        mLeftMenu = new RelativeLayout(context);
+        final LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mLeftMenu = (RelativeLayout) inflater.inflate(R.layout.leftmenu, this, false);
 
-        mRestart = new Button(context);
-        mRestart.setGravity(Gravity.CENTER);
-        mRestart.setText("restart");
-        mRestart.setTextSize(26);
+        mRestart = (Button)mLeftMenu.findViewById(R.id.restart);
         mRestart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -64,12 +73,10 @@ public class GameCanvas extends LinearLayout {
                 ge.restart(GameCanvas.this.getContext());
             }
         });
-        mLeftMenu.addView(mRestart, wrapParams);
 
-        mSizeSpinner = new Spinner(context, Spinner.MODE_DROPDOWN);
-        ArrayAdapter<String> sizeAdapter = new ArrayAdapter<String>(
-                this.getContext(), android.R.layout.simple_spinner_item, new String[] {"5 x 4", "6 x 5", "7 x 6"});
-        sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSizeSpinner = (Spinner)mLeftMenu.findViewById(R.id.change_size); 
+        MenuAdapter sizeAdapter = new MenuAdapter(
+                this.getContext(), R.layout.menu_text_img, sizeMenus);
         mSizeSpinner.setAdapter(sizeAdapter);
         mSizeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
@@ -85,10 +92,7 @@ public class GameCanvas extends LinearLayout {
             }
         });
 
-        mLeftMenu.addView(mSizeSpinner, wrapParams);
-
-        mGamesSpinner = new Spinner(context, Spinner.MODE_DROPDOWN);
-        mLeftMenu.addView(mGamesSpinner, wrapParams);
+        mGamesSpinner = (Spinner)mLeftMenu.findViewById(R.id.change_games); 
         mGamesSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, 
@@ -105,25 +109,41 @@ public class GameCanvas extends LinearLayout {
         
         this.addView(mLeftMenu, wrapParams);
 
+        LinearLayout linear = new LinearLayout(context);
         mGameContent = new GridView(context);
         mGameContent.setStretchMode(GridView.NO_STRETCH);
-        mGameContent.setGravity(Gravity.CENTER);
-        this.addView(mGameContent, wrapParams);
+        linear.setGravity(Gravity.CENTER_HORIZONTAL);
+        linear.addView(mGameContent, wrapParams);
+        this.addView(linear, matchParams);
 
         mDpi = (float)context.getResources().getDisplayMetrics().densityDpi/ 160f;
     }
 
     void setGameInfo(ArrayList<GameInfo> gameInfos) {
         mGameInfos = gameInfos;
-        String[] names = new String[gameInfos.size()];
+        MenuAdapter.MenuInfo[] gameMenus = new MenuAdapter.MenuInfo[gameInfos.size()];
         int i = 0;
         for (GameInfo info : gameInfos) {
-            names[i++] = info.name;
+            MenuAdapter.MenuInfo menuInfo = new MenuAdapter.MenuInfo();
+            menuInfo.text = info.name;
+            if (info.name.equals("addition")) {
+                menuInfo.imgResID = R.drawable.addition;    
+            }
+            else if (info.name.equals("drumgit")) {
+                menuInfo.imgResID = R.drawable.sounds;
+            }
+            else if (info.name.equals("letters")) {
+                menuInfo.imgResID = R.drawable.letters;
+            }
+            else {
+                menuInfo.imgResID = 0;
+            }
+            gameMenus[i++] = menuInfo;
         }
-        ArrayAdapter<String> gameNameAdapter = new ArrayAdapter<String>(
-                this.getContext(), android.R.layout.simple_spinner_item, names);
-        gameNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mGamesSpinner.setAdapter(gameNameAdapter);
+
+        MenuAdapter gameAdapter = new MenuAdapter(
+                this.getContext(), R.layout.menu_text_img, gameMenus);
+        mGamesSpinner.setAdapter(gameAdapter);
     }
 
     void setAdapter(MemoryObjAdapter adapter) {
@@ -135,6 +155,29 @@ public class GameCanvas extends LinearLayout {
         mRows = rows;
     }
 
+    public void sizeHasChanged() {
+        int each = mHeight / mRows;
+        mGameContent.setColumnWidth(each - convertDpi(2));
+        mGameContent.setNumColumns(mRows + 1);
+        mGameContent.setVerticalSpacing(convertDpi(4));
+        mGameContent.setHorizontalSpacing(2);
+        mAdapter.setSize(each - convertDpi(4));
+    }
+    
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        
+        mHeight = this.getMeasuredHeight();
+        mWidth = this.getMeasuredWidth();
+
+        int each = mHeight / mRows;
+        mGameContent.setColumnWidth(each - convertDpi(2));
+        mGameContent.setNumColumns(mRows + 1);
+        mGameContent.setVerticalSpacing(convertDpi(4));
+        mGameContent.setHorizontalSpacing(2);
+        mAdapter.setSize(each - convertDpi(4));
+    }
+/*
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
       int h = bottom - top;
@@ -147,16 +190,14 @@ public class GameCanvas extends LinearLayout {
       mGameContent.setColumnWidth(each - convertDpi(2));
       mGameContent.setNumColumns(mRows + 1);
       mGameContent.setVerticalSpacing(convertDpi(4));
-      mGameContent.setHorizontalSpacing(0);
-      
-      mAdapter.setSize(each - convertDpi(6));
-      
-      mLeftMenu.layout(0, top, offset, bottom);
-      mRestart.layout(0,  0, 300, 50);
-      mSizeSpinner.layout(0,  50, 300, 100);
-      mGamesSpinner.layout(0,  100, 300, 150);
-    }
+      mGameContent.setHorizontalSpacing(2);
+      Log.d(TAG, "onLayout: changed " + changed + "left:" + left + "top:" + top + "right:" + right + "bottom:" + bottom);
 
+      // How big is object view 
+      mAdapter.setSize(each - convertDpi(4));
+      mLeftMenu.layout(0, top, offset, bottom);
+    }
+*/
     private int convertDpi(int dp) {
         return (int)(mDpi * dp);
     }

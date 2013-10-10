@@ -12,7 +12,8 @@ import android.os.Handler;
 import android.os.Message;
 
 public class GameEngine {
-    final static int SHOW_TIME_OUT = 1 * 1000; 
+    final static String TAG = "GameEngine"; 
+    final static int SHOW_TIME_OUT = 2 * 1000; 
 
     ArrayList<MemoryObj> mIdle = new ArrayList<MemoryObj>();
     ArrayList<MemoryObj> mPicked = new ArrayList<MemoryObj>();
@@ -63,6 +64,7 @@ public class GameEngine {
     public boolean restart(int rows, int cols, Context ctx) {
         mTotal = rows * cols;
         mGc.setRows(rows, cols);
+        mGc.sizeHasChanged();
         return restart(ctx);
     }
     

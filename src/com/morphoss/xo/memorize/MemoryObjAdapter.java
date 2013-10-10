@@ -19,7 +19,6 @@ class MemoryObjAdapter extends ArrayAdapter<MemoryObj> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         MemoryObj obj = this.getItem(position);
-        // Log.d("MemoryObjAdapter", "mSize: " + mSize);
         
         View v = obj.getView(getContext(), convertView, parent, mSize);
         v.setTag(obj);
