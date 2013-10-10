@@ -1,7 +1,11 @@
-package com.morphoss.xo.memorize;
+package com.morphoss.xo.memorize.obj;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+
+import com.morphoss.xo.memorize.GameEngine;
+import com.morphoss.xo.memorize.ObjView;
+import com.morphoss.xo.memorize.Util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,12 +15,12 @@ import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.util.Log;
 
-class MMedia extends Paired {
+public class MMedia extends Paired {
     private String mUid; 
     private String mImgPath;
     private String mSndPath;
     
-    MMedia(String imgPath, String sndPath) {
+    public MMedia(String imgPath, String sndPath) {
         mImgPath = imgPath;
         mSndPath = sndPath;
         

@@ -1,11 +1,11 @@
-package com.morphoss.xo.memorize;
+package com.morphoss.xo.memorize.obj;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.view.View;
 import android.view.ViewGroup;
 
-interface MemoryObj {
+public interface MemoryObj {
     final static public int MEMORY_OBJ_MODE_HIDEN = 0;
     final static public int MEMORY_OBJ_MODE_SHOWN = 1;
     final static public int MEMORY_OBJ_MODE_MATCHED = 2;

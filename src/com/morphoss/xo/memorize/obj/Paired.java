@@ -1,4 +1,7 @@
-package com.morphoss.xo.memorize;
+package com.morphoss.xo.memorize.obj;
+
+import com.morphoss.xo.memorize.ObjView;
+import com.morphoss.xo.memorize.R;
 
 import android.content.Context;
 import android.graphics.Canvas;

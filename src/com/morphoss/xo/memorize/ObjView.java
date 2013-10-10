@@ -1,5 +1,7 @@
 package com.morphoss.xo.memorize;
 
+import com.morphoss.xo.memorize.obj.MemoryObj;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,7 +11,7 @@ import android.graphics.Paint.Align;
 import android.util.AttributeSet;
 import android.view.View;
 
-class ObjView extends View {
+public class ObjView extends View {
     float mDpi;
 
     int mMode = MemoryObj.MEMORY_OBJ_MODE_HIDEN;

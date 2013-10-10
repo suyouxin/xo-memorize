@@ -1,5 +1,8 @@
 package com.morphoss.xo.memorize;
 
+import com.morphoss.xo.memorize.res.GameInfo;
+import com.morphoss.xo.memorize.res.GameResource;
+
 import android.app.Activity;
 import android.os.Bundle;
 

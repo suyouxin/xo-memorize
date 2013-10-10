@@ -1,4 +1,4 @@
-package com.morphoss.xo.memorize;
+package com.morphoss.xo.memorize.res;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+
+import com.morphoss.xo.memorize.obj.MMedia;
+import com.morphoss.xo.memorize.obj.MStr;
+import com.morphoss.xo.memorize.obj.MemoryObj;
 
 import android.util.Log;
 import android.util.Xml;

@@ -1,4 +1,4 @@
-package com.morphoss.xo.memorize;
+package com.morphoss.xo.memorize.res;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlPullParserException;
+
+import com.morphoss.xo.memorize.UnzipUtility;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -19,7 +21,7 @@ public class GameResource {
 
     Context mCtx;
 
-    GameResource(Context ctx) {
+    public GameResource(Context ctx) {
         mCtx = ctx;
     }
 
@@ -50,7 +52,7 @@ public class GameResource {
         }
     }
     
-    final ArrayList<GameInfo> getAllGames() {
+    public final ArrayList<GameInfo> getAllGames() {
         return allGames;
     }
 

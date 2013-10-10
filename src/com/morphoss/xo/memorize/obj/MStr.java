@@ -1,17 +1,19 @@
-package com.morphoss.xo.memorize;
+package com.morphoss.xo.memorize.obj;
 
 import java.security.NoSuchAlgorithmException;
+
+import com.morphoss.xo.memorize.Util;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 
-class MStr extends Paired {
+public class MStr extends Paired {
     private String mUid; 
     private String mStr;
     
-    MStr(String str) {
+    public MStr(String str) {
         mStr = str;
         try {
             mUid = Util.makeSHA1Hash(str);

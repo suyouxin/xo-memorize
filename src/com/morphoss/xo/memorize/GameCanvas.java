@@ -2,6 +2,8 @@ package com.morphoss.xo.memorize;
 
 import java.util.ArrayList;
 
+import com.morphoss.xo.memorize.res.GameInfo;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;

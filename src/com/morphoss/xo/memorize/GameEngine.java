@@ -6,6 +6,9 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.morphoss.xo.memorize.obj.MemoryObj;
+import com.morphoss.xo.memorize.res.GameInfo;
+
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Handler;
