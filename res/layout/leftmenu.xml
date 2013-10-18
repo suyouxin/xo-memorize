@@ -2,32 +2,40 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:paddingRight="5dp">
+    android:paddingRight="5dp" >
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@+color/olpc_dark_grey">
+        android:background="@+color/olpc_dark_grey"
+        android:orientation="horizontal" >
 
-	    <Button
-	        android:id="@+id/restart"
-	        android:layout_width="80dp"
-	        android:layout_height="80dp"
-	        android:background="@+drawable/restart"
-	        android:layout_margin="5dp"/>
-	
-	    <Spinner
-	        android:id="@+id/change_size" 
-	        android:layout_width="80dp"
-	        android:layout_height="80dp"
-	        android:layout_margin="5dp"/>
-	
-	    <Spinner 
-	        android:id="@+id/change_games"
-	        android:layout_width="wrap_content"
-	        android:layout_height="80dp"
-	        android:layout_margin="5dp"/>
+        <Button
+            android:id="@+id/restart"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:background="@+drawable/restart" />
+
+        <Spinner
+            android:id="@+id/change_size"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp" />
+
+        <Spinner
+            android:id="@+id/change_games"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_margin="5dp" />
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/settingsActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
+        android:background="@drawable/settings" />
 
 </RelativeLayout>
