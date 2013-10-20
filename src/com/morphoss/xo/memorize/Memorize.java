@@ -29,6 +29,7 @@ public class Memorize extends Activity {
  
 				Intent intent = new Intent(v.getContext(), SettingsActivity.class);
         		startActivity(intent);
+        		finish();
  
 			}
  

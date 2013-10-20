@@ -16,6 +16,15 @@
         android:orientation="vertical" >
 
         <ImageButton
+            android:id="@+id/playGame"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_gravity="top|left"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/play_game" />
+
+        <ImageButton
             android:id="@+id/pairEquals"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
@@ -32,6 +41,15 @@
             android:layout_marginLeft="370dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/pair_non_equals" />
+
+        <ImageButton
+            android:id="@+id/editClear"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_clear" />
     </FrameLayout>
 
     <FrameLayout

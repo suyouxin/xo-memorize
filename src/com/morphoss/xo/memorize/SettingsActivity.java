@@ -17,7 +17,7 @@ import com.morphoss.xo.memorize.obj.MemoryObj;
 
 public class SettingsActivity extends Activity {
 	private EditText autoText1, autoText2;
-	private ImageButton pairEquals, pairNonEquals;
+	private ImageButton pairEquals, pairNonEquals, playGame;
 	private FrameLayout mLayout;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,19 @@ public class SettingsActivity extends Activity {
  
 		});
 		
+		playGame = (ImageButton) findViewById(R.id.playGame);
+		playGame.setOnClickListener(new OnClickListener() {
+			 
+			@Override
+			public void onClick(View v) {
+
+			Intent intent = new Intent(v.getContext(), Memorize.class);
+       		startActivity(intent);
+       		finish();
+
+			}
+
+		});
 		//remove focus at startup
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		
