@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Memorize</string>
+    <string name="preview">Preview :</string>
+    <string name="textTitle">Text :</string>
+    <string name="editText">Edit text</string>
+
 </resources>

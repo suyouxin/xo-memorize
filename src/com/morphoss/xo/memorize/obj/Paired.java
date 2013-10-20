@@ -55,7 +55,6 @@ class Paired implements MemoryObj {
         }
         ObjView v = (ObjView)convertView;
         v.setObj(this);
-        v.setMode(mMode);
         return convertView;
     }
 

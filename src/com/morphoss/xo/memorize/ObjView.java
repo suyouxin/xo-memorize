@@ -14,8 +14,6 @@ import android.view.View;
 public class ObjView extends View {
     float mDpi;
 
-    int mMode = MemoryObj.MEMORY_OBJ_MODE_HIDEN;
-
     final static public int BORDER_COLOR_BROWN = 0xffffa522;
     final static int BORDER_COLOR_GREEN = 0xff0ea869;
 
@@ -55,15 +53,13 @@ public class ObjView extends View {
         mObj = obj;
     }
 
-    public void setMode(int mode) {
-        mMode = mode;
-    }
-
     @Override
     protected void onDraw(Canvas canvas) 
     {
+    	if (mObj == null)
+    		return;
         super.onDraw(canvas);
-        switch (mMode) {
+        switch (mObj.getMode()) {
         case MemoryObj.MEMORY_OBJ_MODE_SHOWN:
             drawBackground(canvas, this.getContext().getResources().getColor(R.color.olpc_dark_grey), 
                     false, true, Color.WHITE);

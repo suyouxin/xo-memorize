@@ -2,7 +2,167 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="@color/olpc_delicate_grey"
+    android:gravity="center"
     android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/top"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="fill_vertical|fill_horizontal"
+        android:layout_weight="0.82"
+        android:background="@color/olpc_dark_grey"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/pairEquals"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_gravity="top|left"
+            android:layout_marginLeft="250dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/pair_equals" />
+
+        <ImageButton
+            android:id="@+id/pairNonEquals"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_gravity="top|left"
+            android:layout_marginLeft="370dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/pair_non_equals" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="fill_vertical|fill_horizontal"
+        android:layout_weight="0.18"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/olpc_delicate_grey"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <FrameLayout
+                android:id="@+id/left1"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="fill_vertical|fill_horizontal"
+                android:layout_weight="0.25"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/preview"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <com.morphoss.xo.memorize.ObjView
+                    android:id="@+id/obj_view_1"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="60dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="25dp"
+                    android:text="@string/textTitle"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/autoText1"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="40dp"
+                    android:hint="@string/editText"
+                    android:singleLine="true" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/left2"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="fill_vertical|fill_horizontal"
+                android:layout_weight="0.25"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/preview"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <com.morphoss.xo.memorize.ObjView
+                    android:id="@+id/obj_view_2"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="60dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="25dp"
+                    android:text="@string/textTitle"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/autoText2"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="40dp"
+                    android:hint="@string/editText"
+                    android:singleLine="true" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/right"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="fill_vertical|fill_horizontal"
+                android:layout_weight="0.5"
+                android:background="@android:color/black"
+                android:orientation="horizontal" >
+
+                <com.morphoss.xo.memorize.ObjView
+                    android:id="@+id/obj_view_3"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="30dp" />
+
+                <com.morphoss.xo.memorize.ObjView
+                    android:id="@+id/obj_view_4"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="160dp"
+                    android:layout_marginTop="30dp" />
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>
