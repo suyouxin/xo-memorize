@@ -5,5 +5,13 @@
     <string name="preview">Preview :</string>
     <string name="textTitle">Text :</string>
     <string name="editText">Edit text</string>
+    <string name="addPicture">Insert picture</string>
+    <string name="fromGallery">From the gallery</string>
+    <string name="fromCamera">From the camera</string>
+
+    <string-array name="addPictureArray">
+        <item>@string/fromGallery</item>
+        <item>@string/fromCamera</item>
+    </string-array>
 
 </resources>

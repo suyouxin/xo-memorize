@@ -11,14 +11,14 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="fill_vertical|fill_horizontal"
-        android:layout_weight="0.82"
+        android:layout_weight="0.90"
         android:background="@color/olpc_dark_grey"
         android:orientation="vertical" >
 
         <ImageButton
             android:id="@+id/playGame"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="top|left"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
@@ -26,26 +26,44 @@
 
         <ImageButton
             android:id="@+id/pairEquals"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="top|left"
-            android:layout_marginLeft="250dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/pair_equals" />
 
         <ImageButton
             android:id="@+id/pairNonEquals"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="top|left"
-            android:layout_marginLeft="370dp"
+            android:layout_marginLeft="170dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/pair_non_equals" />
 
         <ImageButton
+            android:id="@+id/addPicture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|left"
+            android:layout_marginLeft="250dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/import_picture" />
+
+        <ImageButton
+            android:id="@+id/addItems"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="390dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/pair_add" />
+
+        <ImageButton
             android:id="@+id/editClear"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="top|right"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
@@ -57,7 +75,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="fill_vertical|fill_horizontal"
-        android:layout_weight="0.18"
+        android:layout_weight="0.1"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -72,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_gravity="fill_vertical|fill_horizontal"
-                android:layout_weight="0.25"
+                android:layout_weight="0.05"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -109,7 +127,8 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginTop="40dp"
                     android:hint="@string/editText"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/olpc_dark_grey" />
             </FrameLayout>
 
             <FrameLayout
@@ -117,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_gravity="fill_vertical|fill_horizontal"
-                android:layout_weight="0.25"
+                android:layout_weight="0.05"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -154,7 +173,8 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginTop="40dp"
                     android:hint="@string/editText"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/olpc_dark_grey" />
             </FrameLayout>
 
             <FrameLayout
@@ -162,23 +182,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_gravity="fill_vertical|fill_horizontal"
-                android:layout_weight="0.5"
+                android:layout_weight="0.4"
                 android:background="@android:color/black"
                 android:orientation="horizontal" >
 
-                <com.morphoss.xo.memorize.ObjView
-                    android:id="@+id/obj_view_3"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="30dp" />
+                <ScrollView
+                    android:id="@+id/scrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
 
-                <com.morphoss.xo.memorize.ObjView
-                    android:id="@+id/obj_view_4"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginLeft="160dp"
-                    android:layout_marginTop="30dp" />
+                    <LinearLayout
+                        android:id="@+id/newItems"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+                </ScrollView>
             </FrameLayout>
         </LinearLayout>
     </FrameLayout>

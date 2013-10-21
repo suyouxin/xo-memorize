@@ -1,24 +1,33 @@
 package com.morphoss.xo.memorize;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.morphoss.xo.memorize.obj.MStr;
 import com.morphoss.xo.memorize.obj.MemoryObj;
 
 public class SettingsActivity extends Activity {
+	
+	private static final String TAG = "SettingsActivity";
+	
 	private EditText autoText1, autoText2;
-	private ImageButton pairEquals, pairNonEquals, playGame;
+	private ImageButton pairEquals, pairNonEquals, playGame, editClear, addPicture;
 	private FrameLayout mLayout;
+	private LinearLayout mGallery;
+	private MemoryObjAdapter moa;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,7 +36,7 @@ public class SettingsActivity extends Activity {
 		autoText1 = (EditText) findViewById(R.id.autoText1);
 		autoText2 = (EditText) findViewById(R.id.autoText2);
 		mLayout = (FrameLayout) findViewById(R.id.left2);
-		
+		addPicture = (ImageButton) findViewById(R.id.addPicture);
 		pairEquals = (ImageButton) findViewById(R.id.pairEquals);
 		pairEquals.setOnClickListener(new OnClickListener() {
 			 
@@ -64,9 +73,26 @@ public class SettingsActivity extends Activity {
 			}
 
 		});
+		editClear = (ImageButton) findViewById(R.id.editClear);
+		editClear.setOnClickListener(new OnClickListener() {
+			 
+			@Override
+			public void onClick(View v) {
+
+			mLayout.removeAllViews();
+
+			}
+
+		});
+		
 		//remove focus at startup
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		
+		mGallery = (LinearLayout) findViewById(R.id.newItems);
+		moa = new MemoryObjAdapter(this);
+		for(int i=0; i<moa.getCount();i++){
+			mGallery.addView(moa.getView(i, null, mGallery));
+		}
 		ObjView view1 = (ObjView) findViewById(R.id.obj_view_1);
 		MemoryObj obj1 = new MStr(autoText1.getText().toString());
 		obj1.show();
@@ -75,14 +101,6 @@ public class SettingsActivity extends Activity {
 		MemoryObj obj2 = new MStr(autoText2.getText().toString());
 		obj2.show();
 		view2.setObj(obj2);
-		ObjView view3 = (ObjView) findViewById(R.id.obj_view_3);
-		MemoryObj obj3 = new MStr("2+3");
-		obj3.show();
-		view3.setObj(obj3);
-		ObjView view4 = (ObjView) findViewById(R.id.obj_view_4);
-		MemoryObj obj4 = new MStr("5");
-		obj4.show();
-		view4.setObj(obj4);
 		
 		autoText1.addTextChangedListener(new TextWatcher() {
             @Override
@@ -122,7 +140,32 @@ public class SettingsActivity extends Activity {
                 
             }
         });
+		addPicture.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+				builder.setTitle(R.string.addPicture);
+				builder.setIcon(R.drawable.import_picture);
+				builder.setItems(R.array.addPictureArray, new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int item) {
+		                // Do something with the selection
+		            	if(item == 0){
+		            		Log.d(TAG, "select picture from gallery");
+		            	}
+		            	if(item == 1){
+		            		Log.d(TAG, "select picture from the camera");
+		            	}
+		            }
+				});
+				AlertDialog alert = builder.create();
+		        alert.show();
+				
+			}
+		});
+		
+		
 
 	}
-	  
+
 }
