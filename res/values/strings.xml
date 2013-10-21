@@ -6,6 +6,7 @@
     <string name="textTitle">Text :</string>
     <string name="editText">Edit text</string>
     <string name="addPicture">Insert picture</string>
+    <string name="addPictureBoth">Insert picture in both views</string>
     <string name="fromGallery">From the gallery</string>
     <string name="fromCamera">From the camera</string>
 

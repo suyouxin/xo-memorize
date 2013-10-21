@@ -129,6 +129,15 @@
                     android:hint="@string/editText"
                     android:singleLine="true"
                     android:textColor="@color/olpc_dark_grey" />
+
+                <ImageButton
+                    android:id="@+id/addPictureLeft"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="100dp"
+                    android:background="@drawable/import_picture" />
             </FrameLayout>
 
             <FrameLayout
@@ -175,6 +184,15 @@
                     android:hint="@string/editText"
                     android:singleLine="true"
                     android:textColor="@color/olpc_dark_grey" />
+
+                <ImageButton
+                    android:id="@+id/addPictureRight"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="100dp"
+                    android:background="@drawable/import_picture" />
             </FrameLayout>
 
             <FrameLayout
