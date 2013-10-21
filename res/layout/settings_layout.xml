@@ -52,6 +52,24 @@
             android:background="@drawable/import_picture" />
 
         <ImageButton
+            android:id="@+id/addSound"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|left"
+            android:layout_marginLeft="330dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/import_sound" />
+
+        <ImageButton
+            android:id="@+id/addPronounciation"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|left"
+            android:layout_marginLeft="410dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/speak" />
+
+        <ImageButton
             android:id="@+id/addItems"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -138,6 +156,24 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginTop="100dp"
                     android:background="@drawable/import_picture" />
+
+                <ImageButton
+                    android:id="@+id/addSoundLeft"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="90dp"
+                    android:layout_marginTop="100dp"
+                    android:background="@drawable/import_sound" />
+
+                <ImageButton
+                    android:id="@+id/addPronounciationLeft"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="155dp"
+                    android:layout_marginTop="100dp"
+                    android:background="@drawable/speak" />
             </FrameLayout>
 
             <FrameLayout
@@ -193,6 +229,24 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginTop="100dp"
                     android:background="@drawable/import_picture" />
+
+                <ImageButton
+                    android:id="@+id/addSoundRight"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="90dp"
+                    android:layout_marginTop="100dp"
+                    android:background="@drawable/import_sound" />
+
+                <ImageButton
+                    android:id="@+id/addPronounciationRight"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="155dp"
+                    android:layout_marginTop="100dp"
+                    android:background="@drawable/speak" />
             </FrameLayout>
 
             <FrameLayout
