@@ -1,5 +1,7 @@
 package com.morphoss.xo.memorize;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,6 +21,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.morphoss.xo.memorize.obj.MBitmap;
 import com.morphoss.xo.memorize.obj.MMedia;
@@ -30,39 +33,51 @@ public class SettingsActivity extends Activity {
 	private static final String TAG = "SettingsActivity";
 
 	private EditText autoText1, autoText2;
-	private ImageButton pairEquals, pairNonEquals, playGame, editClear,
-			addPicture, addPictureLeft, addPictureRight;
+	private ImageButton pairEquals, pairNonEquals, playGame, addItem,
+			editClear, addPictureLeft, addPictureRight;
 	private FrameLayout mLayout;
 	private LinearLayout mGallery;
-	private MemoryObjAdapter moa;
 	private ObjView view1, view2;
-	private Uri mImageCaptureUri;
-	private final static int RESULT_LOAD_IMAGE_BOTH_VIEWS = 1;
-	private final static int RESULT_LOAD_IMAGE_VIEW1 = 2;
-	private final static int RESULT_LOAD_IMAGE_VIEW2 = 3;
-	private final static int RESULT_LOAD_CAMERA_BOTH_VIEWS = 4;
-	private final static int RESULT_LOAD_CAMERA_VIEW1 = 5;
-	private final static int RESULT_LOAD_CAMERA_VIEW2 = 6;
+	private String soundPath = null;
+	private GalleryObjectAdapter goa;
+	private boolean samePair = true;
+	public static ArrayList<MemoryObj> listNewObjs = new ArrayList<MemoryObj>();
+	private final static int RESULT_LOAD_IMAGE_VIEW1 = 1;
+	private final static int RESULT_LOAD_IMAGE_VIEW2 = 2;
+	private final static int RESULT_LOAD_CAMERA_VIEW1 = 3;
+	private final static int RESULT_LOAD_CAMERA_VIEW2 = 4;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settings_layout);
 
+		mGallery = (LinearLayout) findViewById(R.id.newItems);
 		autoText1 = (EditText) findViewById(R.id.autoText1);
 		autoText2 = (EditText) findViewById(R.id.autoText2);
 		mLayout = (FrameLayout) findViewById(R.id.left2);
-		addPicture = (ImageButton) findViewById(R.id.addPicture);
+		mLayout.setVisibility(View.INVISIBLE);
+		Toast.makeText(getApplicationContext(), R.string.pairEquals,
+				Toast.LENGTH_LONG).show();
+		addItem = (ImageButton) findViewById(R.id.addItems);
 		addPictureLeft = (ImageButton) findViewById(R.id.addPictureLeft);
 		addPictureRight = (ImageButton) findViewById(R.id.addPictureRight);
 		pairEquals = (ImageButton) findViewById(R.id.pairEquals);
+		mGallery.removeAllViews();
+		goa = new GalleryObjectAdapter(SettingsActivity.this);
+		for (int i = 0; i < goa.getCount(); i++) {
+			mGallery.addView(goa.getView(i, null, mGallery));
+
+		}
 		pairEquals.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 
 				mLayout.setVisibility(View.INVISIBLE);
-
+				samePair = true;
+				Toast.makeText(getApplicationContext(), R.string.pairEquals,
+						Toast.LENGTH_LONG).show();
 			}
 
 		});
@@ -73,6 +88,9 @@ public class SettingsActivity extends Activity {
 			public void onClick(View v) {
 
 				mLayout.setVisibility(View.VISIBLE);
+				samePair = false;
+				Toast.makeText(getApplicationContext(), R.string.pairNonEquals,
+						Toast.LENGTH_LONG).show();
 
 			}
 
@@ -97,21 +115,45 @@ public class SettingsActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				mLayout.removeAllViews();
+				mGallery.removeAllViews();
+				listNewObjs.clear();
 
 			}
 
 		});
 
+		addItem.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// add pairs to the gallery
+
+				Log.d(TAG, "adding new pair in gallery");
+				if (!samePair) {
+					Log.d(TAG, "pair are non equals");
+					listNewObjs.add(view1.getObj());
+					listNewObjs.add(view2.getObj());
+				}
+				if (samePair) {
+					Log.d(TAG, "pair are equals");
+					listNewObjs.add(view1.getObj());
+					listNewObjs.add(view1.getObj());
+				}
+				mGallery.removeAllViews();
+				goa = new GalleryObjectAdapter(SettingsActivity.this);
+				for (int i = 0; i < goa.getCount(); i++) {
+					mGallery.addView(goa.getView(i, null, mGallery));
+
+				}
+				for (int i = 0; i < listNewObjs.size(); i++) {
+					Log.d(TAG, "list : " + listNewObjs.get(i));
+				}
+			}
+		});
 		// remove focus at startup
 		this.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-		mGallery = (LinearLayout) findViewById(R.id.newItems);
-		moa = new MemoryObjAdapter(this);
-		for (int i = 0; i < moa.getCount(); i++) {
-			mGallery.addView(moa.getView(i, null, mGallery));
-		}
 		view1 = (ObjView) findViewById(R.id.obj_view_1);
 		MemoryObj obj1 = new MStr(autoText1.getText().toString());
 		obj1.show();
@@ -163,41 +205,7 @@ public class SettingsActivity extends Activity {
 
 			}
 		});
-		addPicture.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(
-						SettingsActivity.this);
-				builder.setTitle(R.string.addPictureBoth);
-				builder.setIcon(R.drawable.import_picture);
-				builder.setItems(R.array.addPictureArray,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int item) {
-								// Do something with the selection
-								if (item == 0) {
-									Log.d(TAG, "select picture from gallery");
-									Intent galleryIntent = new Intent(
-											Intent.ACTION_PICK,
-											android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-									startActivityForResult(galleryIntent,
-											RESULT_LOAD_IMAGE_BOTH_VIEWS);
-								}
-								if (item == 1) {
-									Log.d(TAG, "select picture from the camera");
-									Intent cameraIntent = new Intent(
-											android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-									startActivityForResult(cameraIntent,
-											RESULT_LOAD_CAMERA_BOTH_VIEWS);
-								}
-							}
-						});
-				AlertDialog alert = builder.create();
-				alert.show();
-
-			}
-		});
 		addPictureLeft.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -275,27 +283,6 @@ public class SettingsActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (requestCode) {
-		case RESULT_LOAD_IMAGE_BOTH_VIEWS:
-			if (resultCode == RESULT_OK && null != data) {
-				Uri selectedImage = data.getData();
-				String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-				Cursor cursor = getContentResolver().query(selectedImage,
-						filePathColumn, null, null, null);
-				cursor.moveToFirst();
-
-				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-				String picturePath = cursor.getString(columnIndex);
-				cursor.close();
-
-				MemoryObj objPicture = new MMedia(picturePath, null);
-				objPicture.show();
-				view1.setObj(objPicture);
-				view2.setObj(objPicture);
-				view1.invalidate();
-				view2.invalidate();
-			}
-			break;
 		case RESULT_LOAD_IMAGE_VIEW1:
 			if (resultCode == RESULT_OK && null != data) {
 				Uri selectedImage = data.getData();
@@ -309,7 +296,7 @@ public class SettingsActivity extends Activity {
 				String picturePath = cursor.getString(columnIndex);
 				cursor.close();
 
-				MemoryObj objPicture = new MMedia(picturePath, null);
+				MemoryObj objPicture = new MMedia(picturePath, soundPath);
 				objPicture.show();
 				view1.setObj(objPicture);
 				view1.invalidate();
@@ -328,22 +315,9 @@ public class SettingsActivity extends Activity {
 				String picturePath = cursor.getString(columnIndex);
 				cursor.close();
 
-				MemoryObj objPicture = new MMedia(picturePath, null);
+				MemoryObj objPicture = new MMedia(picturePath, soundPath);
 				objPicture.show();
 				view2.setObj(objPicture);
-				view2.invalidate();
-			}
-			break;
-		case RESULT_LOAD_CAMERA_BOTH_VIEWS:
-			if (resultCode == RESULT_OK && null != data) {
-
-				Bitmap photo = (Bitmap) data.getExtras().get("data");
-
-				MemoryObj objPicture = new MBitmap(photo, null);
-				objPicture.show();
-				view1.setObj(objPicture);
-				view2.setObj(objPicture);
-				view1.invalidate();
 				view2.invalidate();
 			}
 			break;
@@ -352,7 +326,7 @@ public class SettingsActivity extends Activity {
 
 				Bitmap photo = (Bitmap) data.getExtras().get("data");
 
-				MemoryObj objPicture = new MBitmap(photo, null);
+				MemoryObj objPicture = new MBitmap(photo, soundPath);
 				objPicture.show();
 				view1.setObj(objPicture);
 				view1.invalidate();
@@ -363,7 +337,7 @@ public class SettingsActivity extends Activity {
 
 				Bitmap photo = (Bitmap) data.getExtras().get("data");
 
-				MemoryObj objPicture = new MBitmap(photo, null);
+				MemoryObj objPicture = new MBitmap(photo, soundPath);
 				objPicture.show();
 				view2.setObj(objPicture);
 				view2.invalidate();

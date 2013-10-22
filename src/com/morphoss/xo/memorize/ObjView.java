@@ -52,6 +52,9 @@ public class ObjView extends View {
     public void setObj(MemoryObj obj) {
         mObj = obj;
     }
+    public MemoryObj getObj() {
+		return mObj;
+	}
 
     @Override
     protected void onDraw(Canvas canvas) 

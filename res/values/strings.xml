@@ -5,10 +5,12 @@
     <string name="preview">Preview :</string>
     <string name="textTitle">Text :</string>
     <string name="editText">Edit text</string>
+    <string name="pairEquals">Pair equals</string>
+    <string name="pairNonEquals">Pair non equals</string>
     <string name="addPicture">Insert picture</string>
-    <string name="addPictureBoth">Insert picture in both views</string>
     <string name="fromGallery">From the gallery</string>
     <string name="fromCamera">From the camera</string>
+    <string name="addPair">Add</string>
 
     <string-array name="addPictureArray">
         <item>@string/fromGallery</item>
