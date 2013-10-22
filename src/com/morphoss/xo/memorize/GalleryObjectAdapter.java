@@ -25,8 +25,8 @@ public class GalleryObjectAdapter {
 	private Context context;
 
 	private static final String TAG = "GalleryObjectAdapter";
-	private static ObjView galleryImage;
-	private static MemoryObj object;
+	private static ObjView galleryImageLeft, galleryImageRight;
+	private static MemoryObj object, paired;
 
 	public GalleryObjectAdapter(Context context) {
 		super();
@@ -43,10 +43,19 @@ public class GalleryObjectAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		object = SettingsActivity.listNewObjs.get(position);
+		paired = object.getPairedObj();
 		View galleryLayout = inflater.inflate(R.layout.settings_gallery, null);
-		galleryImage = (ObjView) galleryLayout.findViewById(R.id.obj_view);
-		object.show();
-		galleryImage.setObj(object);
+		if (paired == null) {
+			//we should not be here
+		}
+		else {
+			galleryImageLeft = (ObjView) galleryLayout.findViewById(R.id.obj_viewLeft);
+			galleryImageRight = (ObjView) galleryLayout.findViewById(R.id.obj_viewRight);
+			object.show();
+			paired.show();
+			galleryImageLeft.setObj(object);
+			galleryImageRight.setObj(paired);
+		}
 
 		return galleryLayout;
 	}

@@ -35,6 +35,7 @@ public class SettingsActivity extends Activity {
 	private EditText autoText1, autoText2;
 	private ImageButton pairEquals, pairNonEquals, playGame, addItem,
 			editClear, addPictureLeft, addPictureRight;
+	private ObjView objLeft, objRight;
 	private FrameLayout mLayout;
 	private LinearLayout mGallery;
 	private ObjView view1, view2;
@@ -63,7 +64,10 @@ public class SettingsActivity extends Activity {
 		addPictureLeft = (ImageButton) findViewById(R.id.addPictureLeft);
 		addPictureRight = (ImageButton) findViewById(R.id.addPictureRight);
 		pairEquals = (ImageButton) findViewById(R.id.pairEquals);
+		objLeft = (ObjView) findViewById(R.id.obj_view_1);
+		objRight = (ObjView) findViewById(R.id.obj_view_2);
 		mGallery.removeAllViews();
+		listNewObjs.clear();
 		goa = new GalleryObjectAdapter(SettingsActivity.this);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
@@ -131,25 +135,24 @@ public class SettingsActivity extends Activity {
 				Log.d(TAG, "adding new pair in gallery");
 				if (!samePair) {
 					Log.d(TAG, "pair are non equals");
+					view1.getObj().setPairedObj(view2.getObj());
 					listNewObjs.add(view1.getObj());
-					listNewObjs.add(view2.getObj());
-				}
-				if (samePair) {
+					// listNewObjs.add(view2.getObj());
+				}else{
 					Log.d(TAG, "pair are equals");
+					view1.getObj().setPairedObj(view1.getObj());
 					listNewObjs.add(view1.getObj());
-					listNewObjs.add(view1.getObj());
+					// listNewObjs.add(view1.getObj());
 				}
-				mGallery.removeAllViews();
-				goa = new GalleryObjectAdapter(SettingsActivity.this);
-				for (int i = 0; i < goa.getCount(); i++) {
-					mGallery.addView(goa.getView(i, null, mGallery));
+					mGallery.addView(goa.getView(goa.getCount()-1, null, mGallery));
 
-				}
-				for (int i = 0; i < listNewObjs.size(); i++) {
-					Log.d(TAG, "list : " + listNewObjs.get(i));
+				for(int i=0; i<listNewObjs.size();i++){
+					Log.d(TAG, "list : "+listNewObjs.get(i));
+					Log.d(TAG, "count in goa : "+goa.getCount());
 				}
 			}
 		});
+		
 		// remove focus at startup
 		this.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -162,7 +165,76 @@ public class SettingsActivity extends Activity {
 		MemoryObj obj2 = new MStr(autoText2.getText().toString());
 		obj2.show();
 		view2.setObj(obj2);
+		objLeft.setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						SettingsActivity.this);
+				builder.setTitle(R.string.addPicture);
+				builder.setIcon(R.drawable.import_picture);
+				builder.setItems(R.array.addPictureArray,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int item) {
+								// Do something with the selection
+								if (item == 0) {
+									Log.d(TAG, "select picture from gallery");
+									Intent galleryIntent = new Intent(
+											Intent.ACTION_PICK,
+											android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+									startActivityForResult(galleryIntent,
+											RESULT_LOAD_IMAGE_VIEW1);
+								}
+								if (item == 1) {
+									Log.d(TAG, "select picture from the camera");
+									Intent cameraIntent = new Intent(
+											android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+									startActivityForResult(cameraIntent,
+											RESULT_LOAD_CAMERA_VIEW1);
+								}
+							}
+						});
+				AlertDialog alert = builder.create();
+				alert.show();
+
+			}
+		});
+		objRight.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						SettingsActivity.this);
+				builder.setTitle(R.string.addPicture);
+				builder.setIcon(R.drawable.import_picture);
+				builder.setItems(R.array.addPictureArray,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int item) {
+								// Do something with the selection
+								if (item == 0) {
+									Log.d(TAG, "select picture from gallery");
+									Intent galleryIntent = new Intent(
+											Intent.ACTION_PICK,
+											android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+									startActivityForResult(galleryIntent,
+											RESULT_LOAD_IMAGE_VIEW2);
+								}
+								if (item == 1) {
+									Log.d(TAG, "select picture from the camera");
+									Intent cameraIntent = new Intent(
+											android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+									startActivityForResult(cameraIntent,
+											RESULT_LOAD_CAMERA_VIEW2);
+								}
+							}
+						});
+				AlertDialog alert = builder.create();
+				alert.show();
+
+			}
+		});
 		autoText1.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
@@ -206,6 +278,7 @@ public class SettingsActivity extends Activity {
 			}
 		});
 
+		
 		addPictureLeft.setOnClickListener(new OnClickListener() {
 
 			@Override

@@ -5,13 +5,24 @@
     android:orientation="horizontal" >
 
     <com.morphoss.xo.memorize.ObjView
-        android:id="@+id/obj_view"
+        android:id="@+id/obj_viewLeft"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_gravity="center"
         android:layout_margin="15dp"
         android:gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:scaleType="centerInside" />
+
+    <com.morphoss.xo.memorize.ObjView
+        android:id="@+id/obj_viewRight"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="150dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:padding="20dp"
         android:scaleType="centerInside" />
 
