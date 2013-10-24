@@ -3,19 +3,12 @@ package com.morphoss.xo.memorize;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.morphoss.xo.memorize.obj.MemoryObj;
-
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.morphoss.xo.memorize.obj.MemoryObj;
 
 
 public class GalleryObjectAdapter {
@@ -35,7 +28,7 @@ public class GalleryObjectAdapter {
 	}
 
 	/**
-	 * This method get the memoryobj view from the gridview
+	 * This method get the memoryobj view 
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -83,6 +76,9 @@ public class GalleryObjectAdapter {
 		v.setLayoutParams(lp);
 	}
 
+	public void removePair(MemoryObj obj){
+		SettingsActivity.listNewObjs.remove(obj);
+	}
 	/**
 	 * this method gets the current category
 	 * 

@@ -11,41 +11,70 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="fill_vertical|fill_horizontal"
-        android:layout_weight="0.90"
+        android:layout_weight="0.87"
         android:background="@color/olpc_dark_grey"
         android:orientation="vertical" >
 
         <ImageButton
-            android:id="@+id/playGame"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="top|left"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/play_game" />
-
-        <ImageButton
             android:id="@+id/pairEquals"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="top|left"
-            android:layout_marginLeft="150dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/pair_equals" />
 
         <ImageButton
             android:id="@+id/pairNonEquals"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="top|left"
-            android:layout_marginLeft="230dp"
+            android:layout_marginLeft="220dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/pair_non_equals" />
 
+        <TextView
+            android:id="@+id/saveGameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            android:layout_marginRight="410dp"
+            android:text="@string/saveGame"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/saveGame"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="350dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/save" />
+
+        <TextView
+            android:id="@+id/playGameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            android:layout_marginRight="230dp"
+            android:text="@string/playGame"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/playGame"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="170dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/play_game" />
+
         <ImageButton
             android:id="@+id/editClear"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="top|right"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
@@ -54,10 +83,10 @@
 
     <FrameLayout
         android:id="@+id/bottom"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="fill_vertical|fill_horizontal"
-        android:layout_weight="0.1"
+        android:layout_weight="0.13"
         android:orientation="vertical" >
 
         <LinearLayout

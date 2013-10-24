@@ -11,6 +11,12 @@
     <string name="fromGallery">From the gallery</string>
     <string name="fromCamera">From the camera</string>
     <string name="addPair">Add</string>
+    <string name="playGame">Play</string>
+    <string name="saveGame">Save</string>
+    <string name="savingGame">You are creating a new game with those pairs.</string>
+    <string name="typeNameGame">Type the name of this game :</string>
+    <string name="positiveButton">Save</string>
+    <string name="negativeButton">Cancel</string>
 
     <string-array name="addPictureArray">
         <item>@string/fromGallery</item>

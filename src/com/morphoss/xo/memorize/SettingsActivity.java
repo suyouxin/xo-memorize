@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,9 +15,11 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -33,15 +36,18 @@ public class SettingsActivity extends Activity {
 	private static final String TAG = "SettingsActivity";
 
 	private EditText autoText1, autoText2;
-	private ImageButton pairEquals, pairNonEquals, playGame, addItem,
+	private ImageButton pairEquals, pairNonEquals, saveGame, playGame, addItem,
 			editClear, addPictureLeft, addPictureRight;
 	private ObjView objLeft, objRight;
 	private FrameLayout mLayout;
 	private LinearLayout mGallery;
 	private ObjView view1, view2;
-	private String soundPath = null;
+	private String nameGame, soundPath = null;
 	private GalleryObjectAdapter goa;
+	private EditText editText;
 	private boolean samePair = true;
+	final Context context = this;
+	private AlertDialog alertDialog;
 	public static ArrayList<MemoryObj> listNewObjs = new ArrayList<MemoryObj>();
 	private final static int RESULT_LOAD_IMAGE_VIEW1 = 1;
 	private final static int RESULT_LOAD_IMAGE_VIEW2 = 2;
@@ -85,6 +91,7 @@ public class SettingsActivity extends Activity {
 			}
 
 		});
+
 		pairNonEquals = (ImageButton) findViewById(R.id.pairNonEquals);
 		pairNonEquals.setOnClickListener(new OnClickListener() {
 
@@ -99,6 +106,19 @@ public class SettingsActivity extends Activity {
 			}
 
 		});
+		saveGame = (ImageButton) findViewById(R.id.saveGame);
+		if(listNewObjs != null){
+			saveGame.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					//save the game
+					
+					windowForSavingGame();
+					
+				}
+			});
+		}
 
 		playGame = (ImageButton) findViewById(R.id.playGame);
 		playGame.setOnClickListener(new OnClickListener() {
@@ -137,12 +157,10 @@ public class SettingsActivity extends Activity {
 					Log.d(TAG, "pair are non equals");
 					view1.getObj().setPairedObj(view2.getObj());
 					listNewObjs.add(view1.getObj());
-					// listNewObjs.add(view2.getObj());
 				}else{
 					Log.d(TAG, "pair are equals");
 					view1.getObj().setPairedObj(view1.getObj());
 					listNewObjs.add(view1.getObj());
-					// listNewObjs.add(view1.getObj());
 				}
 					mGallery.addView(goa.getView(goa.getCount()-1, null, mGallery));
 
@@ -350,6 +368,7 @@ public class SettingsActivity extends Activity {
 			}
 		});
 
+
 	}
 
 	@Override
@@ -420,6 +439,57 @@ public class SettingsActivity extends Activity {
 
 	}
 
+	private void windowForSavingGame(){
+		
+		LayoutInflater li = LayoutInflater.from(context);
+		View promptsView = li.inflate(R.layout.prompt_save_game, null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		alertDialogBuilder.setView(promptsView);
+		editText = (EditText) promptsView.findViewById(R.id.editTextNameGame);
+		alertDialogBuilder
+		.setCancelable(false)
+		.setPositiveButton(R.string.positiveButton,
+		  new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog,int id) {
+			//action on the save button
+		    	nameGame = editText.getText().toString();
+		    	savingGame();
+		    }
+		  })
+		.setNegativeButton(R.string.negativeButton,
+		  new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog,int id) {
+			dialog.cancel();
+		    }
+		  });
+
+	alertDialog = alertDialogBuilder.create();
+	editText.addTextChangedListener(new TextWatcher() {
+		
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+		}
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+		}
+		@Override
+		public void afterTextChanged(Editable s) {
+			if(s.toString().length() < 3){
+				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+			}else{
+				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+			}
+		}
+	});
+	alertDialog.show();
+	alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+		
+	}
+	
+	private void savingGame(){
+		Log.d(TAG, "the name of the game is: "+nameGame);
+	}
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
