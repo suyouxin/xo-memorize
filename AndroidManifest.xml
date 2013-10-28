@@ -25,7 +25,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="SettingsActivity"
+            android:name="com.morphoss.xo.memorize.settings.SettingsActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.morphoss.xo.memorize" />
+        </activity>
+        <activity
+            android:name="com.morphoss.xo.memorize.settings.AdditionActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.morphoss.xo.memorize" />
+        </activity>
+        <activity
+            android:name="com.morphoss.xo.memorize.settings.SoundsActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.morphoss.xo.memorize" />
+        </activity>
+        <activity
+            android:name="com.morphoss.xo.memorize.settings.LettersActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
             <meta-data

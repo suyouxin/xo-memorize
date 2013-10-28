@@ -32,4 +32,6 @@ public interface MemoryObj {
     public View getView(Context context, View convertView, ViewGroup parent, int size);
     
     public void draw(Canvas canvas);
+    
+    public String toXMLString();
 }

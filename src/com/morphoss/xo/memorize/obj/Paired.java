@@ -108,5 +108,11 @@ class Paired implements MemoryObj {
     @Override
     public boolean isMatched() {
         return mMode == MemoryObj.MEMORY_OBJ_MODE_MATCHED;
-    } 
+    }
+
+	@Override
+	public String toXMLString() {
+		// TODO Auto-generated method stub
+		return null;
+	} 
 }

@@ -2,25 +2,15 @@
 <resources>
 
     <string name="app_name">Memorize</string>
-    <string name="preview">Preview :</string>
-    <string name="textTitle">Text :</string>
-    <string name="editText">Edit text</string>
-    <string name="pairEquals">Pair equals</string>
-    <string name="pairNonEquals">Pair non equals</string>
-    <string name="addPicture">Insert picture</string>
-    <string name="fromGallery">From the gallery</string>
-    <string name="fromCamera">From the camera</string>
-    <string name="addPair">Add</string>
-    <string name="playGame">Play</string>
-    <string name="saveGame">Save</string>
-    <string name="savingGame">You are creating a new game with those pairs.</string>
-    <string name="typeNameGame">Type the name of this game :</string>
-    <string name="positiveButton">Save</string>
-    <string name="negativeButton">Cancel</string>
-
-    <string-array name="addPictureArray">
-        <item>@string/fromGallery</item>
-        <item>@string/fromCamera</item>
-    </string-array>
+    <string name="settingsTitle">Memorize editor</string>
+    <string name="createGame">Create a new game</string>
+    <string name="nameGame">Name :</string>
+    <string name="hintName">Edit name</string>
+    <string name="typeGame">Type :</string>
+    <string name="radio_addition">Addition</string>
+    <string name="radio_sounds">Sounds</string>
+    <string name="radio_letters">Letters</string>
+    <string name="nextGame">Next</string>
+    <string name="modifyGame">Modify an existing one</string>
 
 </resources>

@@ -49,4 +49,5 @@ public class MStr extends Paired {
         
         canvas.drawText(mStr, xPos, yPos, textPaint);
     }
+    
 }
