@@ -48,6 +48,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			MemoryObj obj1 = new MStr(editTextAddition.getText().toString());
 			obj1.show();
 			view1.setObj(obj1);
+			
 			ObjView view2 = (ObjView) findViewById(R.id.obj_view_pair2);
 			MemoryObj obj2 = new MStr(editTextAddition.getText().toString());
 			obj2.show();

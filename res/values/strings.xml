@@ -13,5 +13,7 @@
     <string name="nextGame">Next</string>
     <string name="modifyGame">Modify an existing one</string>
     <string name="preview">Preview :</string>
+    <string name="warningPairs">Warning : you will need to create at least 10 pairs for a usable game.</string>
+    <string name="addPair">Add</string>
 
 </resources>

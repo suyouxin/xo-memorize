@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="0.5"
-        android:background="@color/light_grey"
+        android:background="#eeeeee"
         android:orientation="horizontal" >
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="260dp"
+            android:layout_marginTop="280dp"
             android:inputType="phone"
             android:singleLine="true"
             android:textColor="@color/olpc_dark_grey" />
@@ -45,6 +45,40 @@
             android:layout_height="130dp"
             android:layout_marginLeft="230dp"
             android:layout_marginTop="90dp" />
+
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="370dp"
+            android:text="@string/warningPairs"
+            android:textColor="@color/olpc_text_grey_color"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/addItems"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="200dp"
+            android:background="@drawable/pair_add" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="200dp"
+            android:text="@string/addPair"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:src="@drawable/monkey_bush" />
     </FrameLayout>
 
     <FrameLayout
@@ -52,7 +86,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="0.5"
-        android:background="@android:color/black"
+        android:background="@color/olpc_dark_grey"
         android:orientation="horizontal" >
     </FrameLayout>
 
