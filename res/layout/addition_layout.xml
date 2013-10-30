@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="0.5"
-        android:background="#eeeeee"
+        android:background="@color/light_grey"
         android:orientation="horizontal" >
 
         <TextView
@@ -29,22 +29,46 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="90dp" />
 
-        <EditText
-            android:id="@+id/editTxtAddition"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="280dp"
-            android:inputType="phone"
-            android:singleLine="true"
-            android:textColor="@color/olpc_dark_grey" />
-
         <com.morphoss.xo.memorize.ObjView
             android:id="@+id/obj_view_pair2"
             android:layout_width="130dp"
             android:layout_height="130dp"
-            android:layout_marginLeft="230dp"
+            android:layout_marginLeft="200dp"
             android:layout_marginTop="90dp" />
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="370dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/math" />
+
+        <EditText
+            android:id="@+id/editTxtAddition"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="280dp"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textColor="@color/olpc_dark_grey" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="160dp"
+            android:layout_marginTop="260dp" />
+
+        <EditText
+            android:id="@+id/editTxtAddition2"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="240dp"
+            android:layout_marginTop="280dp"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textColor="@color/olpc_dark_grey" />
 
         <TextView
             android:layout_width="350dp"
@@ -88,6 +112,47 @@
         android:layout_weight="0.5"
         android:background="@color/olpc_dark_grey"
         android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/saveGame"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="top|right"
+            android:layout_margin="10dp"
+            android:background="@drawable/save" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="80dp"
+            android:layout_marginTop="25dp"
+            android:text="@string/saveGame"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/clearGame"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="top|left"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_clear" />
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp" >
+
+            <LinearLayout
+                android:id="@+id/newItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            </LinearLayout>
+        </ScrollView>
     </FrameLayout>
 
 </LinearLayout>

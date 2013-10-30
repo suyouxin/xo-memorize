@@ -7,7 +7,7 @@
     <string name="nameGame">Name :</string>
     <string name="hintName">Edit name</string>
     <string name="typeGame">Type :</string>
-    <string name="radio_addition">Addition</string>
+    <string name="radio_addition">Arithmetic</string>
     <string name="radio_sounds">Sounds</string>
     <string name="radio_letters">Letters</string>
     <string name="nextGame">Next</string>
@@ -15,5 +15,15 @@
     <string name="preview">Preview :</string>
     <string name="warningPairs">Warning : you will need to create at least 10 pairs for a usable game.</string>
     <string name="addPair">Add</string>
+    <string name="saveGame">Save</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="mult">*</string>
+
+    <string-array name="addition_array">
+        <item>@string/plus</item>
+        <item>@string/minus</item>
+        <item>@string/mult</item>
+    </string-array>
 
 </resources>
