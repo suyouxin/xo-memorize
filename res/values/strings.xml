@@ -19,6 +19,12 @@
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="mult">*</string>
+    <string name="needMorePairs">You need to create 10 different pairs to be able to save this game</string>
+    <string name="gotIt">I understand</string>
+    <string name="titleSave">Saving this game</string>
+    <string name="areYouSure">Do you want to save this game ?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string-array name="addition_array">
         <item>@string/plus</item>

@@ -22,10 +22,12 @@ public class GalleryObjectAdapter {
 	private static final String TAG = "GalleryObjectAdapter";
 	private static ObjView galleryImageLeft, galleryImageRight;
 	private static MemoryObj object, paired;
+	private static ArrayList<MemoryObj> mlist = new ArrayList<MemoryObj>();
 
-	public GalleryObjectAdapter(Context context) {
+	public GalleryObjectAdapter(Context context, ArrayList<MemoryObj> list) {
 		super();
 		this.context = context;
+		this.mlist = list;
 
 	}
 
@@ -37,7 +39,7 @@ public class GalleryObjectAdapter {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		object = AdditionActivity.listNewObjs.get(position);
+		object = mlist.get(position);
 		paired = object.getPairedObj();
 		View galleryLayout = inflater.inflate(R.layout.settings_gallery, null);
 		if (paired == null) {
@@ -57,20 +59,20 @@ public class GalleryObjectAdapter {
 
 	public void setMemoryObj(Collection<MemoryObj> newMemoryObj) {
 
-		AdditionActivity.listNewObjs = new ArrayList<MemoryObj>(
+		mlist = new ArrayList<MemoryObj>(
 				newMemoryObj.size());
-		AdditionActivity.listNewObjs.addAll(newMemoryObj);
+		mlist.addAll(newMemoryObj);
 
 	}
 
 	public int getCount() {
-		if (AdditionActivity.listNewObjs == null)
+		if (mlist == null)
 			return 0;
-		return AdditionActivity.listNewObjs.size();
+		return mlist.size();
 	}
 
 	public Object getItem(int position) {
-		return AdditionActivity.listNewObjs.get(position);
+		return mlist.get(position);
 	}
 
 	public void setLayout(View v) {
@@ -79,7 +81,7 @@ public class GalleryObjectAdapter {
 	}
 
 	public void removePair(MemoryObj obj){
-		AdditionActivity.listNewObjs.remove(obj);
+		mlist.remove(obj);
 	}
 	/**
 	 * this method gets the current category
@@ -88,6 +90,6 @@ public class GalleryObjectAdapter {
 	 * @return the category selected
 	 */
 	public static MemoryObj getMemoryObj(int position) {
-		return AdditionActivity.listNewObjs.get(position);
+		return mlist.get(position);
 	}
 }

@@ -3,6 +3,10 @@ package com.morphoss.xo.memorize.settings;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,7 +35,8 @@ public class AdditionActivity extends Activity {
 	private GalleryObjectAdapter goa;
 	private LinearLayout mGallery;
 	private Spinner spinner;
-	public static ArrayList<MemoryObj> listNewObjs = new ArrayList<MemoryObj>();
+	private Context context = this;
+	private static ArrayList<MemoryObj> listNewObjsAddition = new ArrayList<MemoryObj>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +52,8 @@ public class AdditionActivity extends Activity {
 		addListenerOnSpinner();
 
 		mGallery.removeAllViews();
-		listNewObjs.clear();
-		goa = new GalleryObjectAdapter(AdditionActivity.this);
+		listNewObjsAddition.clear();
+		goa = new GalleryObjectAdapter(AdditionActivity.this, listNewObjsAddition);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 
@@ -58,9 +63,64 @@ public class AdditionActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				listNewObjs.clear();
+				listNewObjsAddition.clear();
 				mGallery.removeAllViews();
 
+			}
+		});
+		saveGame.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+			if(listNewObjsAddition.size() <=4){
+				//not a usable game, display an alert dialog
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+				// set dialog message
+				alertDialogBuilder
+					.setMessage(R.string.needMorePairs)
+					.setCancelable(false)
+					.setPositiveButton(R.string.gotIt,new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							// if this button is clicked, close dialog
+							dialog.dismiss();
+							
+						}
+					  });
+	 
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+	 
+					// show it
+					alertDialog.show();
+			}else{
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+				// set dialog message
+				alertDialogBuilder
+					.setTitle(R.string.titleSave)
+					.setMessage(R.string.areYouSure)
+					.setCancelable(false)
+					.setPositiveButton(R.string.yes,new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							// if this button is clicked, close dialog
+							savingGame();
+						}
+						})
+					.setNegativeButton(R.string.no,new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							// if this button is clicked, close dialog
+							savingGame();
+							
+						}
+					  	});
+	 
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+	 
+					// show it
+					alertDialog.show();
+				
+			}
+				
 			}
 		});
 
@@ -71,12 +131,12 @@ public class AdditionActivity extends Activity {
 				if (!editTextAddition.getText().toString().equals("")
 						&& !editTextAddition2.getText().toString().equals("")) {
 					view1.getObj().setPairedObj(view2.getObj());
-					listNewObjs.add(view1.getObj());
+					listNewObjsAddition.add(view1.getObj());
 					mGallery.addView(goa.getView(goa.getCount() - 1, null,
 							mGallery));
 
-					for (int i = 0; i < listNewObjs.size(); i++) {
-						Log.d(TAG, "list : " + listNewObjs.get(i));
+					for (int i = 0; i < listNewObjsAddition.size(); i++) {
+						Log.d(TAG, "list : " + listNewObjsAddition.get(i));
 						Log.d(TAG, "count in goa : " + goa.getCount());
 					}
 
@@ -140,6 +200,13 @@ public class AdditionActivity extends Activity {
 
 	}
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		Intent intent = new Intent(context, SettingsActivity.class);
+		startActivity(intent);
+		finish();
+	}
 	public void addListenerOnSpinner() {
 		spinner = (Spinner) findViewById(R.id.spinner);
 		// Create an ArrayAdapter using the string array and a default spinner
@@ -186,7 +253,8 @@ public class AdditionActivity extends Activity {
 		}
 
 		String totalString = "";
-		if (total == 0) {
+		if (editTextAddition.getText().toString().equals("")
+				|| editTextAddition2.getText().toString().equals("")) {
 			totalString = "";
 		} else {
 			totalString = String.valueOf(total);
@@ -201,5 +269,9 @@ public class AdditionActivity extends Activity {
 		MemoryObj obj2 = new MStr(totalString);
 		obj2.show();
 		view2.setObj(obj2);
+	}
+	
+	private void savingGame(){
+		
 	}
 }
