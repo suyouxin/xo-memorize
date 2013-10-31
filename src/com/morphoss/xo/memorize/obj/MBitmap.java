@@ -1,11 +1,8 @@
 package com.morphoss.xo.memorize.obj;
 
+
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-
-import com.morphoss.xo.memorize.GameEngine;
-import com.morphoss.xo.memorize.ObjView;
-import com.morphoss.xo.memorize.Util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,18 +12,22 @@ import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.util.Log;
 
-public class MMedia extends Paired {
+import com.morphoss.xo.memorize.GameEngine;
+import com.morphoss.xo.memorize.ObjView;
+import com.morphoss.xo.memorize.Util;
+
+public class MBitmap extends Paired {
     private String mUid; 
-    private String mImgPath;
+    private Bitmap bmp;
     private String mSndPath;
     
-    public MMedia(String imgPath, String sndPath) {
-        mImgPath = imgPath;
+    public MBitmap(Bitmap imgCamera, String sndPath) {
+        bmp = imgCamera;
         mSndPath = sndPath;
         
         StringBuilder strbuilder = new StringBuilder();
-        if (imgPath != null)
-            strbuilder.append(imgPath);
+        if (imgCamera != null)
+            strbuilder.append(imgCamera);
         if (sndPath != null)
             strbuilder.append(sndPath);
 
@@ -45,20 +46,19 @@ public class MMedia extends Paired {
 
     @Override
     public MemoryObj copyMe() {
-        MMedia me = new MMedia(mImgPath, mSndPath);
+        MBitmap me = new MBitmap(bmp, mSndPath);
         return me;
     }
 
     @Override
     public void draw(Canvas canvas) 
     {
-        if (mImgPath != null) {
+        if (bmp != null) {
             int reduce = ObjView.BORDER_SIZE_DP;
-            Bitmap b = BitmapFactory.decodeFile(mImgPath);
             Rect rc = new Rect(reduce, reduce, 
                     canvas.getWidth() - reduce, canvas.getHeight() - reduce);
             Paint p = new Paint();
-            canvas.drawBitmap(b, null, rc, p);
+            canvas.drawBitmap(bmp, null, rc, p);
         }
     }
 
@@ -86,7 +86,7 @@ public class MMedia extends Paired {
                 player.setDataSource(mSndPath);
                 player.prepare();
                 player.start();
-                Log.d("MMedia", "playing: " + mSndPath);
+                Log.d("MBitmap", "playing: " + mSndPath);
             } catch (IllegalArgumentException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

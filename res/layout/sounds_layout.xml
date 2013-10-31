@@ -38,20 +38,57 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="90dp"
-            android:layout_marginLeft="300dp"
-            android:layout_marginTop="115dp"
-            android:src="@drawable/letter" />
+            android:layout_height="140dp"
+            android:layout_marginLeft="320dp"
+            android:layout_marginTop="85dp"
+            android:src="@drawable/music" />
 
-        <EditText
-            android:id="@+id/editTxtSound"
-            android:layout_width="100dp"
+        <TextView
+            android:id="@+id/importText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="280dp"
-            android:inputType="text"
-            android:singleLine="true"
-            android:textColor="@color/olpc_dark_grey" />
+            android:layout_marginTop="240dp"
+            android:text="@string/importPictSound"
+            android:textColor="@color/olpc_text_grey_color"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/pictureText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="290dp"
+            android:text="@string/aPicture"
+            android:textColor="@color/olpc_text_grey_color"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/addPicture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="270dp"
+            android:background="@drawable/import_picture" />
+
+        <TextView
+            android:id="@+id/soundText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="290dp"
+            android:text="@string/aSound"
+            android:textColor="@color/olpc_text_grey_color"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/addSound"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="250dp"
+            android:layout_marginTop="270dp"
+            android:background="@drawable/import_sound" />
 
         <TextView
             android:layout_width="250dp"
@@ -82,11 +119,11 @@
             android:textSize="20sp" />
 
         <ImageView
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_width="230dp"
+            android:layout_height="240dp"
             android:layout_gravity="bottom|right"
             android:layout_margin="10dp"
-            android:src="@drawable/monkey_boat" />
+            android:src="@drawable/monkey_music" />
     </FrameLayout>
 
     <FrameLayout
