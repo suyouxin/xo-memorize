@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -13,9 +14,11 @@ import android.widget.ListView;
 import com.morphoss.xo.memorize.R;
 
 public class FileChooser extends ListActivity {
+	
 		    public static String soundPath;
 		    private File currentDir;
 		    private FileArrayAdapter adapter;
+		    
 		    @Override
 		    public void onCreate(Bundle savedInstanceState) {
 		        super.onCreate(savedInstanceState);
@@ -67,5 +70,10 @@ public class FileChooser extends ListActivity {
 		    private void onFileClick(Option o)
 		    {
 		    	soundPath = o.getPath();
+		    	Intent data = new Intent();
+		    	  data.putExtra("returnKey1", soundPath);
+		    	  // Activity finished ok, return the data
+		    	  setResult(RESULT_OK, data);
+		    	  super.finish();
 		    }
 		}

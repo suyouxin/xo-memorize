@@ -260,14 +260,14 @@ public class SoundsActivity extends Activity {
 			break;
 		case RESULT_LOAD_MUSIC_SDCARD:
 			if (resultCode == RESULT_OK && null != data) {
-				curFileName = FileChooser.soundPath;
-				Log.d(TAG, "sound path : " + curFileName);
-				/*
-				 * MemoryObj objPicture = new MMedia(picturePath, soundPath);
-				 * objPicture.show(); view1.setObj(objPicture);
-				 * view1.invalidate(); view2.setObj(objPicture);
-				 * view2.invalidate();
-				 */
+				if(data.hasExtra("returnKey1")){
+					soundPath = data.getExtras().getString("returnKey1");
+					Log.d(TAG, "sound path : " + soundPath);
+					 MemoryObj objPicture = new MMedia(picturePath, soundPath);
+					 objPicture.show(); view1.setObj(objPicture);
+					 view1.invalidate(); view2.setObj(objPicture);
+					 view2.invalidate();
+				}
 
 			}
 			break;
@@ -334,12 +334,12 @@ public class SoundsActivity extends Activity {
 						// Do something with the selection
 						if (item == 0) {
 							// import mp3 from sdcard
-							/*
-							 * Intent intent = new Intent(context,
-							 * FileChooser.class);
-							 * startActivityForResult(intent,
-							 * RESULT_LOAD_MUSIC_SDCARD);
-							 */
+							Intent i = new Intent(context, FileChooser.class);
+							i.setAction(android.content.Intent.ACTION_PICK);
+					        Uri data = Uri.parse("file:///sdcard/Music/");
+					        String type = "audio/mp3";
+					        i.setDataAndType(data, type);
+							startActivityForResult(i, RESULT_LOAD_MUSIC_SDCARD);
 						}
 						if (item == 1) {
 							// import ogg from system/media/audio
