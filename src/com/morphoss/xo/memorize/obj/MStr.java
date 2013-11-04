@@ -29,6 +29,9 @@ public class MStr extends Paired {
         return mUid;
     }
 
+    public String getString(){
+    	return mStr;
+    }
     @Override
     public MemoryObj copyMe() {
         MStr me = new MStr(mStr);

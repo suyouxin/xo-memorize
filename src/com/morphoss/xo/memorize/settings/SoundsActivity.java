@@ -1,9 +1,15 @@
 package com.morphoss.xo.memorize.settings;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,16 +17,15 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.morphoss.xo.memorize.ObjView;
 import com.morphoss.xo.memorize.R;
@@ -34,20 +39,27 @@ public class SoundsActivity extends Activity {
 	private static final String TAG = "SoundsActivity";
 
 	private ObjView view1, view2;
+	private TextView numberPairs;
 	private ImageButton addItem, saveGame, clearGame, addPicture, addSound;
 	private GalleryObjectAdapter goa;
 	private LinearLayout mGallery;
 	private Context context = this;
 	private String soundPath = null;
+	private String picturePath = null;
+	private String curFileName;
 	private static ArrayList<MemoryObj> listNewObjsSounds = new ArrayList<MemoryObj>();
 	private final static int RESULT_LOAD_IMAGE_VIEW = 1;
 	private final static int RESULT_LOAD_CAMERA_VIEW = 2;
+	private final static int RESULT_LOAD_MUSIC_SDCARD = 3;
+	private final static int RESULT_LOAD_MUSIC_SYSTEM = 4;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sounds_layout);
 
+		numberPairs = (TextView) findViewById(R.id.numberPairsCreated);
+		numberPairs.setText("0");
 		view1 = (ObjView) findViewById(R.id.obj_view_pair1);
 		view2 = (ObjView) findViewById(R.id.obj_view_pair2);
 		addItem = (ImageButton) findViewById(R.id.addItems);
@@ -86,6 +98,7 @@ public class SoundsActivity extends Activity {
 			public void onClick(View v) {
 				listNewObjsSounds.clear();
 				mGallery.removeAllViews();
+				numberPairs.setText("0");
 
 			}
 		});
@@ -129,8 +142,7 @@ public class SoundsActivity extends Activity {
 									new DialogInterface.OnClickListener() {
 										public void onClick(
 												DialogInterface dialog, int id) {
-											// if this button is clicked, close
-											// dialog
+											// if this button is clicked, save the game
 											savingGame();
 										}
 									})
@@ -140,7 +152,7 @@ public class SoundsActivity extends Activity {
 												DialogInterface dialog, int id) {
 											// if this button is clicked, close
 											// dialog
-											savingGame();
+											dialog.dismiss();
 
 										}
 									});
@@ -160,15 +172,16 @@ public class SoundsActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				
-					if (!view1.getObj().toString().contains("Str")) {
-						view1.getObj().setPairedObj(view2.getObj());
-						listNewObjsSounds.add(view1.getObj());
-						mGallery.addView(goa.getView(goa.getCount() - 1, null,
-								mGallery));
 
-					}
-					for (int i = 0; i < listNewObjsSounds.size(); i++) {
+				if (picturePath != null && soundPath != null) {
+					view1.getObj().setPairedObj(view2.getObj());
+					listNewObjsSounds.add(view1.getObj());
+					mGallery.addView(goa.getView(goa.getCount() - 1, null,
+							mGallery));
+
+				}
+				numberPairs.setText(String.valueOf(goa.getCount()));
+				for (int i = 0; i < listNewObjsSounds.size(); i++) {
 					Log.d(TAG, "list : " + listNewObjsSounds.get(i));
 					Log.d(TAG, "count in goa : " + goa.getCount());
 				}
@@ -180,6 +193,14 @@ public class SoundsActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				importPictures();
+			}
+		});
+		addSound.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				importSounds();
+
 			}
 		});
 		// remove auto focus from edit text
@@ -212,7 +233,7 @@ public class SoundsActivity extends Activity {
 				cursor.moveToFirst();
 
 				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-				String picturePath = cursor.getString(columnIndex);
+				picturePath = cursor.getString(columnIndex);
 				cursor.close();
 
 				MemoryObj objPicture = new MMedia(picturePath, soundPath);
@@ -236,6 +257,29 @@ public class SoundsActivity extends Activity {
 				view2.setObj(objPicture);
 				view2.invalidate();
 			}
+			break;
+		case RESULT_LOAD_MUSIC_SDCARD:
+			if (resultCode == RESULT_OK && null != data) {
+				curFileName = FileChooser.soundPath;
+				Log.d(TAG, "sound path : " + curFileName);
+				/*
+				 * MemoryObj objPicture = new MMedia(picturePath, soundPath);
+				 * objPicture.show(); view1.setObj(objPicture);
+				 * view1.invalidate(); view2.setObj(objPicture);
+				 * view2.invalidate();
+				 */
+
+			}
+			break;
+		case RESULT_LOAD_MUSIC_SYSTEM:
+			Uri selectedSound = data.getData();
+			soundPath = selectedSound.getPath();
+			MemoryObj objPicture = new MMedia(picturePath, soundPath);
+			objPicture.show();
+			view1.setObj(objPicture);
+			view1.invalidate();
+			view2.setObj(objPicture);
+			view2.invalidate();
 			break;
 		}
 
@@ -280,7 +324,69 @@ public class SoundsActivity extends Activity {
 		alert.show();
 	}
 
-	private void savingGame() {
+	private void importSounds() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle(R.string.addSound);
+		builder.setIcon(R.drawable.import_sound);
+		builder.setItems(R.array.addSoundArray,
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
+						// Do something with the selection
+						if (item == 0) {
+							// import mp3 from sdcard
+							/*
+							 * Intent intent = new Intent(context,
+							 * FileChooser.class);
+							 * startActivityForResult(intent,
+							 * RESULT_LOAD_MUSIC_SDCARD);
+							 */
+						}
+						if (item == 1) {
+							// import ogg from system/media/audio
+						}
+					}
+				});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
 
+	private void savingGame() {
+		String nameGameKey = "com.morphoss.xo.memorize.settings";
+		String nameGame = SettingsActivity.prefs.getString(nameGameKey,
+				new String());
+		Log.d(TAG, "the name of the game is: " + nameGame);
+		// Create folder
+		File folder = new File(Environment.getExternalStorageDirectory()
+				.toString()
+				+ "/Android/data/com.morphoss.xo.memorize/files/games/"
+				+ nameGame);
+		folder.mkdirs();
+		// Save the path as a string value
+		String extStorageDirectory = folder.toString();
+		try {
+			BufferedWriter buf = new BufferedWriter(new FileWriter(
+					extStorageDirectory + "/game.xml"));
+			StringBuilder strBuilder = new StringBuilder(
+					"<?xml version=\"1.0\"?>\n");
+			strBuilder.append("\n");
+			strBuilder
+					.append("<memorize name=\""
+							+ nameGame
+							+ "\" scoresnd=\"score.wav\" winsnd=\"win.wav\" divided=\"0\" >\n");
+			for (MemoryObj obj : listNewObjsSounds) {
+
+				strBuilder.append("<pair aimg=\"" + ((MMedia) obj).getImagePath()
+						+ "\" asnd=\"" + ((MMedia) obj).getSoundPath()
+						+ "\" bimg=\"" + ((MMedia) obj.getPairedObj()).getImagePath()
+						+ "\" bsnd=\"" + ((MMedia) obj.getPairedObj()).getSoundPath()
+						+ "\"/>\n");
+			}
+			strBuilder.append("\n");
+			strBuilder.append("</memorize>");
+			buf.write(strBuilder.toString());
+			buf.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

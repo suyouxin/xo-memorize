@@ -1,5 +1,9 @@
 package com.morphoss.xo.memorize.settings;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -8,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.morphoss.xo.memorize.ObjView;
 import com.morphoss.xo.memorize.R;
@@ -30,6 +36,7 @@ public class AdditionActivity extends Activity {
 	private static final String TAG = "AdditionActivity";
 
 	private ObjView view1, view2;
+	private TextView numberPairs;
 	private EditText editTextAddition, editTextAddition2;
 	private ImageButton addItem, saveGame, clearGame;
 	private GalleryObjectAdapter goa;
@@ -42,7 +49,8 @@ public class AdditionActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.addition_layout);
-
+		numberPairs = (TextView) findViewById(R.id.numberPairsCreated);
+		numberPairs.setText("0");
 		editTextAddition = (EditText) findViewById(R.id.editTxtAddition);
 		editTextAddition2 = (EditText) findViewById(R.id.editTxtAddition2);
 		addItem = (ImageButton) findViewById(R.id.addItems);
@@ -53,7 +61,8 @@ public class AdditionActivity extends Activity {
 
 		mGallery.removeAllViews();
 		listNewObjsAddition.clear();
-		goa = new GalleryObjectAdapter(AdditionActivity.this, listNewObjsAddition);
+		goa = new GalleryObjectAdapter(AdditionActivity.this,
+				listNewObjsAddition);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 
@@ -65,62 +74,74 @@ public class AdditionActivity extends Activity {
 			public void onClick(View v) {
 				listNewObjsAddition.clear();
 				mGallery.removeAllViews();
+				numberPairs.setText("0");
 
 			}
 		});
 		saveGame.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-			if(listNewObjsAddition.size() <=4){
-				//not a usable game, display an alert dialog
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-				// set dialog message
-				alertDialogBuilder
-					.setMessage(R.string.needMorePairs)
-					.setCancelable(false)
-					.setPositiveButton(R.string.gotIt,new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,int id) {
-							// if this button is clicked, close dialog
-							dialog.dismiss();
-							
-						}
-					  });
-	 
+				if (listNewObjsAddition.size() <= 9) {
+					// not a usable game, display an alert dialog
+					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+							context);
+					// set dialog message
+					alertDialogBuilder
+							.setMessage(R.string.needMorePairs)
+							.setCancelable(false)
+							.setPositiveButton(R.string.gotIt,
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+											// if this button is clicked, close
+											// dialog
+											dialog.dismiss();
+
+										}
+									});
+
 					// create alert dialog
 					AlertDialog alertDialog = alertDialogBuilder.create();
-	 
+
 					// show it
 					alertDialog.show();
-			}else{
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-				// set dialog message
-				alertDialogBuilder
-					.setTitle(R.string.titleSave)
-					.setMessage(R.string.areYouSure)
-					.setCancelable(false)
-					.setPositiveButton(R.string.yes,new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,int id) {
-							// if this button is clicked, close dialog
-							savingGame();
-						}
-						})
-					.setNegativeButton(R.string.no,new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,int id) {
-							// if this button is clicked, close dialog
-							savingGame();
-							
-						}
-					  	});
-	 
+				} else {
+					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+							context);
+					// set dialog message
+					alertDialogBuilder
+							.setTitle(R.string.titleSave)
+							.setMessage(R.string.areYouSure)
+							.setCancelable(false)
+							.setPositiveButton(R.string.yes,
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+											// if this button is clicked, save
+											// the game
+											savingGame();
+										}
+									})
+							.setNegativeButton(R.string.no,
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+											// if this button is clicked, close
+											// dialog
+											dialog.dismiss();
+
+										}
+									});
+
 					// create alert dialog
 					AlertDialog alertDialog = alertDialogBuilder.create();
-	 
+
 					// show it
 					alertDialog.show();
-				
-			}
-				
+
+				}
+
 			}
 		});
 
@@ -134,7 +155,7 @@ public class AdditionActivity extends Activity {
 					listNewObjsAddition.add(view1.getObj());
 					mGallery.addView(goa.getView(goa.getCount() - 1, null,
 							mGallery));
-
+					numberPairs.setText(String.valueOf(goa.getCount()));
 					for (int i = 0; i < listNewObjsAddition.size(); i++) {
 						Log.d(TAG, "list : " + listNewObjsAddition.get(i));
 						Log.d(TAG, "count in goa : " + goa.getCount());
@@ -207,6 +228,7 @@ public class AdditionActivity extends Activity {
 		startActivity(intent);
 		finish();
 	}
+
 	public void addListenerOnSpinner() {
 		spinner = (Spinner) findViewById(R.id.spinner);
 		// Create an ArrayAdapter using the string array and a default spinner
@@ -270,8 +292,42 @@ public class AdditionActivity extends Activity {
 		obj2.show();
 		view2.setObj(obj2);
 	}
-	
-	private void savingGame(){
-		
+
+	private void savingGame() {
+		String nameGameKey = "com.morphoss.xo.memorize.settings";
+		String nameGame = SettingsActivity.prefs.getString(nameGameKey,
+				new String());
+		Log.d(TAG, "the name of the game is: " + nameGame);
+		// Create folder
+		File folder = new File(Environment.getExternalStorageDirectory()
+				.toString()
+				+ "/Android/data/com.morphoss.xo.memorize/files/games/"
+				+ nameGame);
+		folder.mkdirs();
+		// Save the path as a string value
+		String extStorageDirectory = folder.toString();
+		try {
+			BufferedWriter buf = new BufferedWriter(new FileWriter(
+					extStorageDirectory + "/game.xml"));
+			StringBuilder strBuilder = new StringBuilder(
+					"<?xml version=\"1.0\"?>\n");
+			strBuilder.append("\n");
+			strBuilder
+					.append("<memorize name=\""
+							+ nameGame
+							+ "\" scoresnd=\"score.wav\" winsnd=\"win.wav\" divided=\"1\" align=\"1\" face1=\"1\" face2=\"2\" >\n");
+			for (MemoryObj obj : listNewObjsAddition) {
+
+				strBuilder.append("<pair achar=\"" + ((MStr) obj).getString()
+						+ "\" bchar=\""
+						+ ((MStr) obj.getPairedObj()).getString() + "\"/>\n");
+			}
+			strBuilder.append("\n");
+			strBuilder.append("</memorize>");
+			buf.write(strBuilder.toString());
+			buf.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -56,6 +56,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.morphoss.xo.memorize" />
         </activity>
+        <activity
+            android:name="com.morphoss.xo.memorize.settings.FileChooser"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.morphoss.xo.memorize" />
+        </activity>
     </application>
 
 </manifest>

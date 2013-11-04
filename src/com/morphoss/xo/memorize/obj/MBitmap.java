@@ -43,6 +43,13 @@ public class MBitmap extends Paired {
     public String getUid() {
         return mUid;
     }
+    public String getSound(){
+    	return mSndPath;
+    }
+    public Bitmap getBitmap(){
+    	return bmp;
+    }
+    
 
     @Override
     public MemoryObj copyMe() {

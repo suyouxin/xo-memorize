@@ -1,5 +1,9 @@
 package com.morphoss.xo.memorize.settings;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.morphoss.xo.memorize.ObjView;
@@ -13,6 +17,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,12 +29,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class LettersActivity extends Activity {
 
 	private static final String TAG = "LettersActivity";
 
 	private ObjView view1, view2;
+	private TextView numberPairs;
 	private EditText editTextLetter;
 	private ImageButton addItem, saveGame, clearGame;
 	private GalleryObjectAdapter goa;
@@ -41,7 +48,8 @@ public class LettersActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.letters_layout);
-
+		numberPairs = (TextView) findViewById(R.id.numberPairsCreated);
+		numberPairs.setText("0");
 		editTextLetter = (EditText) findViewById(R.id.editTxtLetter);
 		addItem = (ImageButton) findViewById(R.id.addItems);
 		saveGame = (ImageButton) findViewById(R.id.saveGame);
@@ -62,6 +70,7 @@ public class LettersActivity extends Activity {
 			public void onClick(View v) {
 				listNewObjsLetters.clear();
 				mGallery.removeAllViews();
+				numberPairs.setText("0");
 
 			}
 		});
@@ -69,7 +78,7 @@ public class LettersActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				if (listNewObjsLetters.size() <= 4) {
+				if (listNewObjsLetters.size() <= 9) {
 					// not a usable game, display an alert dialog
 					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 							context);
@@ -105,8 +114,8 @@ public class LettersActivity extends Activity {
 									new DialogInterface.OnClickListener() {
 										public void onClick(
 												DialogInterface dialog, int id) {
-											// if this button is clicked, close
-											// dialog
+											// if this button is clicked, save
+											// the game
 											savingGame();
 										}
 									})
@@ -116,7 +125,7 @@ public class LettersActivity extends Activity {
 												DialogInterface dialog, int id) {
 											// if this button is clicked, close
 											// dialog
-											savingGame();
+											dialog.dismiss();
 
 										}
 									});
@@ -141,7 +150,7 @@ public class LettersActivity extends Activity {
 					listNewObjsLetters.add(view1.getObj());
 					mGallery.addView(goa.getView(goa.getCount() - 1, null,
 							mGallery));
-
+					numberPairs.setText(String.valueOf(goa.getCount()));
 					for (int i = 0; i < listNewObjsLetters.size(); i++) {
 						Log.d(TAG, "list : " + listNewObjsLetters.get(i));
 						Log.d(TAG, "count in goa : " + goa.getCount());
@@ -210,6 +219,41 @@ public class LettersActivity extends Activity {
 	}
 
 	private void savingGame() {
+		String nameGameKey = "com.morphoss.xo.memorize.settings";
+		String nameGame = SettingsActivity.prefs.getString(nameGameKey,
+				new String());
+		Log.d(TAG, "the name of the game is: " + nameGame);
+		// Create folder
+		File folder = new File(Environment.getExternalStorageDirectory()
+				.toString()
+				+ "/Android/data/com.morphoss.xo.memorize/files/games/"
+				+ nameGame);
+		folder.mkdirs();
+		// Save the path as a string value
+		String extStorageDirectory = folder.toString();
+		try {
+			BufferedWriter buf = new BufferedWriter(new FileWriter(
+					extStorageDirectory + "/game.xml"));
+			StringBuilder strBuilder = new StringBuilder(
+					"<?xml version=\"1.0\"?>\n");
+			strBuilder.append("\n");
+			strBuilder
+					.append("<memorize name=\""
+							+ nameGame
+							+ "\" scoresnd=\"score.wav\" winsnd=\"win.wav\" divided=\"1\" align=\"1\" face1=\"1\" face2=\"2\" >\n");
+			for (MemoryObj obj : listNewObjsLetters) {
 
+				strBuilder.append("<pair achar=\"" + ((MStr) obj).getString()
+						+ "\" bchar=\""
+						+ ((MStr) obj.getPairedObj()).getString() + "\"/>\n");
+
+			}
+			strBuilder.append("\n");
+			strBuilder.append("</memorize>");
+			buf.write(strBuilder.toString());
+			buf.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

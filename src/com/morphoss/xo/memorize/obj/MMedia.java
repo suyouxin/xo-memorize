@@ -43,6 +43,12 @@ public class MMedia extends Paired {
         return mUid;
     }
 
+    public String getSoundPath(){
+    	return mSndPath;
+    }
+    public String getImagePath(){
+    	return mImgPath;
+    }
     @Override
     public MemoryObj copyMe() {
         MMedia me = new MMedia(mImgPath, mSndPath);

@@ -19,6 +19,7 @@
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="mult">*</string>
+    <string name="numberPairs">Number of pairs : </string>
     <string name="needMorePairs">You need to create 10 different pairs to be able to save this game</string>
     <string name="gotIt">I understand</string>
     <string name="titleSave">Saving this game</string>
@@ -29,6 +30,8 @@
     <string name="addSound">Import a sound</string>
     <string name="fromGallery">From the gallery</string>
     <string name="fromCamera">From the camera</string>
+    <string name="fromSDCard">From the SD card</string>
+    <string name="fromSystem">From the media system</string>
     <string name="importPictSound">Import :</string>
     <string name="aPicture">a picture</string>
     <string name="aSound">a sound</string>
@@ -41,6 +44,10 @@
     <string-array name="addPictureArray">
         <item>@string/fromGallery</item>
         <item>@string/fromCamera</item>
+    </string-array>
+    <string-array name="addSoundArray">
+        <item>@string/fromSDCard</item>
+        <item>@string/fromSystem</item>
     </string-array>
 
 </resources>
