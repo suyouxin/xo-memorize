@@ -27,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.morphoss.xo.memorize.Memorize;
 import com.morphoss.xo.memorize.ObjView;
 import com.morphoss.xo.memorize.R;
 import com.morphoss.xo.memorize.obj.MBitmap;
@@ -142,8 +143,13 @@ public class SoundsActivity extends Activity {
 									new DialogInterface.OnClickListener() {
 										public void onClick(
 												DialogInterface dialog, int id) {
-											// if this button is clicked, save the game
+											// if this button is clicked, save
+											// the game
 											savingGame();
+											Intent intent = new Intent(context,
+													Memorize.class);
+											startActivity(intent);
+											finish();
 										}
 									})
 							.setNegativeButton(R.string.no,
@@ -260,26 +266,33 @@ public class SoundsActivity extends Activity {
 			break;
 		case RESULT_LOAD_MUSIC_SDCARD:
 			if (resultCode == RESULT_OK && null != data) {
-				if(data.hasExtra("returnKey1")){
+				if (data.hasExtra("returnKey1")) {
 					soundPath = data.getExtras().getString("returnKey1");
 					Log.d(TAG, "sound path : " + soundPath);
-					 MemoryObj objPicture = new MMedia(picturePath, soundPath);
-					 objPicture.show(); view1.setObj(objPicture);
-					 view1.invalidate(); view2.setObj(objPicture);
-					 view2.invalidate();
+					MemoryObj objPicture = new MMedia(picturePath, soundPath);
+					objPicture.show();
+					view1.setObj(objPicture);
+					view1.invalidate();
+					view2.setObj(objPicture);
+					view2.invalidate();
 				}
 
 			}
 			break;
 		case RESULT_LOAD_MUSIC_SYSTEM:
-			Uri selectedSound = data.getData();
-			soundPath = selectedSound.getPath();
-			MemoryObj objPicture = new MMedia(picturePath, soundPath);
-			objPicture.show();
-			view1.setObj(objPicture);
-			view1.invalidate();
-			view2.setObj(objPicture);
-			view2.invalidate();
+			if (resultCode == RESULT_OK && null != data) {
+				if (data.hasExtra("returnKey1")) {
+					soundPath = data.getExtras().getString("returnKey1");
+					Log.d(TAG, "sound path : " + soundPath);
+					MemoryObj objPicture = new MMedia(picturePath, soundPath);
+					objPicture.show();
+					view1.setObj(objPicture);
+					view1.invalidate();
+					view2.setObj(objPicture);
+					view2.invalidate();
+				}
+
+			}
 			break;
 		}
 
@@ -335,14 +348,16 @@ public class SoundsActivity extends Activity {
 						if (item == 0) {
 							// import mp3 from sdcard
 							Intent i = new Intent(context, FileChooser.class);
-							i.setAction(android.content.Intent.ACTION_PICK);
-					        Uri data = Uri.parse("file:///sdcard/Music/");
-					        String type = "audio/mp3";
-					        i.setDataAndType(data, type);
+							i.putExtra("pathDirectory", Environment
+									.getExternalStorageDirectory().getPath()
+									+ "/Music/");
 							startActivityForResult(i, RESULT_LOAD_MUSIC_SDCARD);
 						}
 						if (item == 1) {
 							// import ogg from system/media/audio
+							Intent i = new Intent(context, FileChooser.class);
+							i.putExtra("pathDirectory", "/system/media/audio/");
+							startActivityForResult(i, RESULT_LOAD_MUSIC_SYSTEM);
 						}
 					}
 				});
@@ -375,10 +390,12 @@ public class SoundsActivity extends Activity {
 							+ "\" scoresnd=\"score.wav\" winsnd=\"win.wav\" divided=\"0\" >\n");
 			for (MemoryObj obj : listNewObjsSounds) {
 
-				strBuilder.append("<pair aimg=\"" + ((MMedia) obj).getImagePath()
-						+ "\" asnd=\"" + ((MMedia) obj).getSoundPath()
-						+ "\" bimg=\"" + ((MMedia) obj.getPairedObj()).getImagePath()
-						+ "\" bsnd=\"" + ((MMedia) obj.getPairedObj()).getSoundPath()
+				strBuilder.append("<pair aimg=\""
+						+ ((MMedia) obj).getImagePath() + "\" asnd=\""
+						+ ((MMedia) obj).getSoundPath() + "\" bimg=\""
+						+ ((MMedia) obj.getPairedObj()).getImagePath()
+						+ "\" bsnd=\""
+						+ ((MMedia) obj.getPairedObj()).getSoundPath()
 						+ "\"/>\n");
 			}
 			strBuilder.append("\n");

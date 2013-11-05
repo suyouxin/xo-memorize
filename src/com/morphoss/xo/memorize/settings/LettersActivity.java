@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.morphoss.xo.memorize.Memorize;
 import com.morphoss.xo.memorize.ObjView;
 import com.morphoss.xo.memorize.R;
 import com.morphoss.xo.memorize.obj.MStr;
@@ -117,6 +118,10 @@ public class LettersActivity extends Activity {
 											// if this button is clicked, save
 											// the game
 											savingGame();
+											Intent intent = new Intent(context,
+													Memorize.class);
+											startActivity(intent);
+											finish();
 										}
 									})
 							.setNegativeButton(R.string.no,

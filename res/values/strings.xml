@@ -35,6 +35,7 @@
     <string name="importPictSound">Import :</string>
     <string name="aPicture">a picture</string>
     <string name="aSound">a sound</string>
+    <string name="noSDCard">No SD card founded</string>
 
     <string-array name="addition_array">
         <item>@string/plus</item>

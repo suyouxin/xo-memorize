@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.morphoss.xo.memorize.Memorize;
 import com.morphoss.xo.memorize.ObjView;
 import com.morphoss.xo.memorize.R;
 import com.morphoss.xo.memorize.obj.MStr;
@@ -121,6 +122,10 @@ public class AdditionActivity extends Activity {
 											// if this button is clicked, save
 											// the game
 											savingGame();
+											Intent intent = new Intent(context,
+													Memorize.class);
+											startActivity(intent);
+											finish();
 										}
 									})
 							.setNegativeButton(R.string.no,

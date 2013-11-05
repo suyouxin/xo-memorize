@@ -43,7 +43,7 @@ public class Memorize extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(context, SettingsActivity.class);
 				startActivity(intent);
-				
+				finish();
 			}
 		});
 	}

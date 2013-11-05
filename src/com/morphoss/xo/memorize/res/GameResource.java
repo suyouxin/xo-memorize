@@ -16,7 +16,6 @@ import android.content.res.AssetManager;
 public class GameResource {
     final static String DIRECTORY_GAMES = "games";
     final static String TAG = "GameResource";
-
     private ArrayList<GameInfo> allGames = new ArrayList<GameInfo>();
 
     Context mCtx;

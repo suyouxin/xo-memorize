@@ -18,11 +18,14 @@ public class FileChooser extends ListActivity {
 		    public static String soundPath;
 		    private File currentDir;
 		    private FileArrayAdapter adapter;
+		    private String pathDirectory;
 		    
-		    @Override
+			@Override
 		    public void onCreate(Bundle savedInstanceState) {
 		        super.onCreate(savedInstanceState);
-		        currentDir = new File("/sdcard/Music/");
+		        Bundle extras = getIntent().getExtras();
+		        pathDirectory = extras.getString("pathDirectory");
+		        currentDir = new File(pathDirectory);
 		        fill(currentDir);
 		    }
 		    private void fill(File f)
@@ -48,8 +51,6 @@ public class FileChooser extends ListActivity {
 		         Collections.sort(dir);
 		         Collections.sort(fls);
 		         dir.addAll(fls);
-		         if(!f.getName().equalsIgnoreCase("sdcard"))
-		             dir.add(0,new Option("..","Parent Directory",f.getParent()));
 		         adapter = new FileArrayAdapter(FileChooser.this,R.layout.file_view,dir);
 		         this.setListAdapter(adapter);
 		    }
