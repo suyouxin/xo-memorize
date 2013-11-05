@@ -2,10 +2,13 @@ package com.morphoss.xo.memorize.settings;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,7 +33,6 @@ import android.widget.TextView;
 import com.morphoss.xo.memorize.Memorize;
 import com.morphoss.xo.memorize.ObjView;
 import com.morphoss.xo.memorize.R;
-import com.morphoss.xo.memorize.obj.MBitmap;
 import com.morphoss.xo.memorize.obj.MMedia;
 import com.morphoss.xo.memorize.obj.MStr;
 import com.morphoss.xo.memorize.obj.MemoryObj;
@@ -48,6 +50,7 @@ public class SoundsActivity extends Activity {
 	private String soundPath = null;
 	private String picturePath = null;
 	private String curFileName;
+	private int i = 0;
 	private static ArrayList<MemoryObj> listNewObjsSounds = new ArrayList<MemoryObj>();
 	private final static int RESULT_LOAD_IMAGE_VIEW = 1;
 	private final static int RESULT_LOAD_CAMERA_VIEW = 2;
@@ -253,10 +256,36 @@ public class SoundsActivity extends Activity {
 
 		case RESULT_LOAD_CAMERA_VIEW:
 			if (resultCode == RESULT_OK && null != data) {
-
 				Bitmap photo = (Bitmap) data.getExtras().get("data");
+				
+					//save the bitmap on the sd card
+					String nameGameKey = "com.morphoss.xo.memorize.settings";
+					String nameGame = SettingsActivity.prefs.getString(nameGameKey,
+							new String());
+				
+				  File myDir=new File(Environment
+							.getExternalStorageDirectory()
+							+ "/Android/data/com.morphoss.xo.memorize/files/games/"+nameGame+"/images");
+				  myDir.mkdirs();
+				  Random generator = new Random();
+				  int n = 10000;
+				  n = generator.nextInt(n);
+				  String fname = "Image-"+ n +".jpg";
+				  picturePath = Environment
+							.getExternalStorageDirectory()
+							+ "/Android/data/com.morphoss.xo.memorize/files/games/"+nameGame+"/images/"+fname;
+				  File file = new File (myDir, fname);
+				  if (file.exists ()) file.delete (); 
+				  try {
+				       FileOutputStream out = new FileOutputStream(file);
+				       photo.compress(Bitmap.CompressFormat.JPEG, 90, out);
+				       out.flush();
+				       out.close();
 
-				MemoryObj objPicture = new MBitmap(photo, soundPath);
+				   } catch (Exception e) {
+				       e.printStackTrace();
+				  }
+				MemoryObj objPicture = new MMedia(picturePath, soundPath);
 				objPicture.show();
 				view1.setObj(objPicture);
 				view1.invalidate();
