@@ -15,10 +15,11 @@ import com.morphoss.xo.memorize.R;
 
 public class FileChooser extends ListActivity {
 	
-		    public static String soundPath;
+		    public static String path;
 		    private File currentDir;
 		    private FileArrayAdapter adapter;
 		    private String pathDirectory;
+		    private String nameFile;
 		    
 			@Override
 		    public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,6 @@ public class FileChooser extends ListActivity {
 		    }
 		    @Override
 		    protected void onListItemClick(ListView l, View v, int position, long id) {
-		        // TODO Auto-generated method stub
 		        super.onListItemClick(l, v, position, id);
 		        Option o = adapter.getItem(position);
 		        if(o.getData().equalsIgnoreCase("folder")||o.getData().equalsIgnoreCase("parent directory")){
@@ -70,9 +70,11 @@ public class FileChooser extends ListActivity {
 		    }
 		    private void onFileClick(Option o)
 		    {
-		    	soundPath = o.getPath();
+		    	path = o.getPath();
+		    	nameFile = o.getName();
 		    	Intent data = new Intent();
-		    	  data.putExtra("returnKey1", soundPath);
+		    	  data.putExtra("returnKey1", path);
+		    	  data.putExtra("returnKey2", nameFile);
 		    	  // Activity finished ok, return the data
 		    	  setResult(RESULT_OK, data);
 		    	  super.finish();

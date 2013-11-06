@@ -79,6 +79,7 @@ public class GameXmlParser {
                     if (imgA != null && imgB != null) {
                         imgAPath = path + "/images/" + imgA;
                         imgBPath = path + "/images/" + imgB;
+                    	
                     }
                     
                     String sndAPath = null;
@@ -90,6 +91,7 @@ public class GameXmlParser {
                     
                     if ((imgAPath != null && imgAPath != null) || 
                             (sndAPath != null && sndBPath != null)) {
+                    	Log.d(TAG, "path : "+path);
                         MemoryObj objA = new MMedia(imgAPath, sndAPath);
                         MemoryObj objB = new MMedia(imgBPath, sndBPath);
                         objA.setPairedObj(objB);

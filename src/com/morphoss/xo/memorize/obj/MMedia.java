@@ -19,10 +19,30 @@ public class MMedia extends Paired {
 	private String mUid;
 	private String mImgPath;
 	private String mSndPath;
+	private String nameImg;
+	private String nameSnd;
 
 	public MMedia(String imgPath, String sndPath) {
 		mImgPath = imgPath;
 		mSndPath = sndPath;
+
+		StringBuilder strbuilder = new StringBuilder();
+		if (imgPath != null)
+			strbuilder.append(imgPath);
+		if (sndPath != null)
+			strbuilder.append(sndPath);
+
+		try {
+			mUid = Util.makeSHA1Hash(strbuilder.toString());
+		} catch (NoSuchAlgorithmException e) {
+			mUid = strbuilder.toString();
+		}
+	}
+	public MMedia(String imgPath, String sndPath, String namePict, String nameMus) {
+		mImgPath = imgPath;
+		mSndPath = sndPath;
+		nameImg = namePict;
+		nameSnd = nameMus;
 
 		StringBuilder strbuilder = new StringBuilder();
 		if (imgPath != null)
@@ -50,7 +70,18 @@ public class MMedia extends Paired {
 	public String getImagePath() {
 		return mImgPath;
 	}
-
+	public void setImageName(String name){
+		nameImg = name;
+	}
+	public String getImageName(){
+		return nameImg;
+	}
+	public void setSoundName(String name){
+		nameSnd = name;
+	}
+	public String getSoundName(){
+		return nameSnd;
+	}
 
 	@Override
 	public MemoryObj copyMe() {
