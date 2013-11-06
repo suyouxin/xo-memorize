@@ -236,7 +236,7 @@ public class SoundsActivity extends Activity {
 		case RESULT_LOAD_IMAGE_VIEW:
 			if (resultCode == RESULT_OK && null != data) {
 
-				Uri selectedImage = data.getData();
+				/*Uri selectedImage = data.getData();
 				String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
 				Cursor cursor = getContentResolver().query(selectedImage,
@@ -245,35 +245,42 @@ public class SoundsActivity extends Activity {
 
 				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 				picturePath = cursor.getString(columnIndex);
-				cursor.close();
-				try{
-					File sdcard = Environment.getExternalStorageDirectory();
-					File dataDir = Environment.getDataDirectory();
-					String nameGameKey = "com.morphoss.xo.memorize.settings";
-					String nameGame = SettingsActivity.prefs.getString(nameGameKey,
-							new String());
-					if(sdcard.canWrite()){
-						String sourceImagePath = picturePath;
-						String destinationImagePath = Environment.getExternalStorageDirectory()
-								+ "/Android/data/com.morphoss.xo.memorize/files/games/"
-								+ nameGame + "/images/"+pictureName;
-						File source = new File(dataDir, sourceImagePath);
-						File destination = new File(sdcard, destinationImagePath);
-						if(source.exists()){
-							 FileChannel src = new FileInputStream(source).getChannel();
-					            FileChannel dst = new FileOutputStream(destination).getChannel();
-					            dst.transferFrom(src, 0, src.size());
-					            src.close();
-					            dst.close();
-						}
-					}
-					
-				}catch(Exception e){
-					
-				}
+				cursor.close();*/
+				//get the file name and file path from the file chooser class
+				picturePath = data.getExtras().getString("returnKey1");
+				pictureName = data.getExtras().getString("returnKey2");
+				Log.d(TAG, "picture path : " + picturePath);
+				Log.d(TAG, "picture name : " + pictureName);
 				
+				//save the file on the sdcard
+				String nameGameKey = "com.morphoss.xo.memorize.settings";
+				String nameGame = SettingsActivity.prefs.getString(nameGameKey,
+						new String());
+				String pathDir = Environment.getExternalStorageDirectory()
+						+ "/Android/data/com.morphoss.xo.memorize/files/games/"
+						+ nameGame + "/images";
+				File myDir = new File(pathDir);
+				myDir.mkdirs();
+				File file = new File(myDir, pictureName);
+				if (file.exists())
+					file.delete();
+				try{
+					File src = new File(picturePath);
+					File dst = new File(pathDir+"/"+pictureName);
+					InputStream in = new FileInputStream(src);
+					OutputStream out = new FileOutputStream(dst);
+					byte[] buf = new byte[1024];
+					int len;
+					while((len = in.read(buf)) > 0){
+						out.write(buf, 0, len);
+					}
+					in.close();
+					out.close();
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 				MemoryObj objPicture = new MMedia(picturePath, soundPath,
-						pictureName, picturePath);
+						pictureName, soundName);
 				objPicture.show();
 				view1.setObj(objPicture);
 				view1.invalidate();
@@ -398,11 +405,14 @@ public class SoundsActivity extends Activity {
 						if (item == 0) {
 							Log.d(TAG, "select picture from gallery");
 
-							Intent galleryIntent = new Intent(
+							/*Intent galleryIntent = new Intent(
 									Intent.ACTION_PICK,
-									android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-							startActivityForResult(galleryIntent,
+									android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);*/
+							Intent i = new Intent(context, FileChooser.class);
+							i.putExtra("pathDirectory", Environment
+									.getExternalStorageDirectory().getPath()
+									+ "/Pictures/");
+							startActivityForResult(i,
 									RESULT_LOAD_IMAGE_VIEW);
 
 						}
