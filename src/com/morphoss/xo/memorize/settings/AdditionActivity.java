@@ -334,7 +334,7 @@ public class AdditionActivity extends Activity {
 			strBuilder
 					.append("<memorize name=\""
 							+ nameGame
-							+ "\" scoresnd=\"score.wav\" winsnd=\"win.wav\" divided=\"1\" align=\"1\" face1=\"1\" face2=\"2\" >\n");
+							+ "\" type=\"1\" scoresnd=\"score.wav\" winsnd=\"win.wav\" divided=\"1\" align=\"1\" face1=\"1\" face2=\"2\" >\n");
 			for (MemoryObj obj : listNewObjsAddition) {
 
 				strBuilder.append("<pair achar=\"" + ((MStr) obj).getString()

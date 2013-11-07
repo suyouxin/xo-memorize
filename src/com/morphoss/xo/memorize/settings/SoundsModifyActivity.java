@@ -2,34 +2,14 @@ package com.morphoss.xo.memorize.settings;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Random;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.WindowManager;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.morphoss.xo.memorize.Memorize;
 import com.morphoss.xo.memorize.ObjView;
@@ -38,9 +18,25 @@ import com.morphoss.xo.memorize.obj.MMedia;
 import com.morphoss.xo.memorize.obj.MStr;
 import com.morphoss.xo.memorize.obj.MemoryObj;
 
-public class SoundsActivity extends Activity {
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-	private static final String TAG = "SoundsActivity";
+public class SoundsModifyActivity extends Activity{
+
+	private static final String TAG = "SoundsModifyActivity";
 
 	private ObjView view1, view2;
 	private TextView numberPairs;
@@ -52,6 +48,7 @@ public class SoundsActivity extends Activity {
 	private String picturePath = null;
 	private String soundName = null;
 	private String pictureName = null;
+	private String name, type;
 	private static ArrayList<MemoryObj> listNewObjsSounds = new ArrayList<MemoryObj>();
 	private final static int RESULT_LOAD_IMAGE_VIEW = 1;
 	private final static int RESULT_LOAD_CAMERA_VIEW = 2;
@@ -64,6 +61,9 @@ public class SoundsActivity extends Activity {
 
 		numberPairs = (TextView) findViewById(R.id.numberPairsCreated);
 		numberPairs.setText("0");
+		Bundle extras = getIntent().getExtras();
+        name = extras.getString("name");
+        type = extras.getString("type");
 		view1 = (ObjView) findViewById(R.id.obj_view_pair1);
 		view2 = (ObjView) findViewById(R.id.obj_view_pair2);
 		addItem = (ImageButton) findViewById(R.id.addItems);
@@ -75,7 +75,7 @@ public class SoundsActivity extends Activity {
 
 		mGallery.removeAllViews();
 		listNewObjsSounds.clear();
-		goa = new GalleryObjectAdapter(SoundsActivity.this, listNewObjsSounds);
+		goa = new GalleryObjectAdapter(SoundsModifyActivity.this, listNewObjsSounds);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 

@@ -25,14 +25,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-public class LettersActivity extends Activity {
+public class LettersModifyActivity extends Activity{
 
 	private static final String TAG = "LettersActivity";
 
@@ -42,6 +40,7 @@ public class LettersActivity extends Activity {
 	private ImageButton addItem, saveGame, clearGame;
 	private GalleryObjectAdapter goa;
 	private LinearLayout mGallery;
+	private String name, type;
 	private Context context = this;
 	private static ArrayList<MemoryObj> listNewObjsLetters = new ArrayList<MemoryObj>();
 
@@ -49,6 +48,11 @@ public class LettersActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.letters_layout);
+		
+		Bundle extras = getIntent().getExtras();
+        name = extras.getString("name");
+        type = extras.getString("type");
+        
 		numberPairs = (TextView) findViewById(R.id.numberPairsCreated);
 		numberPairs.setText("0");
 		editTextLetter = (EditText) findViewById(R.id.editTxtLetter);
@@ -59,7 +63,7 @@ public class LettersActivity extends Activity {
 
 		mGallery.removeAllViews();
 		listNewObjsLetters.clear();
-		goa = new GalleryObjectAdapter(LettersActivity.this, listNewObjsLetters);
+		goa = new GalleryObjectAdapter(LettersModifyActivity.this, listNewObjsLetters);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 

@@ -32,34 +32,44 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class LettersActivity extends Activity {
+public class AdditionModifyActivity extends Activity{
 
-	private static final String TAG = "LettersActivity";
+	private static final String TAG = "AdditionActivity";
 
 	private ObjView view1, view2;
 	private TextView numberPairs;
-	private EditText editTextLetter;
+	private EditText editTextAddition, editTextAddition2;
 	private ImageButton addItem, saveGame, clearGame;
 	private GalleryObjectAdapter goa;
 	private LinearLayout mGallery;
+	private Spinner spinner;
+	private String name, type;
 	private Context context = this;
-	private static ArrayList<MemoryObj> listNewObjsLetters = new ArrayList<MemoryObj>();
+	private static ArrayList<MemoryObj> listNewObjsAddition = new ArrayList<MemoryObj>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.letters_layout);
+		setContentView(R.layout.addition_layout);
+		Bundle extras = getIntent().getExtras();
+        name = extras.getString("name");
+        type = extras.getString("type");
+        Log.d(TAG, "name : "+name);
+        Log.d(TAG, "type :"+type);
 		numberPairs = (TextView) findViewById(R.id.numberPairsCreated);
 		numberPairs.setText("0");
-		editTextLetter = (EditText) findViewById(R.id.editTxtLetter);
+		editTextAddition = (EditText) findViewById(R.id.editTxtAddition);
+		editTextAddition2 = (EditText) findViewById(R.id.editTxtAddition2);
 		addItem = (ImageButton) findViewById(R.id.addItems);
 		saveGame = (ImageButton) findViewById(R.id.saveGame);
 		clearGame = (ImageButton) findViewById(R.id.clearGame);
 		mGallery = (LinearLayout) findViewById(R.id.newItems);
+		addListenerOnSpinner();
 
 		mGallery.removeAllViews();
-		listNewObjsLetters.clear();
-		goa = new GalleryObjectAdapter(LettersActivity.this, listNewObjsLetters);
+		listNewObjsAddition.clear();
+		goa = new GalleryObjectAdapter(AdditionModifyActivity.this,
+				listNewObjsAddition);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 
@@ -69,7 +79,7 @@ public class LettersActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				listNewObjsLetters.clear();
+				listNewObjsAddition.clear();
 				mGallery.removeAllViews();
 				numberPairs.setText("0");
 
@@ -79,7 +89,7 @@ public class LettersActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				if (listNewObjsLetters.size() <= 9) {
+				if (listNewObjsAddition.size() <= 9) {
 					// not a usable game, display an alert dialog
 					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 							context);
@@ -150,14 +160,15 @@ public class LettersActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				if (!editTextLetter.getText().toString().equals("")) {
+				if (!editTextAddition.getText().toString().equals("")
+						&& !editTextAddition2.getText().toString().equals("")) {
 					view1.getObj().setPairedObj(view2.getObj());
-					listNewObjsLetters.add(view1.getObj());
+					listNewObjsAddition.add(view1.getObj());
 					mGallery.addView(goa.getView(goa.getCount() - 1, null,
 							mGallery));
 					numberPairs.setText(String.valueOf(goa.getCount()));
-					for (int i = 0; i < listNewObjsLetters.size(); i++) {
-						Log.d(TAG, "list : " + listNewObjsLetters.get(i));
+					for (int i = 0; i < listNewObjsAddition.size(); i++) {
+						Log.d(TAG, "list : " + listNewObjsAddition.get(i));
 						Log.d(TAG, "count in goa : " + goa.getCount());
 					}
 
@@ -169,23 +180,23 @@ public class LettersActivity extends Activity {
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 		view1 = (ObjView) findViewById(R.id.obj_view_pair1);
-		MemoryObj obj1 = new MStr(editTextLetter.getText().toString());
+		MemoryObj obj1 = new MStr(editTextAddition.getText().toString());
 		obj1.show();
 		view1.setObj(obj1);
 
 		view2 = (ObjView) findViewById(R.id.obj_view_pair2);
-		MemoryObj obj2 = new MStr(editTextLetter.getText().toString());
+		MemoryObj obj2 = new MStr(editTextAddition.getText().toString());
 		obj2.show();
 		view2.setObj(obj2);
 
 		view1.getObj().setPairedObj(obj2);
 		view2.getObj().setPairedObj(obj1);
-		editTextLetter.addTextChangedListener(new TextWatcher() {
+		editTextAddition.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				setViews();
+				setViews(OnAdditionSelectedListener.additionSelected);
 
 			}
 
@@ -199,26 +210,105 @@ public class LettersActivity extends Activity {
 
 			}
 		});
+		editTextAddition2.addTextChangedListener(new TextWatcher() {
 
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				setViews(OnAdditionSelectedListener.additionSelected);
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+			}
+		});
+		
+		
+		
 	}
 
 	@Override
 	public void onBackPressed() {
-
 		super.onBackPressed();
 		Intent intent = new Intent(context, SettingsActivity.class);
 		startActivity(intent);
 		finish();
 	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		while(listNewObjsAddition.size()!=0){
+			Log.d(TAG, "try to delete pair");
+		}
+	}
 
-	public void setViews() {
+	public void addListenerOnSpinner() {
+		spinner = (Spinner) findViewById(R.id.spinner);
+		// Create an ArrayAdapter using the string array and a default spinner
+		// layout
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this, R.array.addition_array, R.layout.spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		spinner.setAdapter(adapter);
+		spinner.setOnItemSelectedListener(new OnAdditionModifySelectedListener(this));
+	}
 
-		MemoryObj obj1 = new MStr(editTextLetter.getText().toString());
+	public void setViews(String addition) {
+
+		if (addition == null) {
+			addition = "+";
+		}
+
+		int value1 = 0;
+		int value2 = 0;
+		int total = 0;
+
+		if (editTextAddition.getText().toString().equals("")) {
+			value1 = 0;
+			addition = "";
+		} else {
+			value1 = Integer.parseInt(editTextAddition.getText().toString());
+		}
+		if (editTextAddition2.getText().toString().equals("")) {
+			value2 = 0;
+			addition = "";
+		} else {
+			value2 = Integer.parseInt(editTextAddition2.getText().toString());
+		}
+		if (addition.equals("+")) {
+			total = value1 + value2;
+		} else if (addition.equals("-")) {
+			total = value1 - value2;
+		} else if (addition.equals("*")) {
+			total = value1 * value2;
+		} else {
+			total = 0;
+		}
+
+		String totalString = "";
+		if (editTextAddition.getText().toString().equals("")
+				|| editTextAddition2.getText().toString().equals("")) {
+			totalString = "";
+		} else {
+			totalString = String.valueOf(total);
+		}
+
+		String sequence = editTextAddition.getText().toString() + addition
+				+ editTextAddition2.getText().toString();
+		MemoryObj obj1 = new MStr(sequence);
 		obj1.show();
 		view1.setObj(obj1);
 
-		MemoryObj obj2 = new MStr(editTextLetter.getText().toString()
-				.toUpperCase());
+		MemoryObj obj2 = new MStr(totalString);
 		obj2.show();
 		view2.setObj(obj2);
 	}
@@ -245,13 +335,12 @@ public class LettersActivity extends Activity {
 			strBuilder
 					.append("<memorize name=\""
 							+ nameGame
-							+  "\" type=\"3\"  scoresnd=\"score.wav\" winsnd=\"win.wav\" divided=\"1\" align=\"1\" face1=\"1\" face2=\"2\" >\n");
-			for (MemoryObj obj : listNewObjsLetters) {
+							+  "\" type=\"1\" scoresnd=\"score.wav\" winsnd=\"win.wav\" divided=\"1\" align=\"1\" face1=\"1\" face2=\"2\" >\n");
+			for (MemoryObj obj : listNewObjsAddition) {
 
 				strBuilder.append("<pair achar=\"" + ((MStr) obj).getString()
 						+ "\" bchar=\""
 						+ ((MStr) obj.getPairedObj()).getString() + "\"/>\n");
-
 			}
 			strBuilder.append("\n");
 			strBuilder.append("</memorize>");

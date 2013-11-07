@@ -1,6 +1,12 @@
 package com.morphoss.xo.memorize.settings;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,8 +34,9 @@ import com.morphoss.xo.memorize.Memorize;
 import com.morphoss.xo.memorize.R;
 import com.morphoss.xo.memorize.res.GameInfo;
 import com.morphoss.xo.memorize.res.GameResource;
+import com.morphoss.xo.memorize.res.TypeXmlParser;
 
-public class SettingsActivity extends Activity{
+public class SettingsActivity extends Activity {
 
 	private Context context = this;
 	private EditText editText;
@@ -39,6 +46,7 @@ public class SettingsActivity extends Activity{
 	public static SharedPreferences prefs;
 	private ArrayList<GameInfo> list = new ArrayList<GameInfo>();
 	private ListView listview;
+	private final static String DIRECTORY_GAMES = "games";
 	private final ArrayList<String> listGames = new ArrayList<String>();
 	private static final String TAG = "SettingsActivity";
 
@@ -65,15 +73,48 @@ public class SettingsActivity extends Activity{
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				R.layout.listlayout, R.id.listTextView, listGames);
 		listview.setAdapter(adapter);
-	    listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-	        @Override
-	        public void onItemClick(AdapterView<?> parent, final View view,
-	            int position, long id) {
-	          final String item = (String) parent.getItemAtPosition(position);
-	          //modify item selected
-	        }
-	      });
+			@Override
+			public void onItemClick(AdapterView<?> parent, final View view,
+					int position, long id) {
+				// modify the selected game
+				final String item = (String) parent.getItemAtPosition(position);
+				Log.d(TAG, "you have selected : " + item);
+				// get the type of the game from game.xml
+				String type = findGameType(item);
+				Log.d(TAG, "game type : " + type);
+				if (type.equals("1")) {
+					// type: addition
+					Intent intent = new Intent(context,
+							AdditionModifyActivity.class);
+					intent.putExtra("name", item);
+					intent.putExtra("type", type);
+					startActivity(intent);
+					finish();
+
+				}
+				if (type.equals("2")) {
+					// type: sounds
+					Intent intent = new Intent(context,
+							SoundsModifyActivity.class);
+					intent.putExtra("name", item);
+					intent.putExtra("type", type);
+					startActivity(intent);
+					finish();
+				}
+				if (type.equals("3")) {
+					// type: letters
+					Intent intent = new Intent(context,
+							LettersModifyActivity.class);
+					intent.putExtra("name", item);
+					intent.putExtra("type", type);
+					startActivity(intent);
+					finish();
+				}
+
+			}
+		});
 		addListenerOnButton();
 	}
 
@@ -89,7 +130,7 @@ public class SettingsActivity extends Activity{
 		radioTypeGroup = (RadioGroup) findViewById(R.id.radioType);
 		btnNext = (Button) findViewById(R.id.nextBtn);
 		editText.setOnKeyListener(new OnKeyListener() {
-			
+
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				keyCode = event.getKeyCode();
@@ -99,9 +140,9 @@ public class SettingsActivity extends Activity{
 					switch (keyCode) {
 					case KeyEvent.KEYCODE_DPAD_CENTER:
 					case KeyEvent.KEYCODE_ENTER:
-						//dismiss keyboard when click on enter
-						InputMethodManager inputManager = (InputMethodManager)
-						context.getSystemService(Context.INPUT_METHOD_SERVICE);
+						// dismiss keyboard when click on enter
+						InputMethodManager inputManager = (InputMethodManager) context
+								.getSystemService(Context.INPUT_METHOD_SERVICE);
 						inputManager.toggleSoftInput(0, 0);
 						return true;
 					default:
@@ -181,5 +222,26 @@ public class SettingsActivity extends Activity{
 			}
 		});
 
+	}
+
+	private String findGameType(String nameGame) {
+		File path = context.getExternalFilesDir(DIRECTORY_GAMES);
+		String gameType = null;
+		File file = new File(path + "/" + nameGame, "game.xml");
+		if (file != null && file.exists()) {
+			TypeXmlParser parser = new TypeXmlParser();
+
+			try {
+				gameType = parser.parse(new FileInputStream(file), file);
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (XmlPullParserException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return gameType;
 	}
 }
