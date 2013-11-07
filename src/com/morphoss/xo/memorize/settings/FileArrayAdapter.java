@@ -3,11 +3,14 @@ package com.morphoss.xo.memorize.settings;
 import java.util.List;
 
 import com.morphoss.xo.memorize.R;
+
 import android.content.Context;
+import android.content.pm.ResolveInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class FileArrayAdapter extends ArrayAdapter<Option>{
@@ -43,6 +46,8 @@ public class FileArrayAdapter extends ArrayAdapter<Option>{
 		                           t1.setText(o.getName());
 		                       if(t2!=null)
 		                           t2.setText(o.getData());
+		                      
+		                    	   
 		                        
 		               }
 		               return v;

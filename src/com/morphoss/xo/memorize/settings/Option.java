@@ -1,9 +1,12 @@
 package com.morphoss.xo.memorize.settings;
 
+import android.graphics.Bitmap;
+
 public class Option implements Comparable<Option>{
 		    private String name;
 		    private String data;
 		    private String path;
+		    private Bitmap icon;
 		     
 		    public Option(String n,String d,String p)
 		    {
@@ -22,6 +25,9 @@ public class Option implements Comparable<Option>{
 		    public String getPath()
 		    {
 		        return path;
+		    }
+		    public Bitmap getIcon(){
+		    	return icon;
 		    }
 		    @Override
 		    public int compareTo(Option o) {

@@ -4,16 +4,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.morphoss.xo.memorize.ObjView;
 import com.morphoss.xo.memorize.R;
 import com.morphoss.xo.memorize.obj.MemoryObj;
 
 
-public class GalleryObjectAdapter {
+public class GalleryObjectAdapter extends BaseAdapter{
 	/**
 	 * This class is an adapter for the gallery in SettingsActivity
 	 */
@@ -22,6 +27,7 @@ public class GalleryObjectAdapter {
 	private static final String TAG = "GalleryObjectAdapter";
 	private static ObjView galleryImageLeft, galleryImageRight;
 	private static MemoryObj object, paired;
+	private ImageButton deletepair;
 	private static ArrayList<MemoryObj> mlist = new ArrayList<MemoryObj>();
 
 	public GalleryObjectAdapter(Context context, ArrayList<MemoryObj> list) {
@@ -34,14 +40,14 @@ public class GalleryObjectAdapter {
 	/**
 	 * This method get the memoryobj view 
 	 */
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, final ViewGroup parent) {
 
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		object = mlist.get(position);
 		paired = object.getPairedObj();
-		View galleryLayout = inflater.inflate(R.layout.settings_gallery, null);
+		final View galleryLayout = inflater.inflate(R.layout.settings_gallery, null);
 		if (paired == null) {
 			//we should not be here
 		}
@@ -53,6 +59,17 @@ public class GalleryObjectAdapter {
 			galleryImageLeft.setObj(object);
 			galleryImageRight.setObj(paired);
 		}
+		deletepair = (ImageButton) galleryLayout.findViewById(R.id.deletePair);
+		deletepair.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Log.d(TAG, "try to remove pair");
+				mlist.remove(object);
+				parent.removeView(galleryLayout);
+				notifyDataSetChanged();
+			}
+		});
 
 		return galleryLayout;
 	}
@@ -91,5 +108,10 @@ public class GalleryObjectAdapter {
 	 */
 	public static MemoryObj getMemoryObj(int position) {
 		return mlist.get(position);
+	}
+
+	@Override
+	public long getItemId(int arg0) {
+		return 0;
 	}
 }

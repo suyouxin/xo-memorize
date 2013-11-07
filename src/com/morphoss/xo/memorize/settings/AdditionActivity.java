@@ -16,15 +16,20 @@ import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.morphoss.xo.memorize.Memorize;
 import com.morphoss.xo.memorize.ObjView;
@@ -223,7 +228,9 @@ public class AdditionActivity extends Activity {
 
 			}
 		});
-
+		
+		
+		
 	}
 
 	@Override
@@ -232,6 +239,13 @@ public class AdditionActivity extends Activity {
 		Intent intent = new Intent(context, SettingsActivity.class);
 		startActivity(intent);
 		finish();
+	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		while(listNewObjsAddition.size()!=0){
+			Log.d(TAG, "try to delete pair");
+		}
 	}
 
 	public void addListenerOnSpinner() {
