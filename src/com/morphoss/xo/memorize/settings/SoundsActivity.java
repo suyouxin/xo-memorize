@@ -110,7 +110,7 @@ public class SoundsActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				if (listNewObjsSounds.size() <= 4) {
+				if (listNewObjsSounds.size() <= 9) {
 					// not a usable game, display an alert dialog
 					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 							context);

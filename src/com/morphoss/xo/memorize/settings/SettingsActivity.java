@@ -1,8 +1,6 @@
 package com.morphoss.xo.memorize.settings;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,9 +10,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,7 +29,7 @@ import com.morphoss.xo.memorize.R;
 import com.morphoss.xo.memorize.res.GameInfo;
 import com.morphoss.xo.memorize.res.GameResource;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends Activity{
 
 	private Context context = this;
 	private EditText editText;
@@ -46,6 +47,7 @@ public class SettingsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settings_layout);
 		listview = (ListView) findViewById(R.id.listview);
+		editText = (EditText) findViewById(R.id.editTxt);
 		// remove auto focus from edit text
 		this.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -72,7 +74,6 @@ public class SettingsActivity extends Activity {
 	          //modify item selected
 	        }
 	      });
-		
 		addListenerOnButton();
 	}
 
@@ -87,7 +88,29 @@ public class SettingsActivity extends Activity {
 	public void addListenerOnButton() {
 		radioTypeGroup = (RadioGroup) findViewById(R.id.radioType);
 		btnNext = (Button) findViewById(R.id.nextBtn);
-		editText = (EditText) findViewById(R.id.editTxt);
+		editText.setOnKeyListener(new OnKeyListener() {
+			
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				keyCode = event.getKeyCode();
+				Log.d(TAG, "Key pressed on " + v.getClass().toString());
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					Log.d(TAG, "key event action down");
+					switch (keyCode) {
+					case KeyEvent.KEYCODE_DPAD_CENTER:
+					case KeyEvent.KEYCODE_ENTER:
+						//dismiss keyboard when click on enter
+						InputMethodManager inputManager = (InputMethodManager)
+						context.getSystemService(Context.INPUT_METHOD_SERVICE);
+						inputManager.toggleSoftInput(0, 0);
+						return true;
+					default:
+						break;
+					}
+				}
+				return false;
+			}
+		});
 		editText.addTextChangedListener(new TextWatcher() {
 
 			@Override
