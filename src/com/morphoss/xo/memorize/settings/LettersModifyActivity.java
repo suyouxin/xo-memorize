@@ -2,15 +2,13 @@ package com.morphoss.xo.memorize.settings;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.morphoss.xo.memorize.Memorize;
-import com.morphoss.xo.memorize.ObjView;
-import com.morphoss.xo.memorize.R;
-import com.morphoss.xo.memorize.obj.MStr;
-import com.morphoss.xo.memorize.obj.MemoryObj;
+import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,14 +21,21 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class LettersModifyActivity extends Activity{
+import com.morphoss.xo.memorize.Memorize;
+import com.morphoss.xo.memorize.ObjView;
+import com.morphoss.xo.memorize.R;
+import com.morphoss.xo.memorize.obj.MStr;
+import com.morphoss.xo.memorize.obj.MemoryObj;
+import com.morphoss.xo.memorize.res.loadGameXmlParser;
+
+public class LettersModifyActivity extends Activity {
 
 	private static final String TAG = "LettersActivity";
 
@@ -48,13 +53,12 @@ public class LettersModifyActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.letters_layout);
-		
+
 		Bundle extras = getIntent().getExtras();
-        name = extras.getString("name");
-        type = extras.getString("type");
-        
+		name = extras.getString("name");
+		type = extras.getString("type");
+
 		numberPairs = (TextView) findViewById(R.id.numberPairsCreated);
-		numberPairs.setText("0");
 		editTextLetter = (EditText) findViewById(R.id.editTxtLetter);
 		addItem = (ImageButton) findViewById(R.id.addItems);
 		saveGame = (ImageButton) findViewById(R.id.saveGame);
@@ -63,7 +67,12 @@ public class LettersModifyActivity extends Activity{
 
 		mGallery.removeAllViews();
 		listNewObjsLetters.clear();
-		goa = new GalleryObjectAdapter(LettersModifyActivity.this, listNewObjsLetters, 6);
+		int size = readGame();
+		Log.d(TAG, "size: " + size);
+		numberPairs.setText(String.valueOf(size));
+
+		goa = new GalleryObjectAdapter(LettersModifyActivity.this,
+				listNewObjsLetters, 6);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 
@@ -228,15 +237,10 @@ public class LettersModifyActivity extends Activity{
 	}
 
 	private void savingGame() {
-		String nameGameKey = "com.morphoss.xo.memorize.settings";
-		String nameGame = SettingsActivity.prefs.getString(nameGameKey,
-				new String());
-		Log.d(TAG, "the name of the game is: " + nameGame);
 		// Create folder
 		File folder = new File(Environment.getExternalStorageDirectory()
 				.toString()
-				+ "/Android/data/com.morphoss.xo.memorize/files/games/"
-				+ nameGame);
+				+ "/Android/data/com.morphoss.xo.memorize/files/games/" + name);
 		folder.mkdirs();
 		// Save the path as a string value
 		String extStorageDirectory = folder.toString();
@@ -248,8 +252,8 @@ public class LettersModifyActivity extends Activity{
 			strBuilder.append("\n");
 			strBuilder
 					.append("<memorize name=\""
-							+ nameGame
-							+  "\" type=\"3\"  scoresnd=\"score.wav\" winsnd=\"win.wav\" divided=\"1\" align=\"1\" face1=\"1\" face2=\"2\" >\n");
+							+ name
+							+ "\" type=\"3\"  scoresnd=\"score.wav\" winsnd=\"win.wav\" divided=\"1\" align=\"1\" face1=\"1\" face2=\"2\" >\n");
 			for (MemoryObj obj : listNewObjsLetters) {
 
 				strBuilder.append("<pair achar=\"" + ((MStr) obj).getString()
@@ -264,5 +268,27 @@ public class LettersModifyActivity extends Activity{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private int readGame() {
+		File file = new File(Environment.getExternalStorageDirectory()
+				.toString()
+				+ "/Android/data/com.morphoss.xo.memorize/files/games/"
+				+ name
+				+ "/game.xml");
+		if (file != null && file.exists()) {
+			loadGameXmlParser parser = new loadGameXmlParser();
+			try {
+				listNewObjsLetters = parser.parse(new FileInputStream(file),
+						file);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (XmlPullParserException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return listNewObjsLetters.size();
 	}
 }
