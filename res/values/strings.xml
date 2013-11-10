@@ -36,6 +36,11 @@
     <string name="aPicture">a picture</string>
     <string name="aSound">a sound</string>
     <string name="noSDCard">No SD card founded</string>
+    <string name="titleModify">Modify or delete the selected game</string>
+    <string name="modifyOrDelete">Do you want to modify or delete the selected game ?</string>
+    <string name="modify">Modify</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 
     <string-array name="addition_array">
         <item>@string/plus</item>

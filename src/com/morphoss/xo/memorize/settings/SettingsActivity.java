@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,6 +23,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.View.OnLongClickListener;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -29,6 +33,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.morphoss.xo.memorize.Memorize;
 import com.morphoss.xo.memorize.R;
@@ -59,66 +64,57 @@ public class SettingsActivity extends Activity {
 		// remove auto focus from edit text
 		this.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		GameResource res = new GameResource(context);
-		res.initAssetGame();
-		list.clear();
-		list = res.getAllGames();
-		Log.d(TAG, "list of all games :");
-		for (int i = 0; i < list.size(); i++) {
-			Log.d(TAG, "name : " + list.get(i).name);
-		}
-		for (int i = 0; i < list.size(); i++) {
-			if(list.get(i).name.equals("addition") || list.get(i).name.equals("sounds") || list.get(i).name.equals("letters")){
-				//don't allow to modify the basics games
-			}else{
-			listGames.add(list.get(i).name);
-			}
-		}
-		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				R.layout.listlayout, R.id.listTextView, listGames);
-		listview.setAdapter(adapter);
+		addLists();
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, final View view,
-					int position, long id) {
-				// modify the selected game
-				final String item = (String) parent.getItemAtPosition(position);
-				Log.d(TAG, "you have selected : " + item);
-				// get the type of the game from game.xml
-				String type = findGameType(item);
-				Log.d(TAG, "game type : " + type);
-				if (type.equals("1")) {
-					// type: addition
-					Intent intent = new Intent(context,
-							AdditionModifyActivity.class);
-					intent.putExtra("name", item);
-					intent.putExtra("type", type);
-					startActivity(intent);
-					finish();
+			public void onItemClick(final AdapterView<?> parent,
+					final View view, final int position, long id) {
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+						context);
+				// set dialog message
+				alertDialogBuilder
+						.setTitle(R.string.titleModify)
+						.setMessage(R.string.modifyOrDelete)
+						.setCancelable(false)
+						.setPositiveButton(R.string.modify,
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										// if this button is clicked, save
+										// the game
+										modifyGame(parent, position);
+									}
+								})
+						.setNeutralButton(R.string.delete,
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										// if this button is clicked, save
+										// the game
+										deleteGame(parent, position);
+									}
+								})
+						.setNegativeButton(R.string.cancel,
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										// if this button is clicked, close
+										// dialog
+										dialog.dismiss();
 
-				}
-				if (type.equals("2")) {
-					// type: sounds
-					Intent intent = new Intent(context,
-							SoundsModifyActivity.class);
-					intent.putExtra("name", item);
-					intent.putExtra("type", type);
-					startActivity(intent);
-					finish();
-				}
-				if (type.equals("3")) {
-					// type: letters
-					Intent intent = new Intent(context,
-							LettersModifyActivity.class);
-					intent.putExtra("name", item);
-					intent.putExtra("type", type);
-					startActivity(intent);
-					finish();
-				}
+									}
+								});
+
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+
+				// show it
+				alertDialog.show();
 
 			}
 		});
+
 		addListenerOnButton();
 	}
 
@@ -248,5 +244,84 @@ public class SettingsActivity extends Activity {
 			}
 		}
 		return gameType;
+	}
+
+	private void modifyGame(AdapterView<?> parent, int position) {
+		// modify the selected game
+		final String item = (String) parent.getItemAtPosition(position);
+		Log.d(TAG, "you have selected : " + item);
+		// get the type of the game from game.xml
+		String type = findGameType(item);
+		Log.d(TAG, "game type : " + type);
+		if (type.equals("1")) {
+			// type: addition
+			Intent intent = new Intent(context, AdditionModifyActivity.class);
+			intent.putExtra("name", item);
+			intent.putExtra("type", type);
+			startActivity(intent);
+			finish();
+
+		}
+		if (type.equals("2")) {
+			// type: sounds
+			Intent intent = new Intent(context, SoundsModifyActivity.class);
+			intent.putExtra("name", item);
+			intent.putExtra("type", type);
+			startActivity(intent);
+			finish();
+		}
+		if (type.equals("3")) {
+			// type: letters
+			Intent intent = new Intent(context, LettersModifyActivity.class);
+			intent.putExtra("name", item);
+			intent.putExtra("type", type);
+			startActivity(intent);
+			finish();
+		}
+	}
+
+	private void addLists() {
+		GameResource res = new GameResource(context);
+		res.initAssetGame();
+		list.clear();
+		listGames.clear();
+		list = res.getAllGames();
+		Log.d(TAG, "list of all games :");
+		for (int i = 0; i < list.size(); i++) {
+			Log.d(TAG, "name : " + list.get(i).name);
+		}
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).name.equals("addition")
+					|| list.get(i).name.equals("sounds")
+					|| list.get(i).name.equals("letters")) {
+				// don't allow to modify the basics games
+			} else {
+				listGames.add(list.get(i).name);
+			}
+		}
+		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				R.layout.listlayout, R.id.listTextView, listGames);
+		listview.setAdapter(adapter);
+	}
+
+	private void deleteGame(AdapterView<?> parent, int position) {
+		// delete the selected game
+		final String item = (String) parent.getItemAtPosition(position);
+		Log.d(TAG, "you have selected : " + item);
+		// get the type of the game from game.xml
+		String type = findGameType(item);
+		Log.d(TAG, "game type : " + type);
+		listGames.remove(item);
+		File dir = new File(Environment.getExternalStorageDirectory()
+				.toString()
+				+ "/Android/data/com.morphoss.xo.memorize/files/games/" + item);
+		if (dir.isDirectory()) {
+			String[] children = dir.list();
+			for (int i = 0; i < children.length; i++) {
+				new File(dir, children[i]).delete();
+			}
+			dir.delete();
+		}
+		addLists();
 	}
 }

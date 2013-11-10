@@ -66,11 +66,12 @@
 
         <ImageButton
             android:id="@+id/addPicture"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="110dp"
             android:layout_marginTop="270dp"
-            android:background="@drawable/import_picture" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/import_picture" />
 
         <TextView
             android:id="@+id/soundText"
@@ -84,11 +85,12 @@
 
         <ImageButton
             android:id="@+id/addSound"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="250dp"
             android:layout_marginTop="270dp"
-            android:background="@drawable/import_sound" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/import_sound" />
 
         <TextView
             android:layout_width="250dp"
