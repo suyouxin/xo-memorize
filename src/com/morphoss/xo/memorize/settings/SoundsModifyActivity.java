@@ -3,6 +3,7 @@ package com.morphoss.xo.memorize.settings;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,12 +12,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.morphoss.xo.memorize.Memorize;
-import com.morphoss.xo.memorize.ObjView;
-import com.morphoss.xo.memorize.R;
-import com.morphoss.xo.memorize.obj.MMedia;
-import com.morphoss.xo.memorize.obj.MStr;
-import com.morphoss.xo.memorize.obj.MemoryObj;
+import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -28,13 +24,21 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class SoundsModifyActivity extends Activity{
+import com.morphoss.xo.memorize.Memorize;
+import com.morphoss.xo.memorize.ObjView;
+import com.morphoss.xo.memorize.R;
+import com.morphoss.xo.memorize.obj.MMedia;
+import com.morphoss.xo.memorize.obj.MStr;
+import com.morphoss.xo.memorize.obj.MemoryObj;
+import com.morphoss.xo.memorize.res.loadGameXmlParser;
+
+public class SoundsModifyActivity extends Activity {
 
 	private static final String TAG = "SoundsModifyActivity";
 
@@ -60,10 +64,9 @@ public class SoundsModifyActivity extends Activity{
 		setContentView(R.layout.sounds_layout);
 
 		numberPairs = (TextView) findViewById(R.id.numberPairsCreated);
-		numberPairs.setText("0");
 		Bundle extras = getIntent().getExtras();
-        name = extras.getString("name");
-        type = extras.getString("type");
+		name = extras.getString("name");
+		type = extras.getString("type");
 		view1 = (ObjView) findViewById(R.id.obj_view_pair1);
 		view2 = (ObjView) findViewById(R.id.obj_view_pair2);
 		addItem = (ImageButton) findViewById(R.id.addItems);
@@ -75,7 +78,11 @@ public class SoundsModifyActivity extends Activity{
 
 		mGallery.removeAllViews();
 		listNewObjsSounds.clear();
-		goa = new GalleryObjectAdapter(SoundsModifyActivity.this, listNewObjsSounds, 4);
+		int size = readGame();
+		Log.d(TAG, "size: "+size);
+		numberPairs.setText(String.valueOf(size));
+		goa = new GalleryObjectAdapter(SoundsModifyActivity.this,
+				listNewObjsSounds, 4);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 
@@ -236,23 +243,13 @@ public class SoundsModifyActivity extends Activity{
 		case RESULT_LOAD_IMAGE_VIEW:
 			if (resultCode == RESULT_OK && null != data) {
 
-				/*Uri selectedImage = data.getData();
-				String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-				Cursor cursor = getContentResolver().query(selectedImage,
-						filePathColumn, null, null, null);
-				cursor.moveToFirst();
-
-				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-				picturePath = cursor.getString(columnIndex);
-				cursor.close();*/
-				//get the file name and file path from the file chooser class
+				// get the file name and file path from the file chooser class
 				picturePath = data.getExtras().getString("returnKey1");
 				pictureName = data.getExtras().getString("returnKey2");
 				Log.d(TAG, "picture path : " + picturePath);
 				Log.d(TAG, "picture name : " + pictureName);
-				
-				//save the file on the sdcard
+
+				// save the file on the sdcard
 				String nameGameKey = "com.morphoss.xo.memorize.settings";
 				String nameGame = SettingsActivity.prefs.getString(nameGameKey,
 						new String());
@@ -264,19 +261,19 @@ public class SoundsModifyActivity extends Activity{
 				File file = new File(myDir, pictureName);
 				if (file.exists())
 					file.delete();
-				try{
+				try {
 					File src = new File(picturePath);
-					File dst = new File(pathDir+"/"+pictureName);
+					File dst = new File(pathDir + "/" + pictureName);
 					InputStream in = new FileInputStream(src);
 					OutputStream out = new FileOutputStream(dst);
 					byte[] buf = new byte[1024];
 					int len;
-					while((len = in.read(buf)) > 0){
+					while ((len = in.read(buf)) > 0) {
 						out.write(buf, 0, len);
 					}
 					in.close();
 					out.close();
-				}catch(Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				MemoryObj objPicture = new MMedia(picturePath, soundPath,
@@ -335,16 +332,17 @@ public class SoundsModifyActivity extends Activity{
 		case RESULT_LOAD_MUSIC:
 			if (resultCode == RESULT_OK && null != data) {
 				if (data.hasExtra("returnKey1") && data.hasExtra("returnKey2")) {
-					//get the file name and file path from the file chooser class
+					// get the file name and file path from the file chooser
+					// class
 					soundPath = data.getExtras().getString("returnKey1");
 					soundName = data.getExtras().getString("returnKey2");
 					Log.d(TAG, "sound path : " + soundPath);
 					Log.d(TAG, "sound name : " + soundName);
-					
-					//save the file on the sdcard
+
+					// save the file on the sdcard
 					String nameGameKey = "com.morphoss.xo.memorize.settings";
-					String nameGame = SettingsActivity.prefs.getString(nameGameKey,
-							new String());
+					String nameGame = SettingsActivity.prefs.getString(
+							nameGameKey, new String());
 					String pathDir = Environment.getExternalStorageDirectory()
 							+ "/Android/data/com.morphoss.xo.memorize/files/games/"
 							+ nameGame + "/sounds";
@@ -353,23 +351,23 @@ public class SoundsModifyActivity extends Activity{
 					File file = new File(myDir, soundName);
 					if (file.exists())
 						file.delete();
-					try{
+					try {
 						File src = new File(soundPath);
-						File dst = new File(pathDir+"/"+soundName);
+						File dst = new File(pathDir + "/" + soundName);
 						InputStream in = new FileInputStream(src);
 						OutputStream out = new FileOutputStream(dst);
 						byte[] buf = new byte[1024];
 						int len;
-						while((len = in.read(buf)) > 0){
+						while ((len = in.read(buf)) > 0) {
 							out.write(buf, 0, len);
 						}
 						in.close();
 						out.close();
-					}catch(Exception e){
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 
-					//create the object
+					// create the object
 					MemoryObj objSound = new MMedia(picturePath, soundPath,
 							pictureName, soundName);
 					objSound.show();
@@ -404,16 +402,11 @@ public class SoundsModifyActivity extends Activity{
 						// Do something with the selection
 						if (item == 0) {
 							Log.d(TAG, "select picture from gallery");
-
-							/*Intent galleryIntent = new Intent(
-									Intent.ACTION_PICK,
-									android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);*/
 							Intent i = new Intent(context, FileChooser.class);
 							i.putExtra("pathDirectory", Environment
 									.getExternalStorageDirectory().getPath()
 									+ "/Pictures/");
-							startActivityForResult(i,
-									RESULT_LOAD_IMAGE_VIEW);
+							startActivityForResult(i, RESULT_LOAD_IMAGE_VIEW);
 
 						}
 						if (item == 1) {
@@ -458,15 +451,11 @@ public class SoundsModifyActivity extends Activity{
 	}
 
 	private void savingGame() {
-		String nameGameKey = "com.morphoss.xo.memorize.settings";
-		String nameGame = SettingsActivity.prefs.getString(nameGameKey,
-				new String());
-		Log.d(TAG, "the name of the game is: " + nameGame);
 		// Create folder
 		File folder = new File(Environment.getExternalStorageDirectory()
 				.toString()
 				+ "/Android/data/com.morphoss.xo.memorize/files/games/"
-				+ nameGame);
+				+ name);
 		folder.mkdirs();
 		// Save the path as a string value
 		String extStorageDirectory = folder.toString();
@@ -478,7 +467,7 @@ public class SoundsModifyActivity extends Activity{
 			strBuilder.append("\n");
 			strBuilder
 					.append("<memorize name=\""
-							+ nameGame
+							+ name
 							+ "\" type=\"2\"  scoresnd=\"score.wav\" winsnd=\"win.wav\" divided=\"0\" >\n");
 			for (MemoryObj obj : listNewObjsSounds) {
 
@@ -499,4 +488,25 @@ public class SoundsModifyActivity extends Activity{
 		}
 	}
 
+	private int readGame() {
+		File file = new File(Environment.getExternalStorageDirectory()
+				.toString()
+				+ "/Android/data/com.morphoss.xo.memorize/files/games/"
+				+ name
+				+ "/game.xml");
+		if (file != null && file.exists()) {
+			loadGameXmlParser parser = new loadGameXmlParser();
+			try {
+				listNewObjsSounds = parser.parse(new FileInputStream(file),
+						file);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (XmlPullParserException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return listNewObjsSounds.size();
+	}
 }
