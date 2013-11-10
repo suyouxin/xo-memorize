@@ -75,7 +75,7 @@ public class SoundsModifyActivity extends Activity{
 
 		mGallery.removeAllViews();
 		listNewObjsSounds.clear();
-		goa = new GalleryObjectAdapter(SoundsModifyActivity.this, listNewObjsSounds);
+		goa = new GalleryObjectAdapter(SoundsModifyActivity.this, listNewObjsSounds, 4);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 

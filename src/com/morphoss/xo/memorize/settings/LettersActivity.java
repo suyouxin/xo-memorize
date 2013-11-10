@@ -37,7 +37,7 @@ public class LettersActivity extends Activity {
 	private static final String TAG = "LettersActivity";
 
 	private ObjView view1, view2;
-	private TextView numberPairs;
+	public static TextView numberPairs;
 	private EditText editTextLetter;
 	private ImageButton addItem, saveGame, clearGame;
 	private GalleryObjectAdapter goa;
@@ -59,7 +59,7 @@ public class LettersActivity extends Activity {
 
 		mGallery.removeAllViews();
 		listNewObjsLetters.clear();
-		goa = new GalleryObjectAdapter(LettersActivity.this, listNewObjsLetters);
+		goa = new GalleryObjectAdapter(LettersActivity.this, listNewObjsLetters, 5);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 

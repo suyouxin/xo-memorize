@@ -128,13 +128,13 @@ public class GameCanvas extends LinearLayout {
         for (GameInfo info : gameInfos) {
             MenuAdapter.MenuInfo menuInfo = new MenuAdapter.MenuInfo();
             menuInfo.text = info.name;
-            if (info.name.equals("addition")) {
+            if (info.type.equals("1")) {
                 menuInfo.imgResID = R.drawable.addition;    
             }
-            else if (info.name.equals("drumgit")) {
+            else if (info.type.equals("2")) {
                 menuInfo.imgResID = R.drawable.sounds;
             }
-            else if (info.name.equals("letters")) {
+            else if (info.type.equals("3")) {
                 menuInfo.imgResID = R.drawable.letters;
             }
             else {

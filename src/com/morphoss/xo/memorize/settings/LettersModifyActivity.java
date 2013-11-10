@@ -63,7 +63,7 @@ public class LettersModifyActivity extends Activity{
 
 		mGallery.removeAllViews();
 		listNewObjsLetters.clear();
-		goa = new GalleryObjectAdapter(LettersModifyActivity.this, listNewObjsLetters);
+		goa = new GalleryObjectAdapter(LettersModifyActivity.this, listNewObjsLetters, 6);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 

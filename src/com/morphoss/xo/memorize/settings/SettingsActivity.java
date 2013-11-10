@@ -34,7 +34,7 @@ import com.morphoss.xo.memorize.Memorize;
 import com.morphoss.xo.memorize.R;
 import com.morphoss.xo.memorize.res.GameInfo;
 import com.morphoss.xo.memorize.res.GameResource;
-import com.morphoss.xo.memorize.res.TypeXmlParser;
+import com.morphoss.xo.memorize.res.GameXmlParser;
 
 public class SettingsActivity extends Activity {
 
@@ -68,7 +68,11 @@ public class SettingsActivity extends Activity {
 			Log.d(TAG, "name : " + list.get(i).name);
 		}
 		for (int i = 0; i < list.size(); i++) {
+			if(list.get(i).name.equals("addition") || list.get(i).name.equals("sounds") || list.get(i).name.equals("letters")){
+				//don't allow to modify the basics games
+			}else{
 			listGames.add(list.get(i).name);
+			}
 		}
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				R.layout.listlayout, R.id.listTextView, listGames);
@@ -226,14 +230,15 @@ public class SettingsActivity extends Activity {
 
 	private String findGameType(String nameGame) {
 		File path = context.getExternalFilesDir(DIRECTORY_GAMES);
+		GameInfo gameInfo = null;
 		String gameType = null;
 		File file = new File(path + "/" + nameGame, "game.xml");
 		if (file != null && file.exists()) {
-			TypeXmlParser parser = new TypeXmlParser();
+			GameXmlParser parser = new GameXmlParser();
 
 			try {
-				gameType = parser.parse(new FileInputStream(file), file);
-
+				gameInfo = parser.parse(new FileInputStream(file), file);
+				gameType = gameInfo.type;
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (XmlPullParserException e) {

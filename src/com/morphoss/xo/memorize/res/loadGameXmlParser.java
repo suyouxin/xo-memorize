@@ -8,35 +8,36 @@ import java.util.ArrayList;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.util.Log;
+import android.util.Xml;
+
 import com.morphoss.xo.memorize.obj.MMedia;
 import com.morphoss.xo.memorize.obj.MStr;
 import com.morphoss.xo.memorize.obj.MemoryObj;
 
-import android.util.Log;
-import android.util.Xml;
+public class loadGameXmlParser {
 
-public class GameXmlParser {
-    // We don't use namespaces
+	 // We don't use namespaces
     private static final String ns = null;
-    private static final String TAG = "GameXmlParser";
+    private static final String TAG = "loadGameXmlParser";
     
    
-    public GameInfo parse(InputStream in, File file) throws XmlPullParserException, IOException {
+    public ArrayList<MemoryObj> parse(InputStream in, File file) throws XmlPullParserException, IOException {
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(in, null);
             parser.nextTag();
-            return readGames(parser, file.getParentFile().getAbsolutePath());
+            return readGame(parser, file.getParentFile().getAbsolutePath());
         } finally {
             in.close();
         }
     }
     
-    private GameInfo readGames(XmlPullParser parser, String path) throws XmlPullParserException, IOException {
+    private ArrayList<MemoryObj> readGame(XmlPullParser parser, String path) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, "memorize");
         Log.d(TAG, "path: " + path);
-        
+        ArrayList<MemoryObj> listObjects = new ArrayList<MemoryObj>();
         String gameName = parser.getAttributeValue(ns, "name");
         String gameType = parser.getAttributeValue(ns, "type");
         boolean isDivided = parser.getAttributeValue(ns, "divided").equals("1") ? true : false;
@@ -44,14 +45,9 @@ public class GameXmlParser {
         if (gameName == null)
             return null;
         
-        GameInfo gameInfo = new GameInfo();
-        gameInfo.name = gameName;
-        gameInfo.type = gameType;
-        gameInfo.divided = isDivided;
-        gameInfo.objs = new ArrayList<MemoryObj>();
-        
-        Log.d(TAG, "gameName: " + gameInfo.name);
-        Log.d(TAG, "isDivided: " + gameInfo.divided);
+        Log.d(TAG, "gameName: " + gameName);
+        Log.d(TAG, "gameType: " + gameType);
+        Log.d(TAG, "isDivided: " + isDivided);
         int type;
         
         while ((type = parser.next()) != XmlPullParser.END_DOCUMENT) {
@@ -65,7 +61,7 @@ public class GameXmlParser {
                         MemoryObj objB = new MStr(charB);
                         objA.setPairedObj(objB);
                         objB.setPairedObj(objA);
-                        gameInfo.objs.add(objA);
+                       listObjects.add(objA);
                     }
 
                     String imgA = parser.getAttributeValue(ns, "aimg");
@@ -95,11 +91,11 @@ public class GameXmlParser {
                         MemoryObj objB = new MMedia(imgBPath, sndBPath);
                         objA.setPairedObj(objB);
                         objB.setPairedObj(objA);
-                        gameInfo.objs.add(objA);
+                        listObjects.add(objA);
                     }
                 }
             }
         }
-        return gameInfo;
+        return listObjects;
     }
 }

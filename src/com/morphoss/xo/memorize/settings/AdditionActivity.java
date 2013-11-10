@@ -42,7 +42,7 @@ public class AdditionActivity extends Activity {
 	private static final String TAG = "AdditionActivity";
 
 	private ObjView view1, view2;
-	private TextView numberPairs;
+	public static TextView numberPairs;
 	private EditText editTextAddition, editTextAddition2;
 	private ImageButton addItem, saveGame, clearGame;
 	private GalleryObjectAdapter goa;
@@ -68,7 +68,7 @@ public class AdditionActivity extends Activity {
 		mGallery.removeAllViews();
 		listNewObjsAddition.clear();
 		goa = new GalleryObjectAdapter(AdditionActivity.this,
-				listNewObjsAddition);
+				listNewObjsAddition, 1);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 
@@ -239,13 +239,6 @@ public class AdditionActivity extends Activity {
 		Intent intent = new Intent(context, SettingsActivity.class);
 		startActivity(intent);
 		finish();
-	}
-	@Override
-	protected void onResume() {
-		super.onResume();
-		while(listNewObjsAddition.size()!=0){
-			Log.d(TAG, "try to delete pair");
-		}
 	}
 
 	public void addListenerOnSpinner() {

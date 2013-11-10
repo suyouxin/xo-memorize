@@ -43,7 +43,7 @@ public class SoundsActivity extends Activity {
 	private static final String TAG = "SoundsActivity";
 
 	private ObjView view1, view2;
-	private TextView numberPairs;
+	public static TextView numberPairs;
 	private ImageButton addItem, saveGame, clearGame, addPicture, addSound;
 	private GalleryObjectAdapter goa;
 	private LinearLayout mGallery;
@@ -75,7 +75,7 @@ public class SoundsActivity extends Activity {
 
 		mGallery.removeAllViews();
 		listNewObjsSounds.clear();
-		goa = new GalleryObjectAdapter(SoundsActivity.this, listNewObjsSounds);
+		goa = new GalleryObjectAdapter(SoundsActivity.this, listNewObjsSounds, 3);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 

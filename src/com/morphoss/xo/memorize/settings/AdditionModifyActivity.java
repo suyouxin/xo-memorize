@@ -2,15 +2,13 @@ package com.morphoss.xo.memorize.settings;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.morphoss.xo.memorize.Memorize;
-import com.morphoss.xo.memorize.ObjView;
-import com.morphoss.xo.memorize.R;
-import com.morphoss.xo.memorize.obj.MStr;
-import com.morphoss.xo.memorize.obj.MemoryObj;
+import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,8 +21,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -32,12 +30,19 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.morphoss.xo.memorize.Memorize;
+import com.morphoss.xo.memorize.ObjView;
+import com.morphoss.xo.memorize.R;
+import com.morphoss.xo.memorize.obj.MStr;
+import com.morphoss.xo.memorize.obj.MemoryObj;
+import com.morphoss.xo.memorize.res.loadGameXmlParser;
+
 public class AdditionModifyActivity extends Activity{
 
-	private static final String TAG = "AdditionActivity";
-
+	private static final String TAG = "AdditionModifyActivity";
+    private static final String ns = null;
 	private ObjView view1, view2;
-	private TextView numberPairs;
+	public static TextView numberPairs;
 	private EditText editTextAddition, editTextAddition2;
 	private ImageButton addItem, saveGame, clearGame;
 	private GalleryObjectAdapter goa;
@@ -56,25 +61,30 @@ public class AdditionModifyActivity extends Activity{
         type = extras.getString("type");
         Log.d(TAG, "name : "+name);
         Log.d(TAG, "type :"+type);
-		numberPairs = (TextView) findViewById(R.id.numberPairsCreated);
-		numberPairs.setText("0");
+		
+		
 		editTextAddition = (EditText) findViewById(R.id.editTxtAddition);
 		editTextAddition2 = (EditText) findViewById(R.id.editTxtAddition2);
 		addItem = (ImageButton) findViewById(R.id.addItems);
 		saveGame = (ImageButton) findViewById(R.id.saveGame);
 		clearGame = (ImageButton) findViewById(R.id.clearGame);
 		mGallery = (LinearLayout) findViewById(R.id.newItems);
+		numberPairs = (TextView) findViewById(R.id.numberPairsCreated);
 		addListenerOnSpinner();
 
 		mGallery.removeAllViews();
 		listNewObjsAddition.clear();
+		int size = readGame();
+		Log.d(TAG, "size: "+size);
+		numberPairs.setText(String.valueOf(size));
 		goa = new GalleryObjectAdapter(AdditionModifyActivity.this,
-				listNewObjsAddition);
+				listNewObjsAddition, 2);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 
 		}
-
+		
+		
 		clearGame.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -241,13 +251,6 @@ public class AdditionModifyActivity extends Activity{
 		startActivity(intent);
 		finish();
 	}
-	@Override
-	protected void onResume() {
-		super.onResume();
-		while(listNewObjsAddition.size()!=0){
-			Log.d(TAG, "try to delete pair");
-		}
-	}
 
 	public void addListenerOnSpinner() {
 		spinner = (Spinner) findViewById(R.id.spinner);
@@ -314,15 +317,11 @@ public class AdditionModifyActivity extends Activity{
 	}
 
 	private void savingGame() {
-		String nameGameKey = "com.morphoss.xo.memorize.settings";
-		String nameGame = SettingsActivity.prefs.getString(nameGameKey,
-				new String());
-		Log.d(TAG, "the name of the game is: " + nameGame);
 		// Create folder
 		File folder = new File(Environment.getExternalStorageDirectory()
 				.toString()
 				+ "/Android/data/com.morphoss.xo.memorize/files/games/"
-				+ nameGame);
+				+ name);
 		folder.mkdirs();
 		// Save the path as a string value
 		String extStorageDirectory = folder.toString();
@@ -334,7 +333,7 @@ public class AdditionModifyActivity extends Activity{
 			strBuilder.append("\n");
 			strBuilder
 					.append("<memorize name=\""
-							+ nameGame
+							+ name
 							+  "\" type=\"1\" scoresnd=\"score.wav\" winsnd=\"win.wav\" divided=\"1\" align=\"1\" face1=\"1\" face2=\"2\" >\n");
 			for (MemoryObj obj : listNewObjsAddition) {
 
@@ -350,4 +349,23 @@ public class AdditionModifyActivity extends Activity{
 			e.printStackTrace();
 		}
 	}
+	private int readGame() {
+		 File file = new File(Environment.getExternalStorageDirectory()
+					.toString()
+					+ "/Android/data/com.morphoss.xo.memorize/files/games/"
+					+ name+"/game.xml");
+         if (file != null && file.exists()) {
+             loadGameXmlParser parser = new loadGameXmlParser();
+             try {
+                 listNewObjsAddition = parser.parse(new FileInputStream(file), file);
+             } catch (FileNotFoundException e) {
+                 e.printStackTrace();
+             } catch (XmlPullParserException e) {
+                 e.printStackTrace();
+             } catch (IOException e) {
+                 e.printStackTrace();
+             }
+         }
+         return listNewObjsAddition.size();
+    }
 }
