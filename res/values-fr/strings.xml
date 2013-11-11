@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Memory</string>
+    <string name="settingsTitle">Personnalise ton memory !</string>
+    <string name="createGame">Créer un nouveau jeu</string>
+    <string name="nameGame">Nom :</string>
+    <string name="hintName">Modifier le nom</string>
+    <string name="typeGame">Type :</string>
+    <string name="radio_addition">Mathématique</string>
+    <string name="radio_sounds">Images et sons</string>
+    <string name="radio_letters">Lettres</string>
+    <string name="nextGame">Suivant</string>
+    <string name="modifyGame">Modifier un jeu existant</string>
+    <string name="preview">Aperçu:</string>
+    <string name="warningPairs">Attention : tu dois créer au moins 10 paires pour avoir un jeu utilisable.</string>
+    <string name="addPair">Ajouter</string>
+    <string name="saveGame">Sauvegarder</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="mult">*</string>
+    <string name="numberPairs">Nombre de paires : </string>
+    <string name="needMorePairs">Tu dois créer au moins 10 paires pour pouvoir sauvegarder ce jeu.</string>
+    <string name="gotIt">J\'ai compris</string>
+    <string name="titleSave">Sauvegarder ce jeu</string>
+    <string name="areYouSure">Veux-tu sauvegarder ce jeu ?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="addPicture">Ajouter une image</string>
+    <string name="addSound">Ajouter un son</string>
+    <string name="fromGallery">De ta galerie d\'images</string>
+    <string name="fromCamera">De l\'appareil photo</string>
+    <string name="fromSDCard">De la carte mémoire</string>
+    <string name="fromSystem">Des sons par défaut sur la tablette</string>
+    <string name="importPictSound">Ajouter :</string>
+    <string name="aPicture">une image</string>
+    <string name="aSound">un son</string>
+    <string name="noSDCard">Aucune carte mémoire détectée</string>
+    <string name="titleModify">Modifier ou supprimer le jeu sélectionné</string>
+    <string name="modifyOrDelete">Veux-tu modifier ou supprimer le jeu sélectionné ?</string>
+    <string name="modify">Modifier</string>
+    <string name="delete">Supprimer</string>
+    <string name="cancel">Annuler</string>
+    <string name="alreadyExist">Choisis un nom différent pour ce jeu</string>
+    <string name="sameName">Un jeu avec ce nom existe déjà . Choisis s\'il te plaît un autre nom ou modifie le jeu existant.</string>
+    <string name="titleMissingInfos">Informations manquantes</string>
+    <string name="missingInfos">Il semble qu\'il y ait eu un problème lors du chargement de l\'image ou du son. Vérifie s\'il te plaît que tu as bien choisi une image et un son.</string>
+
+    <string-array name="addition_array">
+        <item>@string/plus</item>
+        <item>@string/minus</item>
+        <item>@string/mult</item>
+    </string-array>
+    <string-array name="addPictureArray">
+        <item>@string/fromGallery</item>
+        <item>@string/fromCamera</item>
+    </string-array>
+    <string-array name="addSoundArray">
+        <item>@string/fromSDCard</item>
+        <item>@string/fromSystem</item>
+    </string-array>
+
+</resources>

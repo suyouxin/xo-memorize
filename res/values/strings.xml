@@ -8,7 +8,7 @@
     <string name="hintName">Edit name</string>
     <string name="typeGame">Type :</string>
     <string name="radio_addition">Arithmetic</string>
-    <string name="radio_sounds">Sounds</string>
+    <string name="radio_sounds">Images and Sounds</string>
     <string name="radio_letters">Letters</string>
     <string name="nextGame">Next</string>
     <string name="modifyGame">Modify an existing one</string>
@@ -20,7 +20,7 @@
     <string name="minus">-</string>
     <string name="mult">*</string>
     <string name="numberPairs">Number of pairs : </string>
-    <string name="needMorePairs">You need to create 10 different pairs to be able to save this game</string>
+    <string name="needMorePairs">You need to create at least 10 pairs to be able to save this game.</string>
     <string name="gotIt">I understand</string>
     <string name="titleSave">Saving this game</string>
     <string name="areYouSure">Do you want to save this game ?</string>
