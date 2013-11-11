@@ -1,5 +1,7 @@
 package com.morphoss.xo.memorize;
 
+import java.util.Collections;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 
         public MenuAdapter(Context context, int textViewResourceId, MenuInfo[] objects) {
             super(context, textViewResourceId, objects);
+            
         }
  
         @Override

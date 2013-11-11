@@ -314,6 +314,8 @@ public class AdditionModifyActivity extends Activity{
 		MemoryObj obj2 = new MStr(totalString);
 		obj2.show();
 		view2.setObj(obj2);
+		view1.invalidate();
+		view2.invalidate();
 	}
 
 	private void savingGame() {

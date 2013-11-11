@@ -16,20 +16,15 @@ import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.morphoss.xo.memorize.Memorize;
 import com.morphoss.xo.memorize.ObjView;
@@ -49,6 +44,7 @@ public class AdditionActivity extends Activity {
 	private LinearLayout mGallery;
 	private Spinner spinner;
 	private Context context = this;
+	public ArrayAdapter<CharSequence> adapter;
 	private static ArrayList<MemoryObj> listNewObjsAddition = new ArrayList<MemoryObj>();
 
 	@Override
@@ -63,7 +59,6 @@ public class AdditionActivity extends Activity {
 		saveGame = (ImageButton) findViewById(R.id.saveGame);
 		clearGame = (ImageButton) findViewById(R.id.clearGame);
 		mGallery = (LinearLayout) findViewById(R.id.newItems);
-		addListenerOnSpinner();
 
 		mGallery.removeAllViews();
 		listNewObjsAddition.clear();
@@ -73,7 +68,16 @@ public class AdditionActivity extends Activity {
 			mGallery.addView(goa.getView(i, null, mGallery));
 
 		}
-
+		spinner = (Spinner) findViewById(R.id.spinner);
+		// Create an ArrayAdapter using the string array and a default spinner
+		// layout
+		adapter = ArrayAdapter.createFromResource(context,
+				R.array.addition_array, R.layout.spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		spinner.setAdapter(adapter);
+		spinner.setOnItemSelectedListener(new OnAdditionSelectedListener(this));
 		clearGame.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -228,9 +232,7 @@ public class AdditionActivity extends Activity {
 
 			}
 		});
-		
-		
-		
+
 	}
 
 	@Override
@@ -239,19 +241,6 @@ public class AdditionActivity extends Activity {
 		Intent intent = new Intent(context, SettingsActivity.class);
 		startActivity(intent);
 		finish();
-	}
-
-	public void addListenerOnSpinner() {
-		spinner = (Spinner) findViewById(R.id.spinner);
-		// Create an ArrayAdapter using the string array and a default spinner
-		// layout
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				this, R.array.addition_array, R.layout.spinner_item);
-		// Specify the layout to use when the list of choices appears
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// Apply the adapter to the spinner
-		spinner.setAdapter(adapter);
-		spinner.setOnItemSelectedListener(new OnAdditionSelectedListener(this));
 	}
 
 	public void setViews(String addition) {
@@ -303,6 +292,8 @@ public class AdditionActivity extends Activity {
 		MemoryObj obj2 = new MStr(totalString);
 		obj2.show();
 		view2.setObj(obj2);
+		view1.invalidate();
+		view2.invalidate();
 	}
 
 	private void savingGame() {

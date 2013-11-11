@@ -234,6 +234,8 @@ public class LettersModifyActivity extends Activity {
 				.toUpperCase());
 		obj2.show();
 		view2.setObj(obj2);
+		view1.invalidate();
+		view2.invalidate();
 	}
 
 	private void savingGame() {

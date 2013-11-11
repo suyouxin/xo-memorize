@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -38,8 +39,9 @@ public class GameResource {
                 GameXmlParser parser = new GameXmlParser();
                 try {
                     GameInfo gameInfo = parser.parse(new FileInputStream(file), file);
-                    if (gameInfo != null)
+                    if (gameInfo != null){
                         allGames.add(gameInfo);
+                    }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (XmlPullParserException e) {
