@@ -66,10 +66,11 @@
 
         <ImageButton
             android:id="@+id/addPicture"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="110dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="270dp"
+            android:padding="10dp"
             android:scaleType="centerCrop"
             android:src="@drawable/import_picture" />
 
@@ -85,10 +86,11 @@
 
         <ImageButton
             android:id="@+id/addSound"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginLeft="250dp"
             android:layout_marginTop="270dp"
+            android:padding="10dp"
             android:scaleType="centerCrop"
             android:src="@drawable/import_sound" />
 

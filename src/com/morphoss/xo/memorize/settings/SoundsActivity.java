@@ -2,13 +2,12 @@ package com.morphoss.xo.memorize.settings;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,12 +16,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -75,7 +72,8 @@ public class SoundsActivity extends Activity {
 
 		mGallery.removeAllViews();
 		listNewObjsSounds.clear();
-		goa = new GalleryObjectAdapter(SoundsActivity.this, listNewObjsSounds, 3);
+		goa = new GalleryObjectAdapter(SoundsActivity.this, listNewObjsSounds,
+				3);
 		for (int i = 0; i < goa.getCount(); i++) {
 			mGallery.addView(goa.getView(i, null, mGallery));
 
@@ -182,13 +180,40 @@ public class SoundsActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				if (picturePath != null && soundPath != null
-						&& pictureName != null && soundName != null) {
+				if (picturePath != null
+						&& soundPath != null
+						&& (pictureName.contains("png") || pictureName
+								.contains("jpg"))
+						&& (soundName.contains("mp3") || soundName
+								.contains("ogg"))) {
 					view1.getObj().setPairedObj(view2.getObj());
 					listNewObjsSounds.add(view1.getObj());
 					mGallery.addView(goa.getView(goa.getCount() - 1, null,
 							mGallery));
 
+				}else{
+					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+							context);
+					// set dialog message
+					alertDialogBuilder
+							.setTitle(R.string.titleMissingInfos)
+							.setMessage(R.string.missingInfos)
+							.setCancelable(false)
+							.setNeutralButton(R.string.gotIt,
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+											// if this button is clicked, dismiss the dialog
+											dialog.dismiss();
+										
+										}
+									});
+
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+
+					// show it
+					alertDialog.show();
 				}
 				numberPairs.setText(String.valueOf(goa.getCount()));
 				for (int i = 0; i < listNewObjsSounds.size(); i++) {
@@ -216,7 +241,6 @@ public class SoundsActivity extends Activity {
 		// remove auto focus from edit text
 		this.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
 		MemoryObj obj1 = new MStr("");
 		obj1.show();
 		view1.setObj(obj1);
@@ -236,23 +260,17 @@ public class SoundsActivity extends Activity {
 		case RESULT_LOAD_IMAGE_VIEW:
 			if (resultCode == RESULT_OK && null != data) {
 
-				/*Uri selectedImage = data.getData();
-				String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-				Cursor cursor = getContentResolver().query(selectedImage,
-						filePathColumn, null, null, null);
-				cursor.moveToFirst();
-
-				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-				picturePath = cursor.getString(columnIndex);
-				cursor.close();*/
-				//get the file name and file path from the file chooser class
+				// get the file name and file path from the file chooser class
 				picturePath = data.getExtras().getString("returnKey1");
 				pictureName = data.getExtras().getString("returnKey2");
 				Log.d(TAG, "picture path : " + picturePath);
 				Log.d(TAG, "picture name : " + pictureName);
-				
-				//save the file on the sdcard
+				if (pictureName.contains("png") || pictureName.contains("jpg")) {
+					addPicture.setImageResource(R.drawable.import_ok);
+				} else {
+					addPicture.setImageResource(R.drawable.import_cancel);
+				}
+				// save the file on the sdcard
 				String nameGameKey = "com.morphoss.xo.memorize.settings";
 				String nameGame = SettingsActivity.prefs.getString(nameGameKey,
 						new String());
@@ -264,19 +282,19 @@ public class SoundsActivity extends Activity {
 				File file = new File(myDir, pictureName);
 				if (file.exists())
 					file.delete();
-				try{
+				try {
 					File src = new File(picturePath);
-					File dst = new File(pathDir+"/"+pictureName);
+					File dst = new File(pathDir + "/" + pictureName);
 					InputStream in = new FileInputStream(src);
 					OutputStream out = new FileOutputStream(dst);
 					byte[] buf = new byte[1024];
 					int len;
-					while((len = in.read(buf)) > 0){
+					while ((len = in.read(buf)) > 0) {
 						out.write(buf, 0, len);
 					}
 					in.close();
 					out.close();
-				}catch(Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				MemoryObj objPicture = new MMedia(picturePath, soundPath,
@@ -291,6 +309,7 @@ public class SoundsActivity extends Activity {
 
 		case RESULT_LOAD_CAMERA_VIEW:
 			if (resultCode == RESULT_OK && null != data) {
+				addPicture.setImageResource(R.drawable.import_ok);
 				Bitmap photo = (Bitmap) data.getExtras().get("data");
 
 				// save the bitmap on the sd card
@@ -323,6 +342,13 @@ public class SoundsActivity extends Activity {
 				}
 				Log.d(TAG, "picture path : " + picturePath);
 				Log.d(TAG, "picture name : " + pictureName);
+
+				if (pictureName.contains("png") || pictureName.contains("jpg")) {
+					addPicture.setImageResource(R.drawable.import_ok);
+				} else {
+					addPicture.setImageResource(R.drawable.import_cancel);
+				}
+
 				MemoryObj objPicture = new MMedia(picturePath, soundPath,
 						pictureName, soundName);
 				objPicture.show();
@@ -335,16 +361,22 @@ public class SoundsActivity extends Activity {
 		case RESULT_LOAD_MUSIC:
 			if (resultCode == RESULT_OK && null != data) {
 				if (data.hasExtra("returnKey1") && data.hasExtra("returnKey2")) {
-					//get the file name and file path from the file chooser class
+					// get the file name and file path from the file chooser
+					// class
 					soundPath = data.getExtras().getString("returnKey1");
 					soundName = data.getExtras().getString("returnKey2");
 					Log.d(TAG, "sound path : " + soundPath);
 					Log.d(TAG, "sound name : " + soundName);
-					
-					//save the file on the sdcard
+
+					if (soundName.contains("mp3") || soundName.contains("ogg")) {
+						addSound.setImageResource(R.drawable.import_ok);
+					} else {
+						addSound.setImageResource(R.drawable.import_cancel);
+					}
+					// save the file on the sdcard
 					String nameGameKey = "com.morphoss.xo.memorize.settings";
-					String nameGame = SettingsActivity.prefs.getString(nameGameKey,
-							new String());
+					String nameGame = SettingsActivity.prefs.getString(
+							nameGameKey, new String());
 					String pathDir = Environment.getExternalStorageDirectory()
 							+ "/Android/data/com.morphoss.xo.memorize/files/games/"
 							+ nameGame + "/sounds";
@@ -353,23 +385,23 @@ public class SoundsActivity extends Activity {
 					File file = new File(myDir, soundName);
 					if (file.exists())
 						file.delete();
-					try{
+					try {
 						File src = new File(soundPath);
-						File dst = new File(pathDir+"/"+soundName);
+						File dst = new File(pathDir + "/" + soundName);
 						InputStream in = new FileInputStream(src);
 						OutputStream out = new FileOutputStream(dst);
 						byte[] buf = new byte[1024];
 						int len;
-						while((len = in.read(buf)) > 0){
+						while ((len = in.read(buf)) > 0) {
 							out.write(buf, 0, len);
 						}
 						in.close();
 						out.close();
-					}catch(Exception e){
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 
-					//create the object
+					// create the object
 					MemoryObj objSound = new MMedia(picturePath, soundPath,
 							pictureName, soundName);
 					objSound.show();
@@ -405,15 +437,17 @@ public class SoundsActivity extends Activity {
 						if (item == 0) {
 							Log.d(TAG, "select picture from gallery");
 
-							/*Intent galleryIntent = new Intent(
-									Intent.ACTION_PICK,
-									android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);*/
+							/*
+							 * Intent galleryIntent = new Intent(
+							 * Intent.ACTION_PICK,
+							 * android.provider.MediaStore.Images
+							 * .Media.EXTERNAL_CONTENT_URI);
+							 */
 							Intent i = new Intent(context, FileChooser.class);
 							i.putExtra("pathDirectory", Environment
 									.getExternalStorageDirectory().getPath()
 									+ "/Pictures/");
-							startActivityForResult(i,
-									RESULT_LOAD_IMAGE_VIEW);
+							startActivityForResult(i, RESULT_LOAD_IMAGE_VIEW);
 
 						}
 						if (item == 1) {

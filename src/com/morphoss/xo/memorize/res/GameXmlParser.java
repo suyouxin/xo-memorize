@@ -35,7 +35,6 @@ public class GameXmlParser {
     
     private GameInfo readGames(XmlPullParser parser, String path) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, "memorize");
-        Log.d(TAG, "path: " + path);
         
         String gameName = parser.getAttributeValue(ns, "name");
         String gameType = parser.getAttributeValue(ns, "type");

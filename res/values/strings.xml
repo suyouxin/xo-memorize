@@ -41,6 +41,10 @@
     <string name="modify">Modify</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    <string name="alreadyExist">Choose a different name for this new game</string>
+    <string name="sameName">A game with this name already exists. Please choose another name or modify the existing one.</string>
+    <string name="titleMissingInfos">Missing informations</string>
+    <string name="missingInfos">It seems that there is a problem loading the picture or the sound. Please check that you have selected a picture and a sound.</string>
 
     <string-array name="addition_array">
         <item>@string/plus</item>

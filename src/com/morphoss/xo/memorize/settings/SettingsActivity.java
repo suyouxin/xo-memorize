@@ -174,49 +174,83 @@ public class SettingsActivity extends Activity {
 
 						@Override
 						public void onClick(View v) {
-							prefs = context.getSharedPreferences(
-									"com.morphoss.xo.memorize.settings",
-									Context.MODE_PRIVATE);
-							String nameGame = editText.getText().toString();
-							String nameGameKey = "com.morphoss.xo.memorize.settings";
-							prefs.edit().putString(nameGameKey, nameGame)
-									.commit();
-							int selectedId = radioTypeGroup
-									.getCheckedRadioButtonId();
-							radioTypeButton = (RadioButton) findViewById(selectedId);
+							boolean gameAlreadyExist = false;
+							for (int i = 0; i < listGames.size(); i++) {
+								if (list.get(i).name.equals(editText.getText().toString())) {
+									// a game with this name already exists
+									gameAlreadyExist = true;
+								}
+							}
+							
+							if (!gameAlreadyExist) {
+								prefs = context.getSharedPreferences(
+										"com.morphoss.xo.memorize.settings",
+										Context.MODE_PRIVATE);
+								String nameGame = editText.getText().toString();
+								String nameGameKey = "com.morphoss.xo.memorize.settings";
+								prefs.edit().putString(nameGameKey, nameGame)
+										.commit();
+								int selectedId = radioTypeGroup
+										.getCheckedRadioButtonId();
+								radioTypeButton = (RadioButton) findViewById(selectedId);
 
-							if (radioTypeButton
-									.getText()
-									.toString()
-									.equals(context
-											.getString(R.string.radio_addition))) {
-								Intent intent = new Intent(context,
-										AdditionActivity.class);
-								startActivity(intent);
-								finish();
-							}
-							if (radioTypeButton
-									.getText()
-									.toString()
-									.equals(context
-											.getString(R.string.radio_sounds))) {
-								Intent intent = new Intent(context,
-										SoundsActivity.class);
-								startActivity(intent);
-								finish();
-							}
-							if (radioTypeButton
-									.getText()
-									.toString()
-									.equals(context
-											.getString(R.string.radio_letters))) {
-								Intent intent = new Intent(context,
-										LettersActivity.class);
-								startActivity(intent);
-								finish();
+								if (radioTypeButton
+										.getText()
+										.toString()
+										.equals(context
+												.getString(R.string.radio_addition))) {
+									Intent intent = new Intent(context,
+											AdditionActivity.class);
+									startActivity(intent);
+									finish();
+								}
+								if (radioTypeButton
+										.getText()
+										.toString()
+										.equals(context
+												.getString(R.string.radio_sounds))) {
+									Intent intent = new Intent(context,
+											SoundsActivity.class);
+									startActivity(intent);
+									finish();
+								}
+								if (radioTypeButton
+										.getText()
+										.toString()
+										.equals(context
+												.getString(R.string.radio_letters))) {
+									Intent intent = new Intent(context,
+											LettersActivity.class);
+									startActivity(intent);
+									finish();
+								}
+							}else{
+								//show a alert dialog
+								AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+										context);
+								// set dialog message
+								alertDialogBuilder
+										.setTitle(R.string.alreadyExist)
+										.setMessage(R.string.sameName)
+										.setCancelable(false)
+										.setNeutralButton(R.string.gotIt,
+												new DialogInterface.OnClickListener() {
+													public void onClick(
+															DialogInterface dialog, int id) {
+														// if this button is clicked, dismiss the window
+														dialog.dismiss();
+													}
+												});
+
+								// create alert dialog
+								AlertDialog alertDialog = alertDialogBuilder.create();
+
+								// show it
+								alertDialog.show();
 							}
 						}
 					});
+
 				}
 
 			}
