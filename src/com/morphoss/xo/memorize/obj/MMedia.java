@@ -108,7 +108,7 @@ public class MMedia extends Paired {
 		play(mp);
 	}
 
-	private void stop() {
+	public void stop() {
 		GameEngine ge = GameEngine.getInstance();
 		MediaPlayer mp = ge.getMediaPlayer();
 		if (mp.isPlaying()) {

@@ -18,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -28,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.morphoss.xo.memorize.GameEngine;
 import com.morphoss.xo.memorize.Memorize;
 import com.morphoss.xo.memorize.ObjView;
 import com.morphoss.xo.memorize.R;
@@ -191,7 +193,7 @@ public class SoundsActivity extends Activity {
 					mGallery.addView(goa.getView(goa.getCount() - 1, null,
 							mGallery));
 
-				}else{
+				} else {
 					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 							context);
 					// set dialog message
@@ -203,9 +205,10 @@ public class SoundsActivity extends Activity {
 									new DialogInterface.OnClickListener() {
 										public void onClick(
 												DialogInterface dialog, int id) {
-											// if this button is clicked, dismiss the dialog
+											// if this button is clicked,
+											// dismiss the dialog
 											dialog.dismiss();
-										
+
 										}
 									});
 
@@ -404,7 +407,9 @@ public class SoundsActivity extends Activity {
 					// create the object
 					MemoryObj objSound = new MMedia(picturePath, soundPath,
 							pictureName, soundName);
+
 					objSound.show();
+					((MMedia) objSound).stop();
 					view1.setObj(objSound);
 					view1.invalidate();
 					view2.setObj(objSound);
@@ -473,11 +478,13 @@ public class SoundsActivity extends Activity {
 						// Do something with the selection
 						if (item == 0) {
 							// import mp3 from sdcard
+
 							Intent i = new Intent(context, FileChooser.class);
 							i.putExtra("pathDirectory", Environment
 									.getExternalStorageDirectory().getPath()
 									+ "/Music/");
 							startActivityForResult(i, RESULT_LOAD_MUSIC);
+
 						}
 						if (item == 1) {
 							// import ogg from system/media/audio
