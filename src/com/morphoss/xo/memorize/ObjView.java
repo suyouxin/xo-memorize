@@ -3,9 +3,12 @@ package com.morphoss.xo.memorize;
 import com.morphoss.xo.memorize.obj.MemoryObj;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Paint.Align;
 import android.util.AttributeSet;
@@ -14,8 +17,6 @@ import android.view.View;
 public class ObjView extends View {
     float mDpi;
 
-    final static public int BORDER_COLOR_BROWN = 0xffffa522;
-    final static int BORDER_COLOR_GREEN = 0xff0ea869;
 
     final static public int CORNER_SIZE_DP = 10;
     final static public int BORDER_SIZE_DP = 5;
@@ -64,17 +65,17 @@ public class ObjView extends View {
         super.onDraw(canvas);
         switch (mObj.getMode()) {
         case MemoryObj.MEMORY_OBJ_MODE_SHOWN:
-            drawBackground(canvas, this.getContext().getResources().getColor(R.color.olpc_dark_grey), 
-                    false, true, Color.WHITE);
+            drawBackground(canvas, Color.rgb(204, 153, 102), 
+                    false, true, Color.rgb(255, 178, 16));
             mObj.draw(canvas);
             break;
         case MemoryObj.MEMORY_OBJ_MODE_MATCHED:
-            drawBackground(canvas, BORDER_COLOR_GREEN, false, true, BORDER_COLOR_BROWN);
+            drawBackground(canvas, Color.rgb(124, 169, 0), false, true, Color.rgb(225, 70, 3));
             mObj.draw(canvas);
             break;
         case MemoryObj.MEMORY_OBJ_MODE_HIDEN:
         default:
-            drawBackground(canvas, Color.GRAY, true, false, 0);
+            drawBackground(canvas, Color.rgb(244, 242, 204), true, false, 0);
             break;
         }
     }
@@ -102,17 +103,18 @@ public class ObjView extends View {
             canvas.drawRoundRect(rf, cornerSizePx, cornerSizePx, p);
         }
         if (withGroup) {
-            // draw text 1 / 2
-            Paint textPaint = new Paint();
-            
-            textPaint.setColor(this.getContext().getResources().getColor(R.color.light_grey));
-            textPaint.setTextAlign(Align.CENTER);
-            textPaint.setTextSize(55);
-            
-            int xPos = (canvas.getWidth() / 2);
-            int yPos = (int) ((canvas.getHeight() / 2) - ((textPaint.descent() + textPaint.ascent()) / 2)) ; 
-            
-            canvas.drawText(String.valueOf(mObj.getGroupId()), xPos, yPos, textPaint);
+        	Bitmap bmp;
+        	if(mObj.getGroupId() == 1){
+			bmp = BitmapFactory.decodeResource(getResources(), R.drawable.bg_1);
+        	}else{
+        		bmp = BitmapFactory.decodeResource(getResources(), R.drawable.bg_2);
+        	}
+			int reduce = ObjView.BORDER_SIZE_DP;
+
+			Rect rc = new Rect(reduce, reduce, canvas.getWidth() - reduce,
+					canvas.getHeight() - reduce);
+			Paint paint = new Paint();
+			canvas.drawBitmap(bmp, null, rc, paint);
         }
     }
 }
