@@ -103,6 +103,7 @@ public class GameCanvas extends LinearLayout {
                     int pos, long id) {
                 GameEngine ge = GameEngine.getInstance();
                 ge.restart(mGameInfos.get(pos), GameCanvas.this.getContext());
+                
             }
 
             @Override
@@ -123,15 +124,21 @@ public class GameCanvas extends LinearLayout {
         		if(parent.getItemAtPosition(pos).toString().equals(context.getString(R.string.mandala))){
         			theme= 2;
         		}
-        		if(parent.getItemAtPosition(pos).toString().equals(context.getString(R.string.floral))){
+        		if(parent.getItemAtPosition(pos).toString().equals(context.getString(R.string.golden))){
         			theme= 3;
         		}
-        		if(parent.getItemAtPosition(pos).toString().equals(context.getString(R.string.retro))){
+        		if(parent.getItemAtPosition(pos).toString().equals(context.getString(R.string.digital))){
         			theme= 4;
         		}
+        		if(parent.getItemAtPosition(pos).toString().equals(context.getString(R.string.geometrical))){
+        			theme= 5;
+        		}
         		Log.d("listener","value of theme after spinner : "+theme);
-               GameCanvas layout = (GameCanvas) findViewById(R.id.game_canvas);
-               layout.invalidate();
+        		GameEngine ge = GameEngine.getInstance();
+        		ge.restart(GameCanvas.this.getContext());
+        		
+        		
+        		
             }
 
             @Override

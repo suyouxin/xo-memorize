@@ -51,8 +51,9 @@
     <string name="theme">Thème : </string>
     <string name="defaultTheme">Défaut</string>
     <string name="mandala">Mandala</string>
-    <string name="floral">Floral</string>
-    <string name="retro">Rétro</string>
+    <string name="golden">Doré</string>
+    <string name="digital">Numérique</string>
+    <string name="geometrical">Géométrique</string>
 
     <string-array name="addition_array">
         <item>@string/plus</item>
@@ -70,8 +71,9 @@
     <string-array name="changeTheme">
         <item>@string/defaultTheme</item>
         <item>@string/mandala</item>
-        <item>@string/floral</item>
-        <item>@string/retro</item>
+        <item>@string/golden</item>
+        <item>@string/digital</item>
+        <item>@string/geometrical</item>
     </string-array>
 
 </resources>

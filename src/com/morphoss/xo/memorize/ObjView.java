@@ -97,18 +97,26 @@ public class ObjView extends View {
 			canvas.drawRoundRect(rf, cornerSizePx, cornerSizePx, p);
 		}
 		if (withGroup) {
-			Bitmap bmp;
+			Bitmap bmp = null;
 			Log.d("theme", "value of theme : "+GameCanvas.theme);
-			if (GameCanvas.theme == 1) {
-				if (mObj.getGroupId() == 1) {
-					bmp = BitmapFactory.decodeResource(getResources(),
-							R.drawable.bg_1);
-				} else {
-					bmp = BitmapFactory.decodeResource(getResources(),
-							R.drawable.bg_2);
-				}
-			}
-			if (GameCanvas.theme == 2) {
+			int reduce = ObjView.BORDER_SIZE_DP;
+			Rect rc = new Rect(reduce, reduce, canvas.getWidth() - reduce,
+					canvas.getHeight() - reduce);
+			Paint paint = new Paint();
+			switch(GameCanvas.theme){
+			case 1 :
+					Log.d("theme", "theme 1");
+					if (mObj.getGroupId() == 1) {
+						bmp = BitmapFactory.decodeResource(getResources(),
+								R.drawable.bg_1);
+					} else {
+						bmp = BitmapFactory.decodeResource(getResources(),
+								R.drawable.bg_2);
+					}
+					canvas.drawBitmap(bmp, null, rc, paint);
+				break;
+			case 2 :
+				Log.d("theme", "theme 2");
 				if (mObj.getGroupId() == 1) {
 					bmp = BitmapFactory.decodeResource(getResources(),
 							R.drawable.bg_3);
@@ -116,8 +124,10 @@ public class ObjView extends View {
 					bmp = BitmapFactory.decodeResource(getResources(),
 							R.drawable.bg_4);
 				}
-			}
-			if (GameCanvas.theme == 3) {
+				canvas.drawBitmap(bmp, null, rc, paint);
+				break;
+			case 3 :
+				Log.d("theme", "theme 3");
 				if (mObj.getGroupId() == 1) {
 					bmp = BitmapFactory.decodeResource(getResources(),
 							R.drawable.bg_5);
@@ -125,8 +135,10 @@ public class ObjView extends View {
 					bmp = BitmapFactory.decodeResource(getResources(),
 							R.drawable.bg_6);
 				}
-			}
-			if (GameCanvas.theme == 4) {
+				canvas.drawBitmap(bmp, null, rc, paint);
+				break;
+			case 4 :
+				Log.d("theme", "theme 4");
 				if (mObj.getGroupId() == 1) {
 					bmp = BitmapFactory.decodeResource(getResources(),
 							R.drawable.bg_7);
@@ -134,21 +146,22 @@ public class ObjView extends View {
 					bmp = BitmapFactory.decodeResource(getResources(),
 							R.drawable.bg_8);
 				}
-			}else {
+				canvas.drawBitmap(bmp, null, rc, paint);
+				break;
+			case 5 :
+				Log.d("theme", "theme 5");
 				if (mObj.getGroupId() == 1) {
 					bmp = BitmapFactory.decodeResource(getResources(),
-							R.drawable.bg_1);
+							R.drawable.bg_9);
 				} else {
 					bmp = BitmapFactory.decodeResource(getResources(),
-							R.drawable.bg_2);
+							R.drawable.bg_10);
 				}
+				canvas.drawBitmap(bmp, null, rc, paint);
+				break;
+				
 			}
-			int reduce = ObjView.BORDER_SIZE_DP;
-
-			Rect rc = new Rect(reduce, reduce, canvas.getWidth() - reduce,
-					canvas.getHeight() - reduce);
-			Paint paint = new Paint();
-			canvas.drawBitmap(bmp, null, rc, paint);
+			
 		}
 	}
 }

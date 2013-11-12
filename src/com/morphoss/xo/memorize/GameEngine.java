@@ -63,6 +63,17 @@ public class GameEngine {
         mBody.clear();
         return restart(ctx);
     }
+    public boolean start(Context ctx, GameCanvas gc) {
+        mIdle.clear();
+        
+        mAdapter = new MemoryObjAdapter(ctx);
+        mGc = gc;
+        mGc.setAdapter(mAdapter);
+        
+        mPicked.clear();
+        mBody.clear();
+        return restart(ctx);
+    }
     
     public boolean restart(int rows, int cols, Context ctx) {
         mTotal = rows * cols;
@@ -80,6 +91,7 @@ public class GameEngine {
         mBody.clear();
         return restart(ctx);
     }
+    
 
     public boolean restart(Context ctx) {
         stopTimer();
