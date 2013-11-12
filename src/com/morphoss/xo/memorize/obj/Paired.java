@@ -1,8 +1,5 @@
 package com.morphoss.xo.memorize.obj;
 
-import com.morphoss.xo.memorize.ObjView;
-import com.morphoss.xo.memorize.R;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.view.LayoutInflater;
@@ -10,9 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.morphoss.xo.memorize.ObjView;
+import com.morphoss.xo.memorize.R;
+
 class Paired implements MemoryObj {
     MemoryObj mPairedObj = null;
-
+    
     int mMode = MemoryObj.MEMORY_OBJ_MODE_HIDEN;
     int mGroupID = 1;
 
@@ -112,7 +112,6 @@ class Paired implements MemoryObj {
 
 	@Override
 	public String toXMLString() {
-		// TODO Auto-generated method stub
 		return null;
-	} 
+	}
 }

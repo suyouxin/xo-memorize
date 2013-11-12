@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="0.5"
-        android:background="@color/light_grey"
+        android:background="#b4d4ad"
         android:orientation="horizontal" >
 
         <TextView
@@ -19,7 +19,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
             android:text="@string/preview"
-            android:textColor="@color/olpc_text_grey_color"
+            android:textColor="#07565b"
             android:textSize="20sp" />
 
         <com.morphoss.xo.memorize.ObjView
@@ -50,7 +50,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="240dp"
             android:text="@string/importPictSound"
-            android:textColor="@color/olpc_text_grey_color"
+            android:textColor="#07565b"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -61,7 +61,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="290dp"
             android:text="@string/aPicture"
-            android:textColor="@color/olpc_text_grey_color"
+            android:textColor="#07565b"
             android:textSize="16sp" />
 
         <ImageButton
@@ -81,7 +81,7 @@
             android:layout_marginLeft="190dp"
             android:layout_marginTop="290dp"
             android:text="@string/aSound"
-            android:textColor="@color/olpc_text_grey_color"
+            android:textColor="#07565b"
             android:textSize="16sp" />
 
         <ImageButton
@@ -100,7 +100,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="360dp"
             android:text="@string/warningPairs"
-            android:textColor="@color/olpc_text_grey_color"
+            android:textColor="#07565b"
             android:textSize="18sp" />
 
         <ImageButton
@@ -135,7 +135,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="0.5"
-        android:background="@color/olpc_dark_grey"
+        android:background="#39747a"
         android:orientation="horizontal" >
 
         <ImageButton
@@ -150,11 +150,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
-            android:layout_marginRight="300dp"
+            android:layout_marginRight="275dp"
             android:layout_marginTop="25dp"
             android:text="@string/numberPairs"
             android:textColor="@android:color/white"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -162,10 +162,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
-            android:layout_marginRight="270dp"
+            android:layout_marginRight="230dp"
             android:layout_marginTop="25dp"
             android:textColor="@android:color/white"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView

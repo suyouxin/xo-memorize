@@ -2,10 +2,9 @@ package com.morphoss.xo.memorize;
 
 import java.util.ArrayList;
 
-import com.morphoss.xo.memorize.res.GameInfo;
-
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,17 +16,20 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import com.morphoss.xo.memorize.res.GameInfo;
+
 public class GameCanvas extends LinearLayout {
     final static String TAG = "GameCanvas"; 
     
     RelativeLayout mLeftMenu;
     GridView mGameContent;
     MemoryObjAdapter mAdapter;
-    
+    public static int theme;
     ArrayList<GameInfo> mGameInfos;
 
     Button mRestart;
     Spinner mSizeSpinner;
+    Spinner mThemeSpinner;
     
     int mHeight;
     int mWidth;
@@ -53,7 +55,7 @@ public class GameCanvas extends LinearLayout {
         this(context, attrs, 0);
     }
 
-    public GameCanvas(Context context, AttributeSet attrs, int defStyle) 
+    public GameCanvas(final Context context, AttributeSet attrs, int defStyle) 
     {
         super(context, attrs, defStyle);
         this.setOrientation(LinearLayout.HORIZONTAL);
@@ -108,7 +110,35 @@ public class GameCanvas extends LinearLayout {
 
             }
         });
-        
+        mThemeSpinner= (Spinner) mLeftMenu.findViewById(R.id.change_theme);
+        mThemeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+        	@Override
+            public void onItemSelected(AdapterView<?> parent, View view, 
+                    int pos, long id) {
+                //change theme
+        		Log.d("listener","value on spinner : "+parent.getItemAtPosition(pos).toString());
+        		if(parent.getItemAtPosition(pos).toString().equals(context.getString(R.string.defaultTheme))){
+        			theme= 1;
+        		}
+        		if(parent.getItemAtPosition(pos).toString().equals(context.getString(R.string.mandala))){
+        			theme= 2;
+        		}
+        		if(parent.getItemAtPosition(pos).toString().equals(context.getString(R.string.floral))){
+        			theme= 3;
+        		}
+        		if(parent.getItemAtPosition(pos).toString().equals(context.getString(R.string.retro))){
+        			theme= 4;
+        		}
+        		Log.d("listener","value of theme after spinner : "+theme);
+               GameCanvas layout = (GameCanvas) findViewById(R.id.game_canvas);
+               layout.invalidate();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+		});
         this.addView(mLeftMenu, wrapParams);
 
         LinearLayout linear = new LinearLayout(context);
@@ -179,27 +209,6 @@ public class GameCanvas extends LinearLayout {
         mGameContent.setHorizontalSpacing(2);
         mAdapter.setSize(each - convertDpi(4));
     }
-/*
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-      int h = bottom - top;
-      int w = right - left;
-
-      int each = h / mRows;
-      int offset = w - each * (mRows + 1);
-
-      mGameContent.layout(offset, top, right, bottom);
-      mGameContent.setColumnWidth(each - convertDpi(2));
-      mGameContent.setNumColumns(mRows + 1);
-      mGameContent.setVerticalSpacing(convertDpi(4));
-      mGameContent.setHorizontalSpacing(2);
-      Log.d(TAG, "onLayout: changed " + changed + "left:" + left + "top:" + top + "right:" + right + "bottom:" + bottom);
-
-      // How big is object view 
-      mAdapter.setSize(each - convertDpi(4));
-      mLeftMenu.layout(0, top, offset, bottom);
-    }
-*/
     private int convertDpi(int dp) {
         return (int)(mDpi * dp);
     }

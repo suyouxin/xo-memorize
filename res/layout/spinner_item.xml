@@ -4,6 +4,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg_addition"
     android:gravity="center"
-    android:textColor="@color/olpc_text_grey_color"
+    android:textColor="#07565b"
     android:textSize="40dp"
     android:textStyle="bold" />
