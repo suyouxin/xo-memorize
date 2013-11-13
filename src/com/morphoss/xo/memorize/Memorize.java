@@ -6,15 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.morphoss.xo.memorize.res.GameInfo;
 import com.morphoss.xo.memorize.res.GameResource;
 import com.morphoss.xo.memorize.settings.SettingsActivity;
+import com.morphoss.xo.memorize.settings.WebViewActivity;
 
 public class Memorize extends Activity {
 	
-	private ImageButton settings;
+	private Button settings, mHelp;
 	private Context context = this;
 	/** Called when the activity is first created. */
 	@Override
@@ -24,7 +26,7 @@ public class Memorize extends Activity {
 
 		GameEngine ge = GameEngine.getInstance();
 		GameCanvas gc = (GameCanvas) findViewById(R.id.game_canvas);
-		settings = (ImageButton) findViewById(R.id.settingsActivity);
+		settings = (Button) findViewById(R.id.settingsActivity);
 
 		/*
 		 * ArrayList<MemoryObj> objs = new ArrayList<MemoryObj>();
@@ -44,6 +46,14 @@ public class Memorize extends Activity {
 				Intent intent = new Intent(context, SettingsActivity.class);
 				startActivity(intent);
 				finish();
+			}
+		});
+		mHelp = (Button) findViewById(R.id.helpActivity);
+		mHelp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(context, WebViewActivity.class);
+				startActivity(intent);
 			}
 		});
 	}

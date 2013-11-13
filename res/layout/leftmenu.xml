@@ -29,7 +29,7 @@
             android:layout_marginTop="150dp"
             android:background="@+drawable/restart" />
 
-        <ImageButton
+        <Button
             android:id="@+id/settingsActivity"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -63,7 +63,7 @@
             android:layout_marginTop="390dp"
             android:entries="@array/changeTheme" />
 
-        <ImageButton
+        <Button
             android:id="@+id/helpActivity"
             android:layout_width="100dp"
             android:layout_height="100dp"
