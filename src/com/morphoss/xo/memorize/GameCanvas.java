@@ -3,7 +3,6 @@ package com.morphoss.xo.memorize;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;

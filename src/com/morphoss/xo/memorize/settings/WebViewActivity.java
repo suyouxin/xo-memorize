@@ -1,5 +1,7 @@
 package com.morphoss.xo.memorize.settings;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
@@ -18,6 +20,10 @@ public class WebViewActivity extends Activity {
 
 		webView = (WebView) findViewById(R.id.webView1);
 		webView.getSettings().setJavaScriptEnabled(true);
+		if(Locale.getDefault().getLanguage().contains("fr")){
+			webView.loadUrl("file:///android_asset/help_fr.html");
+		}else{
 		webView.loadUrl("file:///android_asset/help.html");
+		}
 	}
 }

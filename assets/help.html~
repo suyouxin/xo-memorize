@@ -1,4 +1,4 @@
-<!-- 
+<!--
 <!DOCTYPE html>
 
 <html>
@@ -9,7 +9,7 @@
 <title>Help</title>
 </head>
 <body>
- -->
+-->
 <style type="text/css">
 *, body, p, h1, h2, h3 {
     color: black;
@@ -51,84 +51,74 @@ ul {
 </style>
 
 	<h1>Help</h1>
-	</br>
-	</br>
-	<h2>Welcome in Memorize</h2>
-	</br>
-	</br>
-	<h3>How to play ?</h3>
+	<br/>
+	<br/>
+	<h2>Welcome to Memorize!</h2>
+	<br/>
+	<br/>
+	<h3>How to play?</h3>
 
-	<p>This game is a memory where the goal is to match the pairs. Touch on a card to discover what is under it.</br>
-	There are 3 types of games :</br>
+	<p>This app is a memory game where the goal is to match pairs. Touch on a card to discover what is underneath.</p>
+	<p>There are 3 types of games:</p>
 	<ul>
     		<li>Arithmetic</li>
     		<li>Images and Sounds</li>
     		<li>Letters</li>
-	</ul></p>
-	<p>You just have to load your favourite one and work on your memory to solve it !</p>
+	</ul>
+	<p>Just load your favourite one and work on your memory to solve it!</p>
 
 	<h3>New Game</h3>
-	<p><img src="../res/drawable-hdpi/restart.png" alt="new_game" width="70" height="70"></br></br>
-	Click on this icon if you want to reload the game or start a new one. This action will change the order of the cards on the grid.</br>
- 	If you want to change the type of the game, please refer to the paragraph "Load a specific game".</br></p>
+	<p><img src="file:///android_res/drawable/restart.png" alt="new_game" width="70" height="70"><br/><br/>
+	Click on this icon if you want to reload the game or start a new one. This action will change the order of the cards on the grid.</p>
 	
-	<h3>Modify the size</h3>
-	<p><img src="../res/drawable-hdpi/size4.png" alt="change_size" width="70" height="70"></br></br>
-	You can choose the size of the grid :</br>
+	<h3>Change the size</h3>
+	<p><img src="file:///android_res/drawable/size4.png" alt="change_size" width="70" height="70"> 
+	You can choose the size of the grid:</p>
  	<ul>
     		<li>4 x 5</li>
     		<li>5 x 6</li>
     		<li>6 x 7</li>
-	</ul></p>
-	<p>You have to be aware of the fact that if there are less pairs that the number you've selected, the game will adjust as better as it can.</p>	
+	</ul>
+	<p>Sometimes the game might not fill the screen because it has less pairs than the number you've selected.</p>	
 	
 	<h3>Load a specific game</h3>
-	<p><img src="../res/drawable-hdpi/addition.png" alt="specific_game_additions" width="70" height="70">
-	<img src="../res/drawable-hdpi/sounds.png" alt="specific_game_sounds" width="70" height="70">
-	<img src="../res/drawable-hdpi/letters.png" alt="specific_game_letters" width="70" height="70"></br></br>
-	You can load one of the demo games :</br> 	
+	<p><img src="file:///android_res/drawable/addition.png" alt="specific_game_additions" width="70" height="70">
+	<img src="file:///android_res/drawable/sounds.png" alt="specific_game_sounds" width="70" height="70">
+	<img src="file:///android_res/drawable/letters.png" alt="specific_game_letters" width="70" height="70"></p>
+	<p>You can load one of the demo games:</p>
 	<ul>
     		<li><b>additions</b> : try to match the operation with the solution.</li>
     		<li><b>sounds</b>: attempt to recognize which instrument is playing and but also match with the good picture.</li>
     		<li><b>letters</b> : seek for the capital letter which match the small one.</li>
-	</ul></p>
-	<p>You can also load the games you will have created with the <b>Editor</b>.</p>
+	</ul>
+	<p>You can also load the games you create yourself with the <b>Editor</b>.</p>
 	
 	<h3>Change the theme</h3>
-	<p><img src="../res/drawable-hdpi/theme.png" alt="change_theme" width="70" height="70"></br></br>
-	You can choose your favourite theme which change the patterns on the top of the cards.</br>
-	Here are the different options currently available :</br>
- 	<ul>
-    		<li>Default theme</li>
-    		<li>Mandala theme</li>
-    		<li>Golden theme</li>
-		<li>Digital theme</li>
-		<li>Geometrical theme</li>
-	</ul></p>
+	<p><img src="file:///android_res/drawable/theme.png" alt="change_theme" width="70" height="70"><br/><br/>
+	Choose your favourite theme for the patterns on the backs of the cards.</p>
 	
 	<h3>Editor</h3>
-	<p><img src="../res/drawable-hdpi/settings.png" alt="editor" width="70" height="70"></br>
-	Here is the best part: you can create and modify your own memory game!</br>
- 	Enter a name longer than 3 characters, choose a type and you will just have to follow the instructions!</p>
-	<p>
+	<p><img src="file:///android_res/drawable/settings.png" alt="editor" width="70" height="70"></br>
+	Create and edit your own memory game!<br/>
+ 	Enter a name longer than 3 characters, choose a type and add pairs to build your game!</p>
+
+ 	<table>
  	<ul>
-    		<li><b>Arithmetic :</b></br>
-		Enter 2 numbers and select the operation (+ / - / *). </br>
-		When you are happy with your new pair, click on <img src="../res/drawable-hdpi/pair_add.png" alt="add_pair" width="40" height="40"></li></br>
-    		<li><b>Images and Sounds :</b></br>
-		Choose an image from the gallery or take a photo with the camera. Choose a sound from the SD card or the media system.</br>
-		The supported formats are jpg/png for the pictures and mp3/ogg for the sounds.</br>
-		When the paths are corrects, this icon will appear : <img src="../res/drawable-hdpi/import_ok.png" alt="import_ok" width="20" height="20"></br>
-		If you see this icon : <img src="../res/drawable-hdpi/import_cancel.png" alt="import_cancel" width="20" height="20">, it means there was a problem to find one of the files. Please choose amn other one.</br></br></li>
-    		<li><b>Letters :</b></br>
-		Enter a letter and the matched card will be this same text in capital letter.</br></li>
-	</ul></p></br>
-	<p>If you want to delete a specific game, click on : <img src="../res/drawable-hdpi/delete_pair.png" alt="delete_pair" width="20" height="20"></br>
-	If you want to delete all the pairs shown on the gallery, click on : <img src="../res/drawable-hdpi/edit_clear.png" alt="delete_gallery" width="30" height="30"></p>
-	<p>When you're happy with all the pairs created, save your game to be able to play with it. You just have to click on this icon : <img src="../res/drawable-hdpi/save.png" alt="save_game" width="40" height="40"> and follow the instructions.</p>
-	<p>Warning : you need to create at least 10 pairs to have a usable game</p>
-<p>&nbsp;<br>&nbsp;<br></p>
-<!-- 
+	<li><b>Arithmetic:</b></br>
+	Enter 2 numbers and select the operation (+ / - / *). <br/>
+		When you are happy with your new pair, click on <img src="file:///android_res/drawable/pair_add.png" alt="add_pair" width="40" height="40"></li></br></br>
+    	<li><b>Images and Sounds :</b></br>
+	Choose an image from the gallery or take a photo with the camera. Choose a sound from the SD card or the media system.<br/>
+	The supported formats are jpg/png for the pictures and mp3/ogg for the sounds.<br/>
+	When the paths are corrects, this icon will appear : <img src="file:///android_res/drawable/import_ok.png" alt="import_ok" width="20" height="20"><br/>
+	If you see this icon : <img src="file:///android_res/drawable/import_cancel.png" alt="import_cancel" width="20" height="20">, it means there was a problem to find one of the files. Please choose amn other one.</li></br></br>
+    	<li><b>Letters :</b></br>
+	Enter a letter and the matched card will be this same text in capital letter.</li></br></br>
+	<p>If you want to delete a specific pair, click on : <img src="file:///android_res/drawable/delete_pair.png" alt="delete_pair" width="20" height="20"><br/>
+	If you want to delete all the pairs shown on the gallery, click on : <img src="file:///android_res/drawable/edit_clear.png" alt="delete_gallery" width="30" height="30"></p>
+	<p>When you are happy with all the pairs you have created, save your game and you will be able to play it. You just have to click on this icon : <img src="file:///android_res/drawable/save.png" alt="save_game" width="40" height="40"> and follow the instructions.</p>
+	<p>Note: you need to create at least 10 pairs to have a usable game</p>
+<!--
 </body>
 </html>
- -->
+-->
