@@ -45,15 +45,11 @@
     <string name="sameName">A game with this name already exists. Please choose another name or modify the existing one.</string>
     <string name="titleMissingInfos">Missing informations</string>
     <string name="missingInfos">It seems that there is a problem loading the picture or the sound. Please check that you have selected a picture and a sound.</string>
-    <string name="size">Size : </string>
-    <string name="newGame">New Game : </string>
-    <string name="editor">Editor : </string>
-    <string name="theme">Theme : </string>
-    <string name="defaultTheme">Default</string>
-    <string name="mandala">Mandala</string>
-    <string name="golden">Golden</string>
-    <string name="digital">Digital</string>
-    <string name="geometrical">Geometrical</string>
+    <string name="defaultTheme">Default Theme</string>
+    <string name="mandala">Mandala Theme</string>
+    <string name="golden">Golden Theme</string>
+    <string name="digital">Digital Theme</string>
+    <string name="geometrical">Geometrical Theme</string>
 
     <string-array name="addition_array">
         <item>@string/plus</item>

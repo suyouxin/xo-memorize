@@ -45,15 +45,11 @@
     <string name="sameName">Un jeu avec ce nom existe déjà . Choisis s\'il te plaît un autre nom ou modifie le jeu existant.</string>
     <string name="titleMissingInfos">Informations manquantes</string>
     <string name="missingInfos">Il semble qu\'il y ait eu un problème lors du chargement de l\'image ou du son. Vérifie s\'il te plaît que tu as bien choisi une image et un son.</string>
-    <string name="size">Taille : </string>
-    <string name="newGame">Nouveau jeu : </string>
-    <string name="editor">Editeur : </string>
-    <string name="theme">Thème : </string>
-    <string name="defaultTheme">Défaut</string>
-    <string name="mandala">Mandala</string>
-    <string name="golden">Doré</string>
-    <string name="digital">Numérique</string>
-    <string name="geometrical">Géométrique</string>
+    <string name="defaultTheme">Thème par défaut</string>
+    <string name="mandala">Thème Mandala</string>
+    <string name="golden">Thème doré</string>
+    <string name="digital">Thème numérique</string>
+    <string name="geometrical">Thème géométrique</string>
 
     <string-array name="addition_array">
         <item>@string/plus</item>

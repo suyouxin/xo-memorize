@@ -1,7 +1,5 @@
 package com.morphoss.xo.memorize;
 
-import java.util.Collections;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
