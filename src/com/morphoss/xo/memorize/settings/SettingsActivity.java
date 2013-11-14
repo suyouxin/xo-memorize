@@ -23,8 +23,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
-import android.view.View.OnLongClickListener;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,7 +34,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.morphoss.xo.memorize.Memorize;
 import com.morphoss.xo.memorize.R;
@@ -167,21 +167,32 @@ public class SettingsActivity extends Activity {
 			@Override
 			public void afterTextChanged(Editable s) {
 				if (s.toString().length() < 3) {
-					btnNext.setEnabled(false);
+					btnNext.setEnabled(true);
+					btnNext.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View arg0) {
+							// TODO Auto-generated method stub
+							Animation shake = AnimationUtils.loadAnimation(context, R.anim.shake);
+							editText.startAnimation(shake);
+						}
+					});
 				} else {
 					btnNext.setEnabled(true);
 					btnNext.setOnClickListener(new OnClickListener() {
 
 						@Override
 						public void onClick(View v) {
+							
 							boolean gameAlreadyExist = false;
 							for (int i = 0; i < listGames.size(); i++) {
-								if (list.get(i).name.equals(editText.getText().toString())) {
+								if (list.get(i).name.equals(editText.getText()
+										.toString())) {
 									// a game with this name already exists
 									gameAlreadyExist = true;
 								}
 							}
-							
+
 							if (!gameAlreadyExist) {
 								prefs = context.getSharedPreferences(
 										"com.morphoss.xo.memorize.settings",
@@ -224,8 +235,8 @@ public class SettingsActivity extends Activity {
 									startActivity(intent);
 									finish();
 								}
-							}else{
-								//show a alert dialog
+							} else {
+								// show a alert dialog
 								AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 										context);
 								// set dialog message
@@ -233,17 +244,22 @@ public class SettingsActivity extends Activity {
 										.setTitle(R.string.alreadyExist)
 										.setMessage(R.string.sameName)
 										.setCancelable(false)
-										.setNeutralButton(R.string.gotIt,
+										.setNeutralButton(
+												R.string.gotIt,
 												new DialogInterface.OnClickListener() {
 													public void onClick(
-															DialogInterface dialog, int id) {
-														// if this button is clicked, dismiss the window
+															DialogInterface dialog,
+															int id) {
+														// if this button is
+														// clicked, dismiss the
+														// window
 														dialog.dismiss();
 													}
 												});
 
 								// create alert dialog
-								AlertDialog alertDialog = alertDialogBuilder.create();
+								AlertDialog alertDialog = alertDialogBuilder
+										.create();
 
 								// show it
 								alertDialog.show();
@@ -325,7 +341,7 @@ public class SettingsActivity extends Activity {
 			Log.d(TAG, "name : " + list.get(i).name);
 		}
 		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).name.equals("addition")
+			if (list.get(i).name.equals("additions")
 					|| list.get(i).name.equals("sounds")
 					|| list.get(i).name.equals("letters")) {
 				// don't allow to modify the basics games
@@ -357,5 +373,9 @@ public class SettingsActivity extends Activity {
 			dir.delete();
 		}
 		addLists();
+	}
+
+	private void showError() {
+		editText.setError("Password and username didn't match");
 	}
 }
