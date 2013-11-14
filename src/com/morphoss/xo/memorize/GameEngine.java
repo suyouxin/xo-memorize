@@ -28,6 +28,7 @@ public class GameEngine {
     
     static GameEngine gGameEngine = null;
     static GameCanvas mGc = null;
+    static GameMonitor mMonitor = null;
     
     static Timer mTimer = new Timer();
     
@@ -36,6 +37,10 @@ public class GameEngine {
     MemoryObj firstShownObj = null;
     MemoryObj secondShownObj = null;
     MemoryObjAdapter mAdapter;
+    
+    interface GameMonitor {
+    	void notificationGameOver();
+    };
     
     MediaPlayer mPlayer = new MediaPlayer();
 
@@ -184,6 +189,21 @@ public class GameEngine {
             }
         }
         refresh();
+        
+        if (isGameOver() && mMonitor != null) {
+        	mMonitor.notificationGameOver();
+        }
+    }
+    
+    boolean isGameOver() {
+        int count = 0;
+        for (MemoryObj checkObj : mPicked) {
+        	if (checkObj.isMatched())
+        		count++;
+        	if (count == mPicked.size())
+        		return true;
+        }
+        return false;
     }
 
     void clearShownObj() {
@@ -217,6 +237,10 @@ public class GameEngine {
 
     void refresh() {
         mAdapter.notifyDataSetInvalidated();
+    }
+    
+    void setGameMonitor(GameMonitor monitor) {
+    	mMonitor = monitor;
     }
 
     private static Handler mHandler = new Handler() {

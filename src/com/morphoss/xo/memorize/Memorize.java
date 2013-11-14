@@ -4,17 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.morphoss.xo.memorize.res.GameInfo;
 import com.morphoss.xo.memorize.res.GameResource;
 import com.morphoss.xo.memorize.settings.SettingsActivity;
 import com.morphoss.xo.memorize.settings.WebViewActivity;
 
-public class Memorize extends Activity {
+public class Memorize extends Activity implements GameEngine.GameMonitor {
 	
 	private Button settings, mHelp;
 	private Context context = this;
@@ -25,6 +25,7 @@ public class Memorize extends Activity {
 		setContentView(R.layout.main);
 
 		GameEngine ge = GameEngine.getInstance();
+		ge.setGameMonitor(this);
 		GameCanvas gc = (GameCanvas) findViewById(R.id.game_canvas);
 		settings = (Button) findViewById(R.id.settingsActivity);
 
@@ -56,5 +57,12 @@ public class Memorize extends Activity {
 				startActivity(intent);
 			}
 		});
+	}
+	@Override
+	public void notificationGameOver() {
+		Intent intent = new Intent(context, WinningActivity.class);
+		startActivity(intent);
+		finish();
+		Log.d("..............", "game solved");
 	}
 }

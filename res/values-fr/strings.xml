@@ -50,6 +50,9 @@
     <string name="golden">Thème doré</string>
     <string name="digital">Thème numérique</string>
     <string name="geometrical">Thème géométrique</string>
+    <string name="congratulations">Félicitations !</string>
+    <string name="playAgain">Rejouer</string>
+    <string name="quit">Quitter</string>
 
     <string-array name="addition_array">
         <item>@string/plus</item>
