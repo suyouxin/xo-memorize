@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/winningLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4f1dc"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:src="@drawable/winning_anim" />
+
+    <TextView
+        android:id="@+id/congratsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:text="@string/congratulations"
+        android:textColor="#07565b"
+        android:textSize="65sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/playAgainBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="120dp"
+        android:background="#07565b"
+        android:padding="20sp"
+        android:text="@string/playAgain"
+        android:textColor="#f4f1dd"
+        android:textSize="35sp" />
+
+    <Button
+        android:id="@+id/quitBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="120dp"
+        android:background="#07565b"
+        android:padding="20sp"
+        android:text="@string/quit"
+        android:textColor="#f4f1dd"
+        android:textSize="35sp" />
+
+</FrameLayout>

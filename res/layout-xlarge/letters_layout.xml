@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <FrameLayout
+        android:id="@+id/left"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.5"
+        android:background="#b4d4ad"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/previewText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/preview"
+            android:textColor="#07565b"
+            android:textSize="30sp" />
+
+        <com.morphoss.xo.memorize.ObjView
+            android:id="@+id/obj_view_pair1"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="120dp" />
+
+        <com.morphoss.xo.memorize.ObjView
+            android:id="@+id/obj_view_pair2"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_marginLeft="250dp"
+            android:layout_marginTop="120dp" />
+
+        <ImageView
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="440dp"
+            android:layout_marginTop="90dp"
+            android:src="@drawable/letter" />
+
+        <EditText
+            android:id="@+id/editTxtLetter"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="370dp"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColor="#07565b" />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="460dp"
+            android:text="@string/warningPairs"
+            android:textColor="#07565b"
+            android:textSize="22sp" />
+
+        <ImageButton
+            android:id="@+id/addItems"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="250dp"
+            android:background="@drawable/pair_add" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="250dp"
+            android:text="@string/addPair"
+            android:textColor="#07565b"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:layout_width="390dp"
+            android:layout_height="286dp"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="10dp"
+            android:src="@drawable/monkey_boat" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/right"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.5"
+        android:background="#6b9591"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/saveGame"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="top|right"
+            android:layout_margin="10dp"
+            android:background="@drawable/save" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="300dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/numberPairs"
+            android:textColor="@android:color/white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/numberPairsCreated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="250dp"
+            android:layout_marginTop="40dp"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="130dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/saveGame"
+            android:textColor="@android:color/white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/clearGame"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="top|left"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_clear" />
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="140dp" >
+
+            <LinearLayout
+                android:id="@+id/newItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+
+</LinearLayout>

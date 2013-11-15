@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutGallery"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <com.morphoss.xo.memorize.ObjView
+        android:id="@+id/obj_viewLeft"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:scaleType="centerInside" />
+
+    <com.morphoss.xo.memorize.ObjView
+        android:id="@+id/obj_viewRight"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="60dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:scaleType="centerInside" />
+
+    <ImageButton
+        android:id="@+id/deletePair"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="50dp"
+        android:background="@drawable/delete_pair" />
+
+</LinearLayout>
