@@ -58,8 +58,8 @@ public class GalleryObjectAdapter extends BaseAdapter {
 					.findViewById(R.id.obj_viewLeft);
 			galleryImageRight = (ObjView) galleryLayout
 					.findViewById(R.id.obj_viewRight);
-			object.show();
-			paired.show();
+			object.showView();
+			paired.showView();
 			galleryImageLeft.setObj(object);
 			galleryImageRight.setObj(paired);
 		}

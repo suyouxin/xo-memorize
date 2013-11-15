@@ -19,6 +19,7 @@ public interface MemoryObj {
     
     public int getMode();
     public void show();
+    public void showView();
     public void hide();
     public void match();
     

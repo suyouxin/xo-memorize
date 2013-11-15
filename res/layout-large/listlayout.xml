@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/iconList"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_gravity="left"
         android:src="@drawable/icon_list" />
 
@@ -17,6 +17,6 @@
         android:layout_height="wrap_content"
         android:padding="15dp"
         android:textColor="#07565b"
-        android:textSize="15sp" />
+        android:textSize="20sp" />
 
 </LinearLayout>

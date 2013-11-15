@@ -25,7 +25,11 @@ class Paired implements MemoryObj {
     public void show() {
         mMode = MemoryObj.MEMORY_OBJ_MODE_SHOWN;
     }
-
+	@Override
+	public void showView() {
+		mMode = MemoryObj.MEMORY_OBJ_MODE_SHOWN;
+		
+	}
     @Override
     public void hide() {
         mMode = MemoryObj.MEMORY_OBJ_MODE_HIDEN;
@@ -114,4 +118,6 @@ class Paired implements MemoryObj {
 	public String toXMLString() {
 		return null;
 	}
+
+
 }

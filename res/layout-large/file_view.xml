@@ -12,7 +12,7 @@
         android:layout_marginTop="5dip"
         android:singleLine="true"
         android:text="@+id/TextView01"
-        android:textSize="13sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView

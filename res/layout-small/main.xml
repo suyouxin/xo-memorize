@@ -3,14 +3,12 @@
     android:id="@+id/canvasGame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center_vertical|center_horizontal"
     android:orientation="horizontal" >
 
     <com.morphoss.xo.memorize.GameCanvas
         android:id="@+id/game_canvas"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|center_horizontal" >
+        android:layout_height="match_parent" >
     </com.morphoss.xo.memorize.GameCanvas>
 
 </LinearLayout>

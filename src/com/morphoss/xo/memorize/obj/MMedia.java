@@ -3,17 +3,18 @@ package com.morphoss.xo.memorize.obj;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-import com.morphoss.xo.memorize.GameEngine;
-import com.morphoss.xo.memorize.ObjView;
-import com.morphoss.xo.memorize.Util;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.util.Log;
+
+import com.morphoss.xo.memorize.GameEngine;
+import com.morphoss.xo.memorize.ObjView;
+import com.morphoss.xo.memorize.Util;
 
 public class MMedia extends Paired {
 	private String mUid;
@@ -21,6 +22,7 @@ public class MMedia extends Paired {
 	private String mSndPath;
 	private String nameImg;
 	private String nameSnd;
+	private Handler h = new Handler();
 
 	public MMedia(String imgPath, String sndPath) {
 		mImgPath = imgPath;
@@ -38,7 +40,9 @@ public class MMedia extends Paired {
 			mUid = strbuilder.toString();
 		}
 	}
-	public MMedia(String imgPath, String sndPath, String namePict, String nameMus) {
+
+	public MMedia(String imgPath, String sndPath, String namePict,
+			String nameMus) {
 		mImgPath = imgPath;
 		mSndPath = sndPath;
 		nameImg = namePict;
@@ -57,7 +61,6 @@ public class MMedia extends Paired {
 		}
 	}
 
-
 	@Override
 	public String getUid() {
 		return mUid;
@@ -70,16 +73,20 @@ public class MMedia extends Paired {
 	public String getImagePath() {
 		return mImgPath;
 	}
-	public void setImageName(String name){
+
+	public void setImageName(String name) {
 		nameImg = name;
 	}
-	public String getImageName(){
+
+	public String getImageName() {
 		return nameImg;
 	}
-	public void setSoundName(String name){
+
+	public void setSoundName(String name) {
 		nameSnd = name;
 	}
-	public String getSoundName(){
+
+	public String getSoundName() {
 		return nameSnd;
 	}
 
@@ -116,7 +123,7 @@ public class MMedia extends Paired {
 		}
 	}
 
-	private void play(MediaPlayer player) {
+	private void play(final MediaPlayer player) {
 		if (mSndPath != null) {
 			if (player.isPlaying()) {
 				player.stop();
@@ -125,8 +132,15 @@ public class MMedia extends Paired {
 			try {
 				player.setDataSource(mSndPath);
 				player.prepare();
+
 				player.start();
 				Log.d("MMedia", "playing: " + mSndPath);
+				h.postDelayed(new Runnable() {
+					public void run() {
+						player.stop();
+					}
+				}, 5000);
+
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (SecurityException e) {
@@ -143,6 +157,9 @@ public class MMedia extends Paired {
 	public void show() {
 		super.show();
 		play();
+	}
+	public void showView() {
+		super.show();
 	}
 
 	@Override
