@@ -132,7 +132,7 @@ public class MMedia extends Paired {
 			try {
 				player.setDataSource(mSndPath);
 				player.prepare();
-
+				Log.d("MMedia","sound path : "+mSndPath);
 				player.start();
 				Log.d("MMedia", "playing: " + mSndPath);
 				h.postDelayed(new Runnable() {

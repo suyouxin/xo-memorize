@@ -87,7 +87,7 @@ public class GameXmlParser {
                         sndBPath = path + "/sounds/" + sndB;
                     }
                     
-                    if ((imgAPath != null && imgAPath != null) || 
+                    if ((imgAPath != null && imgBPath != null) || 
                             (sndAPath != null && sndBPath != null)) {
                     	Log.d(TAG, "path : "+path);
                         MemoryObj objA = new MMedia(imgAPath, sndAPath);
